@@ -22,7 +22,7 @@ public class SeanceTest {
 	public void testSetStartDateTimeCorrect() {
 		Calendar calendar = new GregorianCalendar(2014, 6, 22);
 		seance.setStartDateTime(calendar);
-		assertEquals(seance.getStartDateTime(), calendar);
+		assertEquals(calendar, seance.getStartDateTime());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

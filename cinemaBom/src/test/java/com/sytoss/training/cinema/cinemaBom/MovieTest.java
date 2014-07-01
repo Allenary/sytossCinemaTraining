@@ -28,7 +28,7 @@ public class MovieTest {
   public void testSetDurrationCorrect() {
     int movieDur = 120;
     movie.setDuration(120);
-    assertEquals(movie.getDuration(), movieDur);
+    assertEquals(movieDur, movie.getDuration());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -45,6 +45,6 @@ public class MovieTest {
   public void testSetNameCorrect() {
     String movieName = "Titanic";
     movie.setName(movieName);
-    assertEquals(movie.getName(), movieName);
+    assertEquals(movieName, movie.getName());
   }
 }

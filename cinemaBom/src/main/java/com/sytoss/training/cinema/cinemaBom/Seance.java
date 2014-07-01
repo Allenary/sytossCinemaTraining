@@ -32,7 +32,7 @@ public class Seance {
     }
   }
   
-  public void getStatus(){
+  public String getStatus(){
     return status;
   }
 }
