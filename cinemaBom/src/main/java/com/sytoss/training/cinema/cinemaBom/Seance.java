@@ -1,10 +1,14 @@
 package com.sytoss.training.cinema.cinemaBom;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class Seance {
 
   private Calendar startDateTime;
+
+  private String status;
 
   public void setStartDateTime(Calendar calendar) {
 
@@ -19,4 +23,16 @@ public class Seance {
     return startDateTime;
   }
 
+  public void setStatus(String status) {
+    ArrayList possibleStatus = new ArrayList(Arrays.asList("opened", "closed", "cancel"));
+    if (status == null || status == "" || !possibleStatus.contains(status.toLowerCase())) {
+      throw new IllegalArgumentException();
+    }else {
+      this.status = status;
+    }
+  }
+  
+  public void getStatus(){
+    return status;
+  }
 }

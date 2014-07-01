@@ -36,5 +36,20 @@ public class SeanceTest {
 	public void  testSetStartDateTimeIsNull() {
 		seance.setStartDateTime(null);
 	}
-
+	
+	@Test(expected = IllegalArgumentException.class)
+  public void  testSetStatusIsNull() {
+    seance.setStatus(null);
+  }
+	
+	 @Test(expected = IllegalArgumentException.class)
+	  public void  testSetStatusIsEmpty() {
+	    seance.setStatus("");
+	  }
+  
+	@Test(expected = IllegalArgumentException.class)
+  public void  testSetStatusIncorrect() {
+    seance.setStatus("skipped");
+  }
+  
 }
