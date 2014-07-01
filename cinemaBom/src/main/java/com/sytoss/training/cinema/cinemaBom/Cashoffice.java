@@ -10,6 +10,9 @@ public class Cashoffice {
 	}
 
 	public void setCinema(Cinema cinema) {
+	  if (cinema==null){
+	    throw new NullPointerException();
+	  }
 		this.cinema = cinema;
 	}
 
@@ -18,6 +21,9 @@ public class Cashoffice {
 	}
 
 	public void setNumber(int number) {
+	  if (number<=0){
+	    throw new IllegalArgumentException();
+	  }
 		this.number = number;
 	}
 	
