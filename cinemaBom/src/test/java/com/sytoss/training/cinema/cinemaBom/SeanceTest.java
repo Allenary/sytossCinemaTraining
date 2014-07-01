@@ -1,9 +1,8 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.BeforeClass;
@@ -27,7 +26,7 @@ public class SeanceTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void  testSetStartDateTimeIsBiggerThanCurrent() {
-		Calendar calendar = new GregorianCalendar().getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_MONTH, -1);
 		seance.setStartDateTime(calendar);
 	}

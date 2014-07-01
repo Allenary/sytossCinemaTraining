@@ -3,7 +3,6 @@ package com.sytoss.training.cinema.cinemaBom;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CinemaTest {
