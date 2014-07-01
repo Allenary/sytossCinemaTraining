@@ -4,22 +4,19 @@ import java.util.Calendar;
 
 public class Seance {
 
-	
-	private Calendar startDateTime;
+  private Calendar startDateTime;
 
-	public void setStartDateTime(Calendar calendar) {
-		
-		Calendar now = Calendar.getInstance();
-		if(calendar.equals(null) || calendar.before(now)){
-			throw new IllegalArgumentException();
-		}
-		this.startDateTime = calendar;
-	}
+  public void setStartDateTime(Calendar calendar) {
 
-	public Object getStartDateTime() {
-		return startDateTime;
-	}
+    Calendar now = Calendar.getInstance();
+    if (calendar == (null) || calendar.before(now)) {
+      throw new IllegalArgumentException();
+    }
+    this.startDateTime = calendar;
+  }
 
-	
-	
+  public Object getStartDateTime() {
+    return startDateTime;
+  }
+
 }

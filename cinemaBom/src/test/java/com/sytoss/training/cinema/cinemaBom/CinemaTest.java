@@ -2,36 +2,40 @@ package com.sytoss.training.cinema.cinemaBom;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class CinemaTest {
+  
+  static Cinema cinema;
+  
+  @BeforeClass
+  public static void initializeCinema() {
+    cinema = new Cinema();
+  }
     
 	@Test(expected = IllegalArgumentException.class)
-	public void checkNameIsNotEmpty() {
-		Cinema cinema = new Cinema();
+	public void testSetNameIsEmpty() {
 		cinema.setName("");
 	}
     
 	@Test(expected = IllegalArgumentException.class)
-	public void checkNameIsNotNull() {
-		Cinema cinema = new Cinema();
+	public void testSetNameIsNull() {
 		cinema.setName(null);
 	}
 	
 	@Test
-	public void checkNameSetCorrectly() {
+	public void testSetNameCorrectl() {
 		String cinemaName = "Kronverk";
-		Cinema cinema = new Cinema();
 		cinema.setName(cinemaName);
 		assertEquals(cinema.getName(), cinemaName);
 	}
 
 	
 	@Test
-	public void checkAddressSetCorrectly() {
+	public void testSetAddressCorrectl() {
 		String address = "Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation";
-		Cinema cinema = new Cinema();
 		cinema.setAddress(address);
 		assertEquals(cinema.getAddress(), address);
 	}
@@ -39,16 +43,14 @@ public class CinemaTest {
 	
 
 	@Test(expected = IllegalArgumentException.class)
-	public void checkAddressIsNotEmpty() {
+	public void testSetAddressIsEmpty() {
 		System.out.print("checkAddressIsNotEmpty");
-		Cinema cinema = new Cinema();
 		cinema.setAddress("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void checkAddressIsNotNull() {
+	public void testSetAddressIsNull() {
 		System.out.print("checkAddressIsNotNull");
-		Cinema cinema = new Cinema();
 		cinema.setAddress(null);
 	}
 }
