@@ -29,7 +29,7 @@ public class CinemaTest {
 	public void testSetNameCorrectl() {
 		String cinemaName = "Kronverk";
 		cinema.setName(cinemaName);
-		assertEquals(cinema.getName(), cinemaName);
+		assertEquals(cinemaName, cinema.getName());
 	}
 
 	
@@ -37,7 +37,7 @@ public class CinemaTest {
 	public void testSetAddressCorrectl() {
 		String address = "Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation";
 		cinema.setAddress(address);
-		assertEquals(cinema.getAddress(), address);
+		assertEquals(address, cinema.getAddress());
 	}
 	
 	
