@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MovieTest {
-
+  
+  //test commit
+  
 	@Test(expected = IllegalArgumentException.class)
 	public void checkDurationIsBiggerThanZero() {
 		Movie movie = new Movie();
