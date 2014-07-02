@@ -35,5 +35,5 @@ Icon
 .Spotlight-V100
 .Trashes
 
-/target/*
+/cinemaBOM/target/*
 *.classpath

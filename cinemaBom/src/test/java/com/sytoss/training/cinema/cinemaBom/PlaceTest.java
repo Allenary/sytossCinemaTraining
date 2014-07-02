@@ -19,7 +19,7 @@ public class PlaceTest {
 		place.setStatus(null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testSetStatusCorrect() {
 		PlacesStatuses status = PlacesStatuses.DISABLE;
 		place.setStatus(status);
