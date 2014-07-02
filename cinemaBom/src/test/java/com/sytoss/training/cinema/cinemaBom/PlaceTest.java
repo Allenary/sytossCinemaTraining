@@ -2,40 +2,34 @@ package com.sytoss.training.cinema.cinemaBom;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PlaceTest {
 
-	static Place place;
-
-	@BeforeClass
-	public static void initializePlace() {
-		place = new Place();
-	}
-
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetStatusIsNull() {
+		Place place = new Place();
 		place.setStatus(null);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testSetStatusCorrect() {
-		PlacesStatuses status = PlacesStatuses.DISABLE;
-		place.setStatus(status);
-		assertEquals(status, place.getStatus());
+		Place place = new Place();
+		place.setStatus(PlacesStatuses.ENABLE);
+		assertEquals(PlacesStatuses.ENABLE, place.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetNumberIsNegative() {
+		Place place = new Place();
 		place.setNumber(-8);
 	}
 
 	@Test
 	public void testSetNumberCorrect() {
-		int placeNum = 12;
-		place.setNumber(placeNum);
-		assertEquals(placeNum, place.getNumber());
+		Place place = new Place();
+		place.setNumber(12);
+		assertEquals(12, place.getNumber());
 	}
 
 }

@@ -2,7 +2,7 @@ package com.sytoss.training.cinema.cinemaBom;
 
 public class Place {
 
-	int number;
+	private int number;
 
 	PlacesStatuses status;
 
@@ -22,13 +22,11 @@ public class Place {
 	}
 
 	public void setStatus(PlacesStatuses status) {
-
 		if (status == null) {
 			throw new IllegalArgumentException();
 		} else {
 			this.status = status;
 		}
-
 	}
 
 }
