@@ -1,42 +1,40 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CashofficeTest {
 
-  static Cashoffice cashoffice;
+	@Test
+	public void testNumberSetCorrectly() {
+		Cashoffice cashoffice = new Cashoffice();
+		cashoffice.setNumber(12);
+		assertEquals(12, cashoffice.getNumber());
+	}
 
-  @BeforeClass
-  public static void initializeCashoffice() {
-    cashoffice = new Cashoffice();
-  }
+	@Test(expected = IllegalArgumentException.class)
+	public void testNumberIsNotNegative() {
+		Cashoffice cashoffice = new Cashoffice();
+		cashoffice.setNumber(-7);
+	}
 
-  @Test
-  public void testSetNumberCorrect() {
-    int cashofficeNumber = 12;
-    cashoffice.setNumber(cashofficeNumber);
-    assertEquals(cashofficeNumber, cashoffice.getNumber());
-  }
+	@Test
+	public void testCinemaSetCorrectly() {
+		Cashoffice cashoffice = new Cashoffice();
+		Cinema cinema = new Cinema();
+		cinema.setName("vasilisa");
+		cinema.setAddress("kharkov");
+		cashoffice.setCinema(cinema);
+		assertEquals(cinema, cashoffice.getCinema());
+		assertEquals("vasilisa", cashoffice.getCinema().getName());
+		assertEquals("kharkov", cashoffice.getCinema().getAddress());
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetNumberNegative() {
-    int cashofficeNumber = -8;
-    cashoffice.setNumber(cashofficeNumber);
-  }
+	@Test(expected = NullPointerException.class)
+	public void testCinemaIsNotNull() {
+		Cashoffice cashoffice = new Cashoffice();
+		cashoffice.setCinema(null);
 
-  @Test
-  public void testSetCinemaCorrect() {
-    Cinema cinema = new Cinema();
-    cashoffice.setCinema(cinema);
-    assertEquals(cinema, cashoffice.getCinema());
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testSetCinemaNull() {
-    cashoffice.setCinema(null);
-
-  }
+	}
 }

@@ -1,83 +1,92 @@
 package com.sytoss.training.cinema.cinemaBom;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TicketTest {
 
-	static Ticket ticket;
-
-	@BeforeClass
-	public static void initializeTicket() {
-		ticket = new Ticket();
-	}
-
 	@Test
-	public void testSetStatusCorrect() {
-		TicketStatuses status = TicketStatuses.ENABLE;
-		ticket.setStatus(status);
-		assertEquals(status, ticket.getStatus());
+	public void testStatusSetCorrectly() {
+		Ticket ticket = new Ticket();
+		ticket.setStatus(TicketStatus.ENABLE);
+		assertEquals(TicketStatus.ENABLE, ticket.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetStatusNull() {
+	public void testStatusShouldNotBeNull() {
+		Ticket ticket = new Ticket();
 		ticket.setStatus(null);
 	}
 
 	@Test
-	public void testSetPriceCorrect() {
-		double price = 22.43;
-		ticket.setPrice(price);
-		assertTrue(price == ticket.getPrice());
+	public void testPriceSetCorrectly() {
+		Ticket ticket = new Ticket();
+		ticket.setPrice(22.43);
+		assertEquals(22.43, ticket.getPrice(), 0);
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetPriceNegative() {
+	public void testPriceShouldNotBeNegative() {
+		Ticket ticket = new Ticket();
 		ticket.setPrice(-5.53);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetPriceZero() {
+	public void testSetPriceShouldNotBeZero() {
+		Ticket ticket = new Ticket();
 		ticket.setPrice(0);
 	}
 
 	@Test
-	public void testSetPlaceCorrect() {
+	public void testPlaceSetCorrectly() {
+		Ticket ticket = new Ticket();
 		Place place = new Place();
+		place.setStatus(PlacesStatus.DISABLE);
+		place.setNumber(72);
 		ticket.setPlace(place);
 		assertEquals(place, ticket.getPlace());
+		assertEquals(72, ticket.getPlace().getNumber());
+		assertEquals(PlacesStatus.DISABLE, ticket.getPlace().getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetPlaceNull() {
+	public void testPlaceShouldNotBeNull() {
+		Ticket ticket = new Ticket();
 		ticket.setPlace(null);
 	}
 
 	@Test
-	public void testSetSeanceCorrect() {
+	public void testSeanceSetCorrectly() {
+		Ticket ticket = new Ticket();
 		Seance seance = new Seance();
+		seance.setStatus(SeanceStatus.CLOSED);
 		ticket.setSeance(seance);
 		assertEquals(seance, ticket.getSeance());
+		assertEquals(SeanceStatus.CLOSED, ticket.getSeance().getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetSeanceNull() {
+	public void testSeanceShouldNotBeNull() {
+		Ticket ticket = new Ticket();
 		ticket.setSeance(null);
 	}
 
 	@Test
-	public void testSetRowCorrect() {
+	public void testRowSetCorrectly() {
+		Ticket ticket = new Ticket();
 		Row row = new Row();
+		row.setNumber(17);
 		ticket.setRow(row);
 		assertEquals(row, ticket.getRow());
+		assertEquals(17, ticket.getRow().getNumber());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetRowNull() {
+	public void testRowShouldNotBeNull() {
+		Ticket ticket = new Ticket();
 		ticket.setRow(null);
 	}
+
 }

@@ -1,50 +1,50 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class MovieTest {
 
-  static Movie movie;
+	// TODO: test for movie description field
+	// TODO: tests naming
+	static Movie movie;
 
-  @BeforeClass
-  public static void initializeMovie() {
-    movie = new Movie();
-  }
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetDurationIsBiggerThanZero() {
+		Movie movie = new Movie();
+		movie.setDuration(0);
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetDurationIsBiggerThanZero() {
-    movie.setDuration(0);
-  }
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetDurationIsNotNegative() {
+		Movie movie = new Movie();
+		movie.setDuration(-8);
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetDurationIsNegative() {
-    movie.setDuration(-8);
-  }
+	@Test
+	public void testSetDurrationCorrect() {
+		Movie movie = new Movie();
+		movie.setDuration(120);
+		assertEquals(120, movie.getDuration());
+	}
 
-  @Test
-  public void testSetDurrationCorrect() {
-    int movieDur = 120;
-    movie.setDuration(120);
-    assertEquals(movieDur, movie.getDuration());
-  }
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNameIsNotEmpty() {
+		Movie movie = new Movie();
+		movie.setName("");
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetNameIsEmpty() {
-    movie.setName("");
-  }
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNameIsNotNull() {
+		Movie movie = new Movie();
+		movie.setName(null);
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetNameIsNull() {
-    movie.setName(null);
-  }
-
-  @Test
-  public void testSetNameCorrect() {
-    String movieName = "Titanic";
-    movie.setName(movieName);
-    assertEquals(movieName, movie.getName());
-  }
+	@Test
+	public void testSetNameIsCorrect() {
+		Movie movie = new Movie();
+		movie.setName("Titanic");
+		assertEquals("Titanic", movie.getName());
+	}
 }

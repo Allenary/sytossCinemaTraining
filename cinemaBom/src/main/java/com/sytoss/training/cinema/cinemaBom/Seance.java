@@ -1,38 +1,38 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 public class Seance {
 
-  private Calendar startDateTime;
+	// TODO: implement seance-room
+	private Calendar startDateTime;
 
-  private String status;
+	private SeanceStatus status;
 
-  public void setStartDateTime(Calendar calendar) {
+	public void setStartDateTime(Calendar calendar) {
 
-    Calendar now = Calendar.getInstance();
-    if (calendar == (null) || calendar.before(now)) {
-      throw new IllegalArgumentException();
-    }
-    this.startDateTime = calendar;
-  }
+		Calendar now = Calendar.getInstance();
+		if (calendar == (null) || calendar.before(now)) {
+			throw new IllegalArgumentException();
+		}
 
-  public Object getStartDateTime() {
-    return startDateTime;
-  }
+		this.startDateTime = calendar;
+	}
 
-  public void setStatus(String status) {
-    ArrayList possibleStatus = new ArrayList(Arrays.asList("opened", "closed", "cancel"));
-    if (status == null || status == "" || !possibleStatus.contains(status.toLowerCase())) {
-      throw new IllegalArgumentException();
-    }else {
-      this.status = status;
-    }
-  }
-  
-  public String getStatus(){
-    return status;
-  }
+	public Object getStartDateTime() {
+		return startDateTime;
+	}
+
+	public void setStatus(SeanceStatus status) {
+
+		if (status == null) {
+			throw new IllegalArgumentException();
+		} else {
+			this.status = status;
+		}
+	}
+
+	public SeanceStatus getStatus() {
+		return status;
+	}
 }

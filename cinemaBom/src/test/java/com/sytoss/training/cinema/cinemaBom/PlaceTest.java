@@ -7,26 +7,32 @@ import org.junit.Test;
 public class PlaceTest {
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetStatusIsNull() {
+	public void testStatusShouldNotBeNull() {
 		Place place = new Place();
 		place.setStatus(null);
 	}
 
 	@Test
-	public void testSetStatusCorrect() {
+	public void testStatusSetCorrectly() {
 		Place place = new Place();
-		place.setStatus(PlacesStatuses.ENABLE);
-		assertEquals(PlacesStatuses.ENABLE, place.getStatus());
+		place.setStatus(PlacesStatus.ENABLE);
+		assertEquals(PlacesStatus.ENABLE, place.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetNumberIsNegative() {
+	public void testSetNumberShouldNotBeNegative() {
 		Place place = new Place();
 		place.setNumber(-8);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNumberShouldNotBeZero() {
+		Place place = new Place();
+		place.setNumber(0);
+	}
+
 	@Test
-	public void testSetNumberCorrect() {
+	public void testNumberSetCorrect() {
 		Place place = new Place();
 		place.setNumber(12);
 		assertEquals(12, place.getNumber());

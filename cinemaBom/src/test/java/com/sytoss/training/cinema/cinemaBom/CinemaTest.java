@@ -3,63 +3,63 @@ package com.sytoss.training.cinema.cinemaBom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CinemaTest {
 
-	static Cinema cinema;
-
-	@BeforeClass
-	public static void initializeCinema() {
-		cinema = new Cinema();
-	}
-
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetNameIsEmpty() {
+	public void testNameShouldNotBeEmpty() {
+		Cinema cinema = new Cinema();
 		cinema.setName("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetNameIsNull() {
+	public void testNameShouldNotBeNull() {
+		Cinema cinema = new Cinema();
 		cinema.setName(null);
 	}
 
 	@Test
-	public void testSetNameCorrectl() {
-		String cinemaName = "Kronverk";
-		cinema.setName(cinemaName);
-		assertEquals(cinemaName, cinema.getName());
+	public void testNameSetCorrectly() {
+		Cinema cinema = new Cinema();
+		cinema.setName("Kronverk");
+		assertEquals("Kronverk", cinema.getName());
 	}
 
 	@Test
-	public void testSetAddressCorrectl() {
-		String address = "Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation";
-		cinema.setAddress(address);
-		assertEquals(address, cinema.getAddress());
+	public void testAddressSetCorrectly() {
+		Cinema cinema = new Cinema();
+		cinema.setAddress("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation");
+		assertEquals(
+				"Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation",
+				cinema.getAddress());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetAddressIsEmpty() {
+	public void testAddressIsNotEmpty() {
+		Cinema cinema = new Cinema();
 		cinema.setAddress("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetAddressIsNull() {
+	public void testAddressIsNotNull() {
+		Cinema cinema = new Cinema();
 		cinema.setAddress(null);
 	}
 
+	// TODO: create method exists for movie to encapsulate changes
 	@Test
 	public void testAddMovie() {
 		Movie movie = new Movie();
+		Cinema cinema = new Cinema();
 		movie.setName("Brave heart");
 		cinema.addMovie(movie);
 		assertTrue(cinema.showAllMovies().contains(movie));
-		cinema.removeMovie(movie);
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testAddMovieNull() {
+		Cinema cinema = new Cinema();
 		cinema.addMovie(null);
 	}
 

@@ -4,7 +4,7 @@ public class Place {
 
 	private int number;
 
-	PlacesStatuses status;
+	private PlacesStatus status;
 
 	public int getNumber() {
 		return number;
@@ -17,11 +17,11 @@ public class Place {
 		this.number = number;
 	}
 
-	public PlacesStatuses getStatus() {
+	public PlacesStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(PlacesStatuses status) {
+	public void setStatus(PlacesStatus status) {
 		if (status == null) {
 			throw new IllegalArgumentException();
 		} else {

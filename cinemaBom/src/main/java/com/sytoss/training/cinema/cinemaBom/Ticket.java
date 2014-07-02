@@ -3,11 +3,8 @@ package com.sytoss.training.cinema.cinemaBom;
 public class Ticket {
 
 	private double price;
-
-	private TicketStatuses status;
-
+	private TicketStatus status;
 	private Place place;
-
 	private Seance seance;
 	private Row row;
 
@@ -44,11 +41,11 @@ public class Ticket {
 		this.price = price;
 	}
 
-	public TicketStatuses getStatus() {
+	public TicketStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(TicketStatuses status) {
+	public void setStatus(TicketStatus status) {
 		if (status == null) {
 			throw new IllegalArgumentException();
 		}

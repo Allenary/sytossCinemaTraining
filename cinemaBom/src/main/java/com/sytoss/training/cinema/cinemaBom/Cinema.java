@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Cinema {
 
+	// TODO: implement dependencies with 1-to-many multiplicity
 	private String name;
 	private String address;
 	private List<Movie> movies;
@@ -16,7 +17,7 @@ public class Cinema {
 		movies = new ArrayList<Movie>();
 		cashoffices = new ArrayList<Cashoffice>();
 		rooms = new ArrayList<Room>();
-		seances = new ArrayList<Seance>();
+
 	}
 
 	public List<Movie> showAllMovies() {

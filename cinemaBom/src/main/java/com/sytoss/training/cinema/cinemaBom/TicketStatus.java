@@ -1,6 +1,6 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-public enum TicketStatuses {
+public enum TicketStatus {
 	ENABLE, RESERVED, SOLD;
 
 }

@@ -1,44 +1,40 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RowTest {
 
-  static Row row;
+	@Test
+	public void testNumberSetCorrectly() {
+		Row row = new Row();
+		row.setNumber(4);
+		assertEquals(4, row.getNumber());
+	}
 
-  @BeforeClass
-  public static void init() {
-    row = new Row();
-  }
+	@Test(expected = IllegalArgumentException.class)
+	public void testNumberShouldNotBeNegative() {
+		Row row = new Row();
+		row.setNumber(-7);
+	}
 
-  @Test
-  public void testSetNumberCorrect() {
-    row.setNumber(4);
-    assertEquals(4, row.getNumber());
-  }
+	@Test(expected = IllegalArgumentException.class)
+	public void testNumberShouldNotBeZero() {
+		Row row = new Row();
+		row.setNumber(0);
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetNumberNegative() {
-    row.setNumber( -7);
-  }
+	@Test
+	public void testStatusSetCorrectly() {
+		Row row = new Row();
+		row.setStatus(PlacesStatus.ENABLE);
+		assertEquals(PlacesStatus.ENABLE, row.getStatus());
+	}
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetNumberZero() {
-    row.setNumber(0);
-  }
-
-  @Test
-  public void testSetStatusCorrect() {
-    PlacesStatuses status = PlacesStatuses.ENABLE;
-    row.setStatus(status);
-    assertEquals(status, row.getStatus());
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testSetStatusNull() {
-    row.setStatus(null);
-  }
+	@Test(expected = NullPointerException.class)
+	public void testStatusShouldNotBeNull() {
+		Row row = new Row();
+		row.setStatus(null);
+	}
 }

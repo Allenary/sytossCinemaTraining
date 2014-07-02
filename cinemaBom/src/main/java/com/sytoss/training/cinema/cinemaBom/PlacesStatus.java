@@ -1,6 +1,6 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-public enum PlacesStatuses {
+public enum PlacesStatus {
     ENABLE,
     DISABLE
 
