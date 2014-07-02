@@ -16,7 +16,7 @@ public class TicketTest {
 
   @Test
   public void testSetStatusCorrect() {
-    TicketStatuses status = TicketStatuses.enable;
+    TicketStatuses status = TicketStatuses.ENABLE;
     ticket.setStatus(status);
     assertEquals(status, ticket.getStatus());
   }

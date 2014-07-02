@@ -32,7 +32,7 @@ public class RowTest {
 
   @Test
   public void testSetStatusCorrect() {
-    PlacesStatuses status = PlacesStatuses.enable;
+    PlacesStatuses status = PlacesStatuses.ENABLE;
     row.setStatus(status);
     assertEquals(status, row.getStatus());
   }
