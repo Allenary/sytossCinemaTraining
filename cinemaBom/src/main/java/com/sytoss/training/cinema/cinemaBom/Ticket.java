@@ -2,43 +2,68 @@ package com.sytoss.training.cinema.cinemaBom;
 
 public class Ticket {
 
-  private double price;
+	private double price;
 
-  private TicketStatuses status;
+	private TicketStatuses status;
 
-  private Place place;
+	private Place place;
 
-  public double getPrice() {
-    return price;
-  }
+	private Seance seance;
+	private Row row;
 
-  public void setPrice(double price) {
-    if (price <= 0) {
-      throw new IllegalArgumentException();
-    }
-    this.price = price;
-  }
+	public Seance getSeance() {
+		return seance;
+	}
 
-  public TicketStatuses getStatus() {
-    return status;
-  }
+	public void setSeance(Seance seance) {
+		if (seance == null) {
+			throw new IllegalArgumentException();
+		}
+		this.seance = seance;
+	}
 
-  public void setStatus(TicketStatuses status) {
-    if (status == null) {
-      throw new IllegalArgumentException();
-    }
-    this.status = status;
-  }
+	public Row getRow() {
+		return row;
+	}
 
-  public Place getPlace() {
-    return place;
-  }
+	public void setRow(Row row) {
+		if (row == null) {
+			throw new IllegalArgumentException();
+		}
+		this.row = row;
+	}
 
-  public void setPlace(Place place) {
-    if (place == null) {
-      throw new IllegalArgumentException();
-    }
-    this.place = place;
-  }
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		if (price <= 0) {
+			throw new IllegalArgumentException();
+		}
+		this.price = price;
+	}
+
+	public TicketStatuses getStatus() {
+		return status;
+	}
+
+	public void setStatus(TicketStatuses status) {
+		if (status == null) {
+			throw new IllegalArgumentException();
+		}
+		this.status = status;
+	}
+
+	public Place getPlace() {
+		return place;
+	}
+
+	public void setPlace(Place place) {
+		if (place == null) {
+			throw new IllegalArgumentException();
+		}
+		this.place = place;
+	}
 
 }
