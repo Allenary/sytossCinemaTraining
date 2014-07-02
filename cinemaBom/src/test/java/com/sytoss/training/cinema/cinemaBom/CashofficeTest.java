@@ -6,21 +6,24 @@ import org.junit.Test;
 
 public class CashofficeTest {
 
+  // Number field test cover 
 	@Test
-	public void testNumberSetCorrectly() {
+	public void testSetNumberShouldBeCorrect() {
 		Cashoffice cashoffice = new Cashoffice();
 		cashoffice.setNumber(12);
 		assertEquals(12, cashoffice.getNumber());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testNumberIsNotNegative() {
+	public void testSetNumberShouldNotBeNegative() {
 		Cashoffice cashoffice = new Cashoffice();
 		cashoffice.setNumber(-7);
 	}
 
+	
+	// CashOffice[1] - [1]Cinema reference test cover 
 	@Test
-	public void testCinemaSetCorrectly() {
+	public void testSetCinemaShouldBeCorrect() {
 		Cashoffice cashoffice = new Cashoffice();
 		Cinema cinema = new Cinema();
 		cinema.setName("vasilisa");
@@ -32,9 +35,8 @@ public class CashofficeTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testCinemaIsNotNull() {
+	public void testSetCinemaShouldNotBeNull() {
 		Cashoffice cashoffice = new Cashoffice();
 		cashoffice.setCinema(null);
-
 	}
 }

@@ -16,9 +16,9 @@ public class Movie {
 	public void setName(String name) {
 		if (name == null || name.isEmpty()) {
 			throw new IllegalArgumentException();
-		} else {
-			this.name = name;
 		}
+		this.name = name;
+		
 	}
 
 	public String getDescription() {
@@ -26,6 +26,9 @@ public class Movie {
 	}
 
 	public void setDescription(String description) {
+	  if(description == null){
+	    throw new IllegalArgumentException();
+	  }
 		this.description = description;
 	}
 

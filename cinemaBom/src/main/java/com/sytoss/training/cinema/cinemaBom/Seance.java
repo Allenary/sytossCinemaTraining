@@ -4,10 +4,9 @@ import java.util.Calendar;
 
 public class Seance {
 
-	// TODO: implement seance-room
 	private Calendar startDateTime;
-
 	private SeanceStatus status;
+	private Room room;
 
 	public void setStartDateTime(Calendar calendar) {
 
@@ -35,4 +34,16 @@ public class Seance {
 	public SeanceStatus getStatus() {
 		return status;
 	}
+
+  public void setRoom(Room room) {
+    if(room == null){
+      throw new NullPointerException();
+    }
+    this.room = room;
+  }
+
+  public Room getRoom() {
+    return room;
+  }
+  
 }

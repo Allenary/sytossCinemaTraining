@@ -17,8 +17,8 @@ public class Cinema {
 		movies = new ArrayList<Movie>();
 		cashoffices = new ArrayList<Cashoffice>();
 		rooms = new ArrayList<Room>();
-
 	}
+	
 
 	public List<Movie> showAllMovies() {
 		return movies;

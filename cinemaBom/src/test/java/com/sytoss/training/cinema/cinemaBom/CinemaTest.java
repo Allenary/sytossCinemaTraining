@@ -7,27 +7,30 @@ import org.junit.Test;
 
 public class CinemaTest {
 
+  // Name field test cover
 	@Test(expected = IllegalArgumentException.class)
-	public void testNameShouldNotBeEmpty() {
+	public void testSetNameShouldNotBeEmpty() {
 		Cinema cinema = new Cinema();
 		cinema.setName("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testNameShouldNotBeNull() {
+	public void testSetNameShouldNotBeNull() {
 		Cinema cinema = new Cinema();
 		cinema.setName(null);
 	}
 
 	@Test
-	public void testNameSetCorrectly() {
+	public void testSetNameShouldBeCorrect() {
 		Cinema cinema = new Cinema();
 		cinema.setName("Kronverk");
 		assertEquals("Kronverk", cinema.getName());
 	}
 
+	
+	// Address field test cover
 	@Test
-	public void testAddressSetCorrectly() {
+	public void testSetAddressShouldBeCorrect() {
 		Cinema cinema = new Cinema();
 		cinema.setAddress("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation");
 		assertEquals(
@@ -36,20 +39,21 @@ public class CinemaTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testAddressIsNotEmpty() {
+	public void testSetAddressShouldNotBeEmpty() {
 		Cinema cinema = new Cinema();
 		cinema.setAddress("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testAddressIsNotNull() {
+	public void testSetAddressShouldNotBeNull() {
 		Cinema cinema = new Cinema();
 		cinema.setAddress(null);
 	}
 
+	// Cinema[1] - [N]Movies reference test cover
 	// TODO: create method exists for movie to encapsulate changes
 	@Test
-	public void testAddMovie() {
+	public void testAddMovieShouldBeCorrect() {
 		Movie movie = new Movie();
 		Cinema cinema = new Cinema();
 		movie.setName("Brave heart");
@@ -58,7 +62,7 @@ public class CinemaTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testAddMovieNull() {
+	public void testAddMovieShouldNotBeNull() {
 		Cinema cinema = new Cinema();
 		cinema.addMovie(null);
 	}

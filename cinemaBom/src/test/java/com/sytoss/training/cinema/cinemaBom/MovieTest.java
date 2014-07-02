@@ -5,46 +5,62 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class MovieTest {
-
-	// TODO: test for movie description field
-	// TODO: tests naming
-	static Movie movie;
-
+  
+  // Duration field test cover
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetDurationIsBiggerThanZero() {
+	public void testSetDurationShouldBeBiggerThanZero() {
 		Movie movie = new Movie();
 		movie.setDuration(0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetDurationIsNotNegative() {
+	public void testSetDurationShouldNotBeNegative() {
 		Movie movie = new Movie();
 		movie.setDuration(-8);
 	}
 
 	@Test
-	public void testSetDurrationCorrect() {
+	public void testSetDurationShouldBeCorrect() {
 		Movie movie = new Movie();
 		movie.setDuration(120);
 		assertEquals(120, movie.getDuration());
 	}
 
+	
+	// Name field test cover
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetNameIsNotEmpty() {
+	public void testSetNameShouldNotBeEmpty() {
 		Movie movie = new Movie();
 		movie.setName("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetNameIsNotNull() {
+	public void testSetNameShouldNotBeNull() {
 		Movie movie = new Movie();
 		movie.setName(null);
 	}
 
 	@Test
-	public void testSetNameIsCorrect() {
+	public void testSetNameShouldBeCorrect() {
 		Movie movie = new Movie();
 		movie.setName("Titanic");
 		assertEquals("Titanic", movie.getName());
 	}
+	
+	
+  // Description field test cover
+	 @Test(expected = IllegalArgumentException.class)
+	  public void testSetDescriptionShouldNotBeNull() {
+	    Movie movie = new Movie();
+	    movie.setDescription(null);
+	  }	
+	
+	public void testSetDescriptionShouldBeCorrect() {
+    Movie movie = new Movie();
+    movie.setDescription("Disaster movie of 1997 year");
+    assertEquals("Disaster movie of 1997 year", movie.getDescription());
+  }
 }
+
+
+

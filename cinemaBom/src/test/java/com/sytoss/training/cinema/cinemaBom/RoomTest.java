@@ -2,33 +2,28 @@ package com.sytoss.training.cinema.cinemaBom;
 
 import static org.junit.Assert.*;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 
 public class RoomTest {
 
-  static Room room;
-
-  @BeforeClass
-  public static void initializeRoom() {
-    room = new Room();
-  }
-  
+  // Name field test cover
   @Test(expected = IllegalArgumentException.class)
-  public void testSetNameIsEmpty() {
+  public void testSetNameShouldNotBeEmpty() {
+    Room room = new Room();
     room.setName("");
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testSetNameIsNull() {
+  public void testSetNameShouldNotBeNull() {
+    Room room = new Room();
     room.setName(null);
   }
 
   @Test
-  public void testSetNameCorrect() {
-    String roomName = "White";
-    room.setName(roomName);
-    assertEquals(roomName, room.getName());
+  public void testSetNameShouldBeCorrect() {
+    Room room = new Room();
+    room.setName("White");
+    assertEquals("White", room.getName());
   }
 }
