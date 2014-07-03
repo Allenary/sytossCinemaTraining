@@ -26,7 +26,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must ends with two \r.
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -36,4 +37,5 @@ Icon
 .Trashes
 
 /cinemaBOM/target/*
+\cinemaBOM\target\*
 *.classpath
