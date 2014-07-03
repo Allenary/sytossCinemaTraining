@@ -1,6 +1,6 @@
-package com.sytoss.training.cinema.cinemaBom;
+package com.sytoss.training.cinema.bom;
 
-public class Row {
+public class Place {
 
 	private int number;
 

@@ -1,8 +1,10 @@
-package com.sytoss.training.cinema.cinemaBom;
+package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.sytoss.training.cinema.bom.Row;
 
 public class RowTest {
 

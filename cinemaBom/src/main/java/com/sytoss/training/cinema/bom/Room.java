@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.cinemaBom;
+package com.sytoss.training.cinema.bom;
 
 public class Room {
 

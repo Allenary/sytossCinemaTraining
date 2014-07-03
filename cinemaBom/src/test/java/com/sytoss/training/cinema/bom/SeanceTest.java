@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.cinemaBom;
+package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
+
+import com.sytoss.training.cinema.bom.Room;
+import com.sytoss.training.cinema.bom.Seance;
+import com.sytoss.training.cinema.bom.SeanceStatus;
 
 public class SeanceTest {
 

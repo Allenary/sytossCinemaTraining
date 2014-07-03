@@ -1,8 +1,10 @@
-package com.sytoss.training.cinema.cinemaBom;
+package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.sytoss.training.cinema.bom.Room;
 
 public class RoomTest {
 

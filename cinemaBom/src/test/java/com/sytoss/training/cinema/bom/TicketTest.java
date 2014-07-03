@@ -1,8 +1,15 @@
-package com.sytoss.training.cinema.cinemaBom;
+package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.sytoss.training.cinema.bom.Place;
+import com.sytoss.training.cinema.bom.Row;
+import com.sytoss.training.cinema.bom.Seance;
+import com.sytoss.training.cinema.bom.SeanceStatus;
+import com.sytoss.training.cinema.bom.Ticket;
+import com.sytoss.training.cinema.bom.TicketStatus;
 
 public class TicketTest {
 

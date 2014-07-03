@@ -1,35 +1,38 @@
-package com.sytoss.training.cinema.cinemaBom;
+package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class CashofficeTest {
+import com.sytoss.training.cinema.bom.CashOffice;
+import com.sytoss.training.cinema.bom.Cinema;
+
+public class CashOfficeTest {
 
 	// Number field test cover
 	@Test
 	public void shouldSpecifyNumber() {
-		Cashoffice cashoffice = new Cashoffice();
+		CashOffice cashoffice = new CashOffice();
 		cashoffice.setNumber(12);
 		assertEquals(12, cashoffice.getNumber());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldRaiseAnErrorForZeroNumber() {
-		Cashoffice cashoffice = new Cashoffice();
+		CashOffice cashoffice = new CashOffice();
 		cashoffice.setNumber(0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldRaiseAnErrorForNegativeNumber() {
-		Cashoffice cashoffice = new Cashoffice();
+		CashOffice cashoffice = new CashOffice();
 		cashoffice.setNumber(-7);
 	}
 
 	// CashOffice[1] - [1]Cinema reference test cover
 	@Test
 	public void shouldSpecifyCinemaInstance() {
-		Cashoffice cashoffice = new Cashoffice();
+		CashOffice cashoffice = new CashOffice();
 		Cinema cinema = new Cinema();
 		cinema.setName("vasilisa");
 		cinema.setAddress("kharkov");
@@ -39,7 +42,7 @@ public class CashofficeTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void shouldRaiseAnErrorForNullCinemaInstance() {
-		Cashoffice cashoffice = new Cashoffice();
+		CashOffice cashoffice = new CashOffice();
 		cashoffice.setCinema(null);
 	}
 }
