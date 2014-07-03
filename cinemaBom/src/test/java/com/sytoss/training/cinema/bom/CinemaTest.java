@@ -10,6 +10,17 @@ import com.sytoss.training.cinema.bom.Movie;
 
 public class CinemaTest {
 
+  @Test
+  public void shouldAddValidCashoffice() {
+
+    //    TODO: add verification cinema is added in cashoffice
+    Cinema cinema = new Cinema();
+    CashOffice cashoffice = new CashOffice(56);
+    cinema.addCashOffice(cashoffice);
+    assertTrue(cinema.exists(cashoffice));
+    assertTrue(cinema.equals(cashoffice.getCinema()));
+  }
+
   // Name field test cover
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForEmptyName() {

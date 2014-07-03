@@ -12,8 +12,11 @@ public class Cinema {
 
   private List<Movie> movies;
 
+  private List<CashOffice> cashoffices;
+
   public Cinema() {
     movies = new ArrayList<Movie>();
+    cashoffices = new ArrayList<CashOffice>();
   }
 
   public List<Movie> showAllMovies() {
@@ -56,4 +59,27 @@ public class Cinema {
     return name;
   }
 
+  public void addCashOffice(CashOffice cashOffice) {
+    cashoffices.add(cashOffice);
+
+  }
+
+  public boolean exists(CashOffice searchedCashOffice) {
+    for (CashOffice cashoffice : cashoffices) {
+      if (searchedCashOffice.equals(cashoffice))
+        return true;
+    }
+    return false;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null)
+      return false;
+    if ( !(obj instanceof CashOffice))
+      return false;
+    Cinema comparableCinema = (Cinema) obj;
+    return (comparableCinema.name == this.name) && (comparableCinema.address == this.address);
+
+  }
 }
