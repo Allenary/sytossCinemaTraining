@@ -14,7 +14,7 @@ public class Ticket {
 
 	public void setSeance(Seance seance) {
 		if (seance == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Seance shouldn't be NULL.");
 		}
 		this.seance = seance;
 	}
@@ -25,7 +25,7 @@ public class Ticket {
 
 	public void setRow(Row row) {
 		if (row == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Row shouldn't be NULL.");
 		}
 		this.row = row;
 	}
@@ -36,7 +36,8 @@ public class Ticket {
 
 	public void setPrice(double price) {
 		if (price <= 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+					"Price should be bigger than zero");
 		}
 		this.price = price;
 	}
@@ -47,7 +48,7 @@ public class Ticket {
 
 	public void setStatus(TicketStatus status) {
 		if (status == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Status shouldn't be NULL.");
 		}
 		this.status = status;
 	}
@@ -58,7 +59,7 @@ public class Ticket {
 
 	public void setPlace(Place place) {
 		if (place == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Place shouldn't be NULL.");
 		}
 		this.place = place;
 	}

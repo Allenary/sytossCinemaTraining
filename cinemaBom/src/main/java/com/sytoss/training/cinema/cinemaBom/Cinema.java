@@ -9,16 +9,11 @@ public class Cinema {
 	private String name;
 	private String address;
 	private List<Movie> movies;
-	private List<Cashoffice> cashoffices;
-	private List<Room> rooms;
-	private List<Seance> seances;
 
 	public Cinema() {
 		movies = new ArrayList<Movie>();
-		cashoffices = new ArrayList<Cashoffice>();
-		rooms = new ArrayList<Room>();
+
 	}
-	
 
 	public List<Movie> showAllMovies() {
 		return movies;
@@ -26,7 +21,7 @@ public class Cinema {
 
 	public void addMovie(Movie movie) {
 		if (movie == null) {
-			throw new NullPointerException("Null movie can't be added!");
+			throw new IllegalArgumentException("Movie shouldn't be NULL.");
 		}
 		movies.add(movie);
 	}
@@ -36,29 +31,14 @@ public class Cinema {
 
 	}
 
-	public List<Cashoffice> showAllCashoffices() {
-		return cashoffices;
-	}
-
-	public void addCashoffice(Cashoffice cashoffice) {
-		cashoffices.add(cashoffice);
-	}
-
-	public List<Room> showAllRooms() {
-		return rooms;
-	}
-
-	public void addRoom(Room room) {
-		rooms.add(room);
-	}
-
 	public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(String address) {
 		if (address == null || address.isEmpty()) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+					"Address shouldn't be NULL or empty.");
 		} else {
 			this.address = address;
 		}
@@ -66,7 +46,8 @@ public class Cinema {
 
 	public void setName(String name) {
 		if (name == null || name.isEmpty()) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+					"Name shouldn't be NULL or empty.");
 		} else {
 			this.name = name;
 		}

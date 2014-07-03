@@ -1,6 +1,5 @@
 package com.sytoss.training.cinema.cinemaBom;
 
-
 public class Cashoffice {
 	private int number;
 	private Cinema cinema;
@@ -10,9 +9,10 @@ public class Cashoffice {
 	}
 
 	public void setCinema(Cinema cinema) {
-	  if (cinema==null){
-	    throw new NullPointerException();
-	  }
+		if (cinema == null) {
+			throw new IllegalArgumentException(
+					"Cinema object should not be set NULL.");
+		}
 		this.cinema = cinema;
 	}
 
@@ -21,10 +21,11 @@ public class Cashoffice {
 	}
 
 	public void setNumber(int number) {
-	  if (number<=0){
-	    throw new IllegalArgumentException();
-	  }
+		if (number <= 0) {
+			throw new IllegalArgumentException(
+					"Number should be bigger than zero.");
+		}
 		this.number = number;
 	}
-	
+
 }

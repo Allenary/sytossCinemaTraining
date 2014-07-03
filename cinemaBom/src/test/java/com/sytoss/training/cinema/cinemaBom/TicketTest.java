@@ -6,24 +6,21 @@ import org.junit.Test;
 
 public class TicketTest {
 
-  // Status field test cover
 	@Test
-	public void testSetStatusShouldBeCorrect() {
+	public void shouldSpecifyStatus() {
 		Ticket ticket = new Ticket();
 		ticket.setStatus(TicketStatus.ENABLE);
 		assertEquals(TicketStatus.ENABLE, ticket.getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetStatusShouldNotBeNull() {
+	public void shouldRaiseAnErrorForNullStatus() {
 		Ticket ticket = new Ticket();
 		ticket.setStatus(null);
 	}
 
-	
-	// Price field test cover
 	@Test
-	public void testSetPriceShouldBeCorrect() {
+	public void shouldSpecifyPrice() {
 		Ticket ticket = new Ticket();
 		ticket.setPrice(22.43);
 		assertEquals(22.43, ticket.getPrice(), 0);
@@ -31,38 +28,34 @@ public class TicketTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetPriceShouldNotBeNegative() {
+	public void shouldRaiseAnErrorForNegativePrice() {
 		Ticket ticket = new Ticket();
 		ticket.setPrice(-5.53);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetPriceShouldNotBeZero() {
+	public void shouldRaiseAnErrorForZeroPrice() {
 		Ticket ticket = new Ticket();
 		ticket.setPrice(0);
 	}
 
-	
 	// Ticket[1] - [1]Place reference test cover
 	@Test
-	public void testSetPlaceShouldBeCorrect() {
+	public void shouldSpecifyPlaceInstance() {
 		Ticket ticket = new Ticket();
 		Place place = new Place();
-		place.setStatus(PlacesStatus.DISABLE);
 		place.setNumber(72);
 		ticket.setPlace(place);
 		assertEquals(place, ticket.getPlace());
 		assertEquals(72, ticket.getPlace().getNumber());
-		assertEquals(PlacesStatus.DISABLE, ticket.getPlace().getStatus());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetPlaceShouldNotBeNull() {
+	public void shouldRaiseAnErrorForNullPlaceInstance() {
 		Ticket ticket = new Ticket();
 		ticket.setPlace(null);
 	}
 
-	
 	// Ticket[1] - [1]Seance reference test cover
 	@Test
 	public void testSetSeanceShouldBeCorrect() {
@@ -80,8 +73,7 @@ public class TicketTest {
 		ticket.setSeance(null);
 	}
 
-	
-  // Ticket[1] - [1]Raw reference test cover
+	// Ticket[1] - [1]Raw reference test cover
 	@Test
 	public void testSetRowShouldBeCorrect() {
 		Ticket ticket = new Ticket();

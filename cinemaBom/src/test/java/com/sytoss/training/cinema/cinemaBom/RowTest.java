@@ -6,38 +6,23 @@ import org.junit.Test;
 
 public class RowTest {
 
-  // Number field test cover
 	@Test
-	public void testSetNumberShouldBeCorrect() {
+	public void shouldSpecifyNumber() {
 		Row row = new Row();
 		row.setNumber(4);
 		assertEquals(4, row.getNumber());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetNumberShouldNotBeNegative() {
+	public void shouldRaiseAnErrorForNegativeNumber() {
 		Row row = new Row();
 		row.setNumber(-7);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetNumberShouldNotBeZero() {
+	public void shouldRaiseAnErrorForZeroNumber() {
 		Row row = new Row();
 		row.setNumber(0);
 	}
 
-	  
-	// Status field test cover
-	@Test
-	public void testSetStatusShouldBeCorrect() {
-		Row row = new Row();
-		row.setStatus(PlacesStatus.ENABLE);
-		assertEquals(PlacesStatus.ENABLE, row.getStatus());
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void testSetStatusShouldNotBeNull() {
-		Row row = new Row();
-		row.setStatus(null);
-	}
 }
