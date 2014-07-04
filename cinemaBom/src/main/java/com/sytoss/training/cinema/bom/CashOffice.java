@@ -49,4 +49,9 @@ public class CashOffice {
     return comparableCashOffice.number == this.number;
 
   }
+
+  public boolean exists(Cinema searchedCinema) {
+    return cinema.equals(searchedCinema);
+
+  }
 }

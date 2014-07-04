@@ -1,11 +1,9 @@
 package com.sytoss.training.cinema.bom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import com.sytoss.training.cinema.bom.CashOffice;
-import com.sytoss.training.cinema.bom.Cinema;
 
 public class CashOfficeTest {
 
@@ -30,6 +28,7 @@ public class CashOfficeTest {
   }
 
   // CashOffice[1] - [1]Cinema reference test cover
+
   @Test
   public void shouldSpecifyCinemaInstance() {
     CashOffice cashoffice = new CashOffice();

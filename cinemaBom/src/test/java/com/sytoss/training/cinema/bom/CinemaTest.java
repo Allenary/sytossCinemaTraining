@@ -5,9 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.sytoss.training.cinema.bom.Cinema;
-import com.sytoss.training.cinema.bom.Movie;
-
 public class CinemaTest {
 
   @Test
@@ -18,7 +15,25 @@ public class CinemaTest {
     CashOffice cashoffice = new CashOffice(56);
     cinema.addCashOffice(cashoffice);
     assertTrue(cinema.exists(cashoffice));
-    assertTrue(cinema.equals(cashoffice.getCinema()));
+    boolean isEqual = cinema.equals(cashoffice.getCinema());
+    System.out.print(isEqual);
+    assertTrue(isEqual);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseErrorForAddingCashOfficeAssignedToAnotherCinema() {
+    Cinema cinema = new Cinema("Planeta Kino");
+    CashOffice cashOffice = new CashOffice(13);
+    cashOffice.setCinema(new Cinema("NoNameCinema"));
+    cinema.addCashOffice(cashOffice);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldPaiseErrorForAddingCashOfficeWhichAlreadyAdded() {
+    Cinema cinema = new Cinema();
+    CashOffice cashOffice = new CashOffice(17);
+    cinema.addCashOffice(cashOffice);
+    cinema.addCashOffice(cashOffice);
   }
 
   // Name field test cover

@@ -3,6 +3,8 @@ package com.sytoss.training.cinema.bom;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Cinema {
 
   // TODO: implement dependencies with 1-to-many multiplicity
@@ -17,6 +19,11 @@ public class Cinema {
   public Cinema() {
     movies = new ArrayList<Movie>();
     cashoffices = new ArrayList<CashOffice>();
+  }
+
+  public Cinema(String name) {
+    this();
+    this.name = name;
   }
 
   public List<Movie> showAllMovies() {
@@ -40,15 +47,15 @@ public class Cinema {
   }
 
   public void setAddress(String address) {
-    if (address == null || address.isEmpty()) {
-      throw new IllegalArgumentException("Address shouldn't be NULL or empty.");
+    if (StringUtils.isBlank(address)) {
+      throw new IllegalArgumentException("Address shouldn't be blank, NULL or empty.");
     } else {
       this.address = address;
     }
   }
 
   public void setName(String name) {
-    if (name == null || name.isEmpty()) {
+    if (StringUtils.isBlank(name)) {
       throw new IllegalArgumentException("Name shouldn't be NULL or empty.");
     } else {
       this.name = name;
@@ -60,6 +67,15 @@ public class Cinema {
   }
 
   public void addCashOffice(CashOffice cashOffice) {
+    if (exists(cashOffice)) {
+      throw new IllegalArgumentException("This cashOffice already added");
+    }
+    if (cashOffice.getCinema() == null) {
+      cashOffice.setCinema(this);
+    } else if ( !cashOffice.getCinema().equals(this)) {
+      throw new IllegalArgumentException("it's cashoffice of another Cinema");
+    }
+
     cashoffices.add(cashOffice);
 
   }
@@ -74,12 +90,19 @@ public class Cinema {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj == null)
+    if (obj == null) {
+      System.out.print("obj is null");
       return false;
-    if ( !(obj instanceof CashOffice))
+    }
+    if ( !(obj instanceof Cinema)) {
+      System.out.print("not instance of cinema");
       return false;
+    }
+
     Cinema comparableCinema = (Cinema) obj;
-    return (comparableCinema.name == this.name) && (comparableCinema.address == this.address);
+    boolean isEqual = (comparableCinema.name == this.name) && (comparableCinema.address == this.address);
+    System.out.print("EQ=" + isEqual);
+    return isEqual;
 
   }
 }
