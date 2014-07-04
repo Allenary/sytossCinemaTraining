@@ -41,27 +41,11 @@ public class CashOffice {
     this.number = number;
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == null)
-      return false;
-    if ( !(obj instanceof CashOffice))
-      return false;
-    CashOffice comparableCashOffice = (CashOffice) obj;
-    return comparableCashOffice.number == this.number;
-
-  }
-
-  public boolean exists(Cinema searchedCinema) {
-    if (cinema == null)
-      return false;
-    return cinema.equals(searchedCinema);
-
-  }
-
   public void removeCinema() {
     if (cinema != null) {
-      cinema.removeCashOffice(this);
+      if (cinema.exists(this)) {
+        cinema.removeCashOffice(this);
+      }
       cinema = null;
     }
   }

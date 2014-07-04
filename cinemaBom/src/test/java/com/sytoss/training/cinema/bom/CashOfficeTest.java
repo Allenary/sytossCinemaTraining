@@ -1,8 +1,10 @@
 package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class CashOfficeTest {
@@ -30,7 +32,7 @@ public class CashOfficeTest {
   // CashOffice[1] - [1]Cinema reference test cover
 
   @Test
-  public void shouldSpecifyCinemaInstance() {
+  public void shouldSetCinema() {
     CashOffice cashoffice = new CashOffice();
     Cinema cinema = new Cinema();
     cinema.setName("Kronverk");
@@ -40,9 +42,31 @@ public class CashOfficeTest {
     assertTrue(cinema.exists(cashoffice));
   }
 
+  @Test
+  public void shouldReassignCashOfficeToAnotherCinema() {
+    CashOffice cashoffice = new CashOffice();
+    Cinema firstCinema = new Cinema("First");
+    Cinema secondCinema = new Cinema("Second");
+    cashoffice.setCinema(firstCinema);
+    cashoffice.setCinema(secondCinema);
+    assertEquals(secondCinema, cashoffice.getCinema());
+    assertTrue(secondCinema.exists(cashoffice));
+    assertFalse(firstCinema.exists(cashoffice));
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNullCinemaInstance() {
     CashOffice cashoffice = new CashOffice();
     cashoffice.setCinema(null);
+  }
+
+  @Test
+  public void shouldRemoveCinema() {
+    CashOffice cashOffice = new CashOffice();
+    Cinema cinema = new Cinema();
+    cashOffice.setCinema(cinema);
+    cashOffice.removeCinema();
+    assertEquals(null, cashOffice.getCinema());
+    assertFalse(cinema.exists(cashOffice));
   }
 }

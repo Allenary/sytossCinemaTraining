@@ -11,15 +11,11 @@ public class CinemaTest {
   @Test
   public void shouldAddValidCashoffice() {
 
-    //    TODO: add verification cinema is added in cashoffice
     Cinema cinema = new Cinema("Kronverk");
     CashOffice cashoffice = new CashOffice(56);
     cinema.addCashOffice(cashoffice);
     assertTrue(cinema.exists(cashoffice));
-    System.out.print("getcinema" + cashoffice.getCinema());
-    boolean isEqual = cinema.equals(cashoffice.getCinema());
-    System.out.print(isEqual);
-    assertTrue(isEqual);
+    assertEquals(cinema, cashoffice.getCinema());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -37,7 +33,17 @@ public class CinemaTest {
     newCinema.addCashOffice(cashOffice);
     assertTrue(newCinema.exists(cashOffice));
     assertFalse(oldCinema.exists(cashOffice));
-    assertTrue(cashOffice.exists(newCinema));
+    assertEquals(newCinema, cashOffice.getCinema());
+  }
+
+  @Test
+  public void shouldRemoveCashoffice() {
+    Cinema cinema = new Cinema();
+    CashOffice cashOffice = new CashOffice(23);
+    cinema.addCashOffice(cashOffice);
+    cinema.removeCashOffice(cashOffice);
+    assertFalse(cinema.exists(cashOffice));
+    assertEquals(null, cashOffice.getCinema());
   }
 
   // Name field test cover
