@@ -24,6 +24,9 @@ public class CashOffice {
     if (this.cinema != null) {
       this.cinema.removeCashOffice(this);
     }
+    if ( !cinema.exists(this)) {
+      cinema.addCashOffice(this);
+    }
     this.cinema = cinema;
   }
 

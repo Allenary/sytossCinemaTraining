@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CinemaTest {
@@ -17,6 +16,7 @@ public class CinemaTest {
     CashOffice cashoffice = new CashOffice(56);
     cinema.addCashOffice(cashoffice);
     assertTrue(cinema.exists(cashoffice));
+    System.out.print("getcinema" + cashoffice.getCinema());
     boolean isEqual = cinema.equals(cashoffice.getCinema());
     System.out.print(isEqual);
     assertTrue(isEqual);

@@ -33,7 +33,7 @@ public class CashOfficeTest {
   public void shouldSpecifyCinemaInstance() {
     CashOffice cashoffice = new CashOffice();
     Cinema cinema = new Cinema();
-    cinema.setName("vasilisa");
+    cinema.setName("Kronverk");
     cinema.setAddress("kharkov");
     cashoffice.setCinema(cinema);
     assertEquals(cinema, cashoffice.getCinema());

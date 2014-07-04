@@ -70,9 +70,11 @@ public class Cinema {
     if (cashOffice == null) {
       throw new IllegalArgumentException("Null CashOffice cannot be added");
     }
-
-    cashOffice.setCinema(this);
+    if (cashOffice.exists(this)) {
+      cashOffice.setCinema(this);
+    }
     cashoffices.add(cashOffice);
+    cashOffice.setCinema(this);
   }
 
   public boolean exists(CashOffice searchedCashOffice) {
@@ -86,6 +88,7 @@ public class Cinema {
   @Override
   public boolean equals(Object obj) {
     if (obj == null) {
+      System.out.print("class cinema equals: obj is null");
       return false;
     }
     if ( !(obj instanceof Cinema)) {
