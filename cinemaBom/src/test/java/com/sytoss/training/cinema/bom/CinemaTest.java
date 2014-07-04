@@ -1,8 +1,10 @@
 package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class CinemaTest {
@@ -11,7 +13,7 @@ public class CinemaTest {
   public void shouldAddValidCashoffice() {
 
     //    TODO: add verification cinema is added in cashoffice
-    Cinema cinema = new Cinema();
+    Cinema cinema = new Cinema("Kronverk");
     CashOffice cashoffice = new CashOffice(56);
     cinema.addCashOffice(cashoffice);
     assertTrue(cinema.exists(cashoffice));
@@ -26,20 +28,16 @@ public class CinemaTest {
     cinema.addCashOffice(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseErrorForAddingCashOfficeAssignedToAnotherCinema() {
-    Cinema cinema = new Cinema("Planeta Kino");
+  @Test
+  public void shouldAddCashOfficeAssignedToAnotherCinema() {
+    Cinema oldCinema = new Cinema("Planeta Kino");
+    Cinema newCinema = new Cinema("MegaKino");
     CashOffice cashOffice = new CashOffice(13);
-    cashOffice.setCinema(new Cinema("NoNameCinema"));
-    cinema.addCashOffice(cashOffice);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void shouldPaiseErrorForAddingCashOfficeWhichAlreadyAdded() {
-    Cinema cinema = new Cinema();
-    CashOffice cashOffice = new CashOffice(17);
-    cinema.addCashOffice(cashOffice);
-    cinema.addCashOffice(cashOffice);
+    cashOffice.setCinema(oldCinema);
+    newCinema.addCashOffice(cashOffice);
+    assertTrue(newCinema.exists(cashOffice));
+    assertFalse(oldCinema.exists(cashOffice));
+    assertTrue(cashOffice.exists(newCinema));
   }
 
   // Name field test cover

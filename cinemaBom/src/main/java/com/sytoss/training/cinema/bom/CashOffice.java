@@ -21,11 +21,10 @@ public class CashOffice {
     if (cinema == null) {
       throw new IllegalArgumentException("Cinema object should not be set NULL.");
     }
-    this.cinema = cinema;
-
-    if ( !this.cinema.exists(this)) {
-      this.cinema.addCashOffice(this);
+    if (this.cinema != null) {
+      this.cinema.removeCashOffice(this);
     }
+    this.cinema = cinema;
   }
 
   public int getNumber() {
@@ -51,7 +50,16 @@ public class CashOffice {
   }
 
   public boolean exists(Cinema searchedCinema) {
+    if (cinema == null)
+      return false;
     return cinema.equals(searchedCinema);
 
+  }
+
+  public void removeCinema() {
+    if (cinema != null) {
+      cinema.removeCashOffice(this);
+      cinema = null;
+    }
   }
 }

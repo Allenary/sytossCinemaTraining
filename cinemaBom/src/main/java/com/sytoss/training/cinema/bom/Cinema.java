@@ -70,17 +70,9 @@ public class Cinema {
     if (cashOffice == null) {
       throw new IllegalArgumentException("Null CashOffice cannot be added");
     }
-    if (exists(cashOffice)) {
-      throw new IllegalArgumentException("This cashOffice already added");
-    }
-    if (cashOffice.getCinema() == null) {
-      cashOffice.setCinema(this);
-    } else if ( !cashOffice.getCinema().equals(this)) {
-      throw new IllegalArgumentException("it's cashoffice of another Cinema");
-    }
 
+    cashOffice.setCinema(this);
     cashoffices.add(cashOffice);
-
   }
 
   public boolean exists(CashOffice searchedCashOffice) {
@@ -94,11 +86,9 @@ public class Cinema {
   @Override
   public boolean equals(Object obj) {
     if (obj == null) {
-      System.out.print("obj is null");
       return false;
     }
     if ( !(obj instanceof Cinema)) {
-      System.out.print("not instance of cinema");
       return false;
     }
 
@@ -107,5 +97,9 @@ public class Cinema {
     System.out.print("EQ=" + isEqual);
     return isEqual;
 
+  }
+
+  public void removeCashOffice(CashOffice cashOffice) {
+    cashoffices.remove(cashOffice);
   }
 }
