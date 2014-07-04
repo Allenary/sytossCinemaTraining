@@ -67,6 +67,9 @@ public class Cinema {
   }
 
   public void addCashOffice(CashOffice cashOffice) {
+    if (cashOffice == null) {
+      throw new IllegalArgumentException("Null CashOffice cannot be added");
+    }
     if (exists(cashOffice)) {
       throw new IllegalArgumentException("This cashOffice already added");
     }

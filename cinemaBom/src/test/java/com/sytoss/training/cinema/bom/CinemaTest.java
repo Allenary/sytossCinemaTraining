@@ -21,6 +21,12 @@ public class CinemaTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseExceptionForAddingNullCashOffice() {
+    Cinema cinema = new Cinema();
+    cinema.addCashOffice(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseErrorForAddingCashOfficeAssignedToAnotherCinema() {
     Cinema cinema = new Cinema("Planeta Kino");
     CashOffice cashOffice = new CashOffice(13);
