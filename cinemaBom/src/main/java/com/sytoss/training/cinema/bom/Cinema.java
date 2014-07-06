@@ -1,9 +1,12 @@
 package com.sytoss.training.cinema.bom;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+
+import bom.exception.NullObjectInsertionException;
 
 public class Cinema {
 
@@ -14,11 +17,11 @@ public class Cinema {
 
   private List<Movie> movies;
 
-  private List<CashOffice> cashoffices;
+  private List<CashOffice> cashOffices;
 
   public Cinema() {
     movies = new ArrayList<Movie>();
-    cashoffices = new ArrayList<CashOffice>();
+    cashOffices = new ArrayList<CashOffice>();
   }
 
   public Cinema(String name) {
@@ -26,8 +29,13 @@ public class Cinema {
     this.name = name;
   }
 
-  public List<Movie> showAllMovies() {
-    return movies;
+  //not used!!
+  public Iterator<CashOffice> showAllCashOffices() {
+    return cashOffices.iterator();
+  }
+
+  public int countCashOffices() {
+    return cashOffices.size();
   }
 
   public void addMovie(Movie movie) {
@@ -68,14 +76,25 @@ public class Cinema {
 
   public void addCashOffice(CashOffice cashOffice) {
     if (cashOffice == null) {
-      throw new IllegalArgumentException("Null CashOffice cannot be added");
+      throw new NullObjectInsertionException("Null CashOffice cannot be added");
     }
-    cashoffices.add(cashOffice);
-    cashOffice.setCinema(this);
+    if ( !exists(cashOffice) && ( !hasCashOfficeWithSameNumber(cashOffice))) {
+      cashOffices.add(cashOffice);
+      cashOffice.setCinema(this);
+    }
+
+  }
+
+  private boolean hasCashOfficeWithSameNumber(CashOffice searchedCashOffice) {
+    for (CashOffice cashOffice : cashOffices) {
+      if (searchedCashOffice.getNumber() == cashOffice.getNumber())
+        return true;
+    }
+    return false;
   }
 
   public boolean exists(CashOffice searchedCashOffice) {
-    for (CashOffice cashoffice : cashoffices) {
+    for (CashOffice cashoffice : cashOffices) {
       if (searchedCashOffice.equals(cashoffice))
         return true;
     }
@@ -83,7 +102,7 @@ public class Cinema {
   }
 
   public void removeCashOffice(CashOffice cashOffice) {
-    cashoffices.remove(cashOffice);
+    cashOffices.remove(cashOffice);
     if (cashOffice.getCinema() != null) {
       cashOffice.removeCinema();
     }

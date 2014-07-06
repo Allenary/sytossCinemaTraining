@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import bom.exception.NullObjectInsertionException;
+
 public class CinemaTest {
 
   @Test
@@ -18,10 +20,27 @@ public class CinemaTest {
     assertEquals(cinema, cashoffice.getCinema());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseExceptionForAddingNullCashOffice() {
     Cinema cinema = new Cinema();
     cinema.addCashOffice(null);
+  }
+
+  @Test
+  public void shouldNotAddDuplicateCashOffice() {
+    Cinema cinema = new Cinema();
+    CashOffice cashOffice = new CashOffice(1);
+    cinema.addCashOffice(cashOffice);
+    cinema.addCashOffice(cashOffice);
+    assertEquals(1, cinema.countCashOffices());
+  }
+
+  @Test
+  public void shouldNotAddDuplicateNumberCashOffice() {
+    Cinema cinema = new Cinema();
+    cinema.addCashOffice(new CashOffice(1));
+    cinema.addCashOffice(new CashOffice(1));
+    assertEquals(1, cinema.countCashOffices());
   }
 
   @Test
@@ -88,7 +107,7 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     movie.setName("Brave heart");
     cinema.addMovie(movie);
-    assertTrue(cinema.showAllMovies().contains(movie));
+
   }
 
   @Test(expected = IllegalArgumentException.class)
