@@ -10,6 +10,15 @@ import bom.exception.NullObjectInsertionException;
 public class RowTest {
 
   @Test
+  public void shouldSetValidRoom() {
+    Row row = new Row();
+    Room room = new Room();
+    row.setRoom(room);
+    assertEquals(room, row.getRoom());
+    assertTrue(room.exists(row));
+  }
+
+  @Test
   public void shouldAddValidPlace() {
     Row row = new Row();
     Place place = new Place(22);

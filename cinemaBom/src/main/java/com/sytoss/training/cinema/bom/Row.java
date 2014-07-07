@@ -11,6 +11,12 @@ public class Row {
 
   private List<Place> places;
 
+  private Room room;
+
+  public Room getRoom() {
+    return room;
+  }
+
   public Row(int number) {
     this();
     this.number = number;
@@ -50,6 +56,15 @@ public class Row {
       }
     }
     return false;
+  }
+
+  public void setRoom(Room room) {
+    if ( !room.exists(this)) {
+
+      room.addRow(this);
+
+    }
+    this.room = room;
   }
 
 }

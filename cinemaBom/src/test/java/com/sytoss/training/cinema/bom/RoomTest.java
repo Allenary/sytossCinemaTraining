@@ -8,22 +8,31 @@ import com.sytoss.training.cinema.bom.Room;
 
 public class RoomTest {
 
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldRaiseAnErrorForEmptyName() {
-		Room room = new Room();
-		room.setName("");
-	}
+  @Test
+  public void shouldAddRowToRoom() {
+    Room room = new Room();
+    Row row = new Row(1);
+    room.addRow(row);
+    assertEquals(room, row.getRoom());
+    assertTrue(room.exists(row));
+  }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldRaiseAnErrorForNullName() {
-		Room room = new Room();
-		room.setName(null);
-	}
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseAnErrorForEmptyName() {
+    Room room = new Room();
+    room.setName("");
+  }
 
-	@Test
-	public void shouldSpecifyName() {
-		Room room = new Room();
-		room.setName("White");
-		assertEquals("White", room.getName());
-	}
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseAnErrorForNullName() {
+    Room room = new Room();
+    room.setName(null);
+  }
+
+  @Test
+  public void shouldSpecifyName() {
+    Room room = new Room();
+    room.setName("White");
+    assertEquals("White", room.getName());
+  }
 }

@@ -20,6 +20,20 @@ public class CinemaTest {
     assertEquals(cinema, cashoffice.getCinema());
   }
 
+  @Test
+  public void shouldAddMoreThan1DifferentCashOffice() {
+    Cinema cinema = new Cinema("Kronverk");
+    CashOffice cashoffice1 = new CashOffice(1);
+    CashOffice cashoffice2 = new CashOffice(2);
+    cinema.addCashOffice(cashoffice1);
+    cinema.addCashOffice(cashoffice2);
+    assertTrue(cinema.exists(cashoffice1));
+    assertTrue(cinema.exists(cashoffice2));
+    assertEquals(cinema, cashoffice1.getCinema());
+    assertEquals(cinema, cashoffice2.getCinema());
+    assertEquals(2, cinema.countCashOffices());
+  }
+
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseExceptionForAddingNullCashOffice() {
     Cinema cinema = new Cinema();
@@ -29,7 +43,7 @@ public class CinemaTest {
   @Test
   public void shouldNotAddDuplicateCashOffice() {
     Cinema cinema = new Cinema();
-    CashOffice cashOffice = new CashOffice(1);
+    CashOffice cashOffice = new CashOffice(3);
     cinema.addCashOffice(cashOffice);
     cinema.addCashOffice(cashOffice);
     assertEquals(1, cinema.countCashOffices());
