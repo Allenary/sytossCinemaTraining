@@ -94,11 +94,7 @@ public class Cinema {
   }
 
   public boolean exists(CashOffice searchedCashOffice) {
-    for (CashOffice cashoffice : cashOffices) {
-      if (searchedCashOffice.equals(cashoffice))
-        return true;
-    }
-    return false;
+    return cashOffices.contains(searchedCashOffice);
   }
 
   public void removeCashOffice(CashOffice cashOffice) {

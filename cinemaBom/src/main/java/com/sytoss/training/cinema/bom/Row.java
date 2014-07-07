@@ -35,13 +35,17 @@ public class Row {
     if (place == null) {
       throw new NullObjectInsertionException("Place couldn't be null");
     }
+    if (exists(place)) {
+      throw new IllegalArgumentException("Place with number " + place.getNumber() + " already exists.");
+    }
     places.add(place);
     place.setRow(this);
+
   }
 
   public boolean exists(Place searchedPlace) {
     for (Place place : places) {
-      if (place.equals(searchedPlace)) {
+      if (place.getNumber() == searchedPlace.getNumber()) {
         return true;
       }
     }
