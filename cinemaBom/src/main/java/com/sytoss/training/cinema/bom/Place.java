@@ -1,5 +1,7 @@
 package com.sytoss.training.cinema.bom;
 
+import bom.exception.NullObjectInsertionException;
+
 public class Place {
 
   private int number;
@@ -30,6 +32,9 @@ public class Place {
   }
 
   public void setRow(Row row) {
+    if (row == null) {
+      throw new NullObjectInsertionException("Null row cannot be added");
+    }
     this.row = row;
     if ( !row.exists(this)) {
       row.addPlace(this);

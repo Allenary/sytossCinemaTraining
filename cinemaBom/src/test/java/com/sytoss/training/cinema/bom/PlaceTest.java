@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import bom.exception.NullObjectInsertionException;
+
 public class PlaceTest {
 
   @Test
@@ -15,6 +17,11 @@ public class PlaceTest {
     assertTrue(row.exists(place));
     assertEquals(row, place.getRow());
 
+  }
+
+  @Test(expected = NullObjectInsertionException.class)
+  public void shouldRaiseExceptionForAddingNullRow() {
+    new Place().setRow(null);
   }
 
   @Test(expected = IllegalArgumentException.class)
