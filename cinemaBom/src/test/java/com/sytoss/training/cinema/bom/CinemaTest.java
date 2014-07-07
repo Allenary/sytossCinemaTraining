@@ -12,6 +12,14 @@ import bom.exception.NullObjectInsertionException;
 
 public class CinemaTest {
 
+  public void shouldAddValidSeance() {
+    Cinema cinema = new Cinema();
+    Seance seance = new Seance();
+    cinema.addSeance(seance);
+    assertTrue(cinema.exists(seance));
+    assertEquals(cinema, seance.getCinema());
+  }
+
   // Cinema[1]-[N]CashOffice
   @Test
   public void shouldAddValidCashoffice() {

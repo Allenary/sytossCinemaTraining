@@ -21,10 +21,13 @@ public class Cinema {
 
   private List<CashOffice> cashOffices;
 
+  private List<Seance> seances;
+
   public Cinema() {
     movies = new ArrayList<Movie>();
     rooms = new ArrayList<Room>();
     cashOffices = new ArrayList<CashOffice>();
+    seances = new ArrayList<Seance>();
   }
 
   public Cinema(String name) {
@@ -103,6 +106,14 @@ public class Cinema {
     return cashOffices.contains(searchedCashOffice);
   }
 
+  public boolean exists(Seance seance) {
+    return cashOffices.contains(seance);
+  }
+
+  public Iterator<Seance> getSeances() {
+    return seances.iterator();
+  }
+
   public void removeCashOffice(CashOffice cashOffice) {
     cashOffices.remove(cashOffice);
   }
@@ -115,5 +126,9 @@ public class Cinema {
   public boolean exists(Room room) {
     // TODO Auto-generated method stub
     return rooms.contains(room);
+  }
+
+  public void addSeance(Seance seance) {
+    seances.add(seance);
   }
 }

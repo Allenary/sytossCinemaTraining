@@ -21,14 +21,14 @@ public class TicketTest {
   @Test
   public void shouldSpecifyStatus() {
     Ticket ticket = new Ticket();
-    ticket.setStatus(TicketStatus.ENABLE);
+    ticket.changeStatus(TicketStatus.ENABLE);
     assertEquals(TicketStatus.ENABLE, ticket.getStatus());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNullStatus() {
     Ticket ticket = new Ticket();
-    ticket.setStatus(null);
+    ticket.changeStatus(null);
   }
 
   @Test
@@ -68,19 +68,8 @@ public class TicketTest {
     ticket.setPlace(null);
   }
 
-  // Ticket[1] - [1]Seance reference test cover
-  @Test
-  public void testSetSeanceShouldBeCorrect() {
-    Ticket ticket = new Ticket();
-    Seance seance = new Seance();
-    seance.setStatus(SeanceStatus.CLOSED);
-    ticket.setSeance(seance);
-    assertEquals(seance, ticket.getSeance());
-    assertEquals(SeanceStatus.CLOSED, ticket.getSeance().getStatus());
-  }
-
   @Test(expected = NullObjectInsertionException.class)
-  public void testSetSeanceShouldNotBeNull() {
+  public void shouldRaiseErrorForAddingNullSeance() {
     Ticket ticket = new Ticket();
     ticket.setSeance(null);
   }

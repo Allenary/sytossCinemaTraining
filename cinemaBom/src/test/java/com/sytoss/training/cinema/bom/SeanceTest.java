@@ -17,6 +17,19 @@ import bom.exception.*;
 public class SeanceTest {
 
   @Test
+  public void shouldAddValidMovie() {
+    Seance seance = new Seance();
+    Movie movie = new Movie("mr Nobody");
+    seance.setMovie(movie);
+    assertEquals(movie, seance.getMovie());
+  }
+
+  @Test(expected = NullObjectInsertionException.class)
+  public void shouldRaiseErrorForAddNullMovie() {
+    new Seance().setMovie(null);
+  }
+
+  @Test
   public void shouldAddValidTicket() {
     Seance seance = new Seance();
     Ticket ticket = new Ticket();
@@ -68,7 +81,7 @@ public class SeanceTest {
 
   // Seance[1] - [1]Room reference test cover
   @Test
-  public void shouldSpecifyRoomInstance() {
+  public void shouldAddValidRoom() {
     Seance seance = new Seance();
     Room room = new Room();
     room.setName("White");
@@ -77,7 +90,7 @@ public class SeanceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullRoomInstance() {
+  public void shouldRaiseAnErrorForNullRoom() {
     Seance seance = new Seance();
     seance.setRoom(null);
   }

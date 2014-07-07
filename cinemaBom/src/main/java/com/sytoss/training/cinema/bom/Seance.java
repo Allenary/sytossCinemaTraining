@@ -2,6 +2,7 @@ package com.sytoss.training.cinema.bom;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import bom.exception.NullObjectInsertionException;
@@ -16,9 +17,17 @@ public class Seance {
 
   private List<Ticket> tickets;
 
+  private Cinema cinema;
+
+  private Movie movie;
+
   public Seance() {
     tickets = new ArrayList<Ticket>();
     status = SeanceStatus.OPENED;
+  }
+
+  public Iterator<Ticket> getTickets() {
+    return tickets.iterator();
   }
 
   public void setStartDateTime(Calendar calendar) {
@@ -71,6 +80,21 @@ public class Seance {
     if (ticket.getSeance() != this) {
       ticket.setSeance(this);
     }
+  }
+
+  public Cinema getCinema() {
+    return cinema;
+  }
+
+  public Movie getMovie() {
+    return movie;
+  }
+
+  public void setMovie(Movie movie) {
+    if (movie == null) {
+      throw new NullObjectInsertionException();
+    }
+    this.movie = movie;
   }
 
 }

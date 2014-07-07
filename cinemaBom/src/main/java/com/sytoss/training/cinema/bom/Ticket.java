@@ -43,7 +43,7 @@ public class Ticket {
     return status;
   }
 
-  public void setStatus(TicketStatus status) {
+  public void changeStatus(TicketStatus status) {
     if (status == null) {
       throw new IllegalArgumentException("Status shouldn't be NULL.");
     }
