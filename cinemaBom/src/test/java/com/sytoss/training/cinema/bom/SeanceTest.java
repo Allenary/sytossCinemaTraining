@@ -105,4 +105,19 @@ public class SeanceTest {
     Seance seance = new Seance();
     seance.setRoom(null);
   }
+
+  @Test
+  public void shouldNotAddDuplicateTicket() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void shouldNotAddDuplicateMovie() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void shouldNotAddDuplicateRoom() {
+    fail("Not yet implemented");
+  }
 }

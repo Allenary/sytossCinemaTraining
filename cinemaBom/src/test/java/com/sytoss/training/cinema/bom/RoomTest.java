@@ -57,4 +57,9 @@ public class RoomTest {
   public void shouldRaiseErrorForAddingNullCinema() {
     new Room().setCinema(null);
   }
+
+  @Test
+  public void shouldNotAddDuplicateRow() {
+    fail("Not yet implemented");
+  }
 }

@@ -2,6 +2,7 @@ package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -63,4 +64,8 @@ public class RowTest {
     row.setNumber(0);
   }
 
+  @Test
+  public void shouldNotAddDuplicatePlace() {
+    fail("Not yet implemented");
+  }
 }

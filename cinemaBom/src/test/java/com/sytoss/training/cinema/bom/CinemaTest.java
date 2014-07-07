@@ -3,6 +3,7 @@ package com.sytoss.training.cinema.bom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
@@ -130,4 +131,13 @@ public class CinemaTest {
     cinema.addMovie(null);
   }
 
+  @Test
+  public void shouldNotAddDuplicateRoom() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void shouldNotAddDuplicateSeance() {
+    fail("Not yet implemented");
+  }
 }

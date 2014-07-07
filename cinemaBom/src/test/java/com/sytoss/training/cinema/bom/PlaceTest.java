@@ -2,6 +2,7 @@ package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -41,6 +42,11 @@ public class PlaceTest {
     Place place = new Place();
     place.setNumber(12);
     assertEquals(12, place.getNumber());
+  }
+
+  @Test
+  public void shouldNotAddDuplicateTicket() {
+    fail("Not yet implemented");
   }
 
 }
