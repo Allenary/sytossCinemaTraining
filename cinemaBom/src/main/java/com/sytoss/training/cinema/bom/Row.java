@@ -59,6 +59,9 @@ public class Row {
   }
 
   public void setRoom(Room room) {
+    if (room == null) {
+      throw new IllegalArgumentException();
+    }
     if ( !room.exists(this)) {
 
       room.addRow(this);

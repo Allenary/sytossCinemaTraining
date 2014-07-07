@@ -18,6 +18,11 @@ public class RowTest {
     assertTrue(room.exists(row));
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseErrorForSetNullRoom() {
+    new Row().setRoom(null);
+  }
+
   @Test
   public void shouldAddValidPlace() {
     Row row = new Row();

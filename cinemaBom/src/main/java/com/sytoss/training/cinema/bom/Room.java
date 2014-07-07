@@ -3,6 +3,8 @@ package com.sytoss.training.cinema.bom;
 import java.util.ArrayList;
 import java.util.List;
 
+import bom.exception.NullObjectInsertionException;
+
 public class Room {
 
   List<Row> rows;
@@ -25,6 +27,9 @@ public class Room {
   }
 
   public void addRow(Row row) {
+    if (row == null) {
+      throw new NullObjectInsertionException();
+    }
     rows.add(row);
     row.setRoom(this);
 

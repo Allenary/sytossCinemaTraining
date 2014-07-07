@@ -10,8 +10,6 @@ public class Ticket {
 
   private Seance seance;
 
-  private Row row;
-
   public Ticket() {
     status = TicketStatus.ENABLE;
   }
@@ -25,17 +23,6 @@ public class Ticket {
       throw new IllegalArgumentException("Seance shouldn't be NULL.");
     }
     this.seance = seance;
-  }
-
-  public Row getRow() {
-    return row;
-  }
-
-  public void setRow(Row row) {
-    if (row == null) {
-      throw new IllegalArgumentException("Row shouldn't be NULL.");
-    }
-    this.row = row;
   }
 
   public double getPrice() {

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import bom.exception.NullObjectInsertionException;
+
 import com.sytoss.training.cinema.bom.Room;
 
 public class RoomTest {
@@ -15,6 +17,11 @@ public class RoomTest {
     room.addRow(row);
     assertEquals(room, row.getRoom());
     assertTrue(room.exists(row));
+  }
+
+  @Test(expected = NullObjectInsertionException.class)
+  public void shouldRaiseErrorForAddingNullRow() {
+    new Room().addRow(null);
   }
 
   @Test(expected = IllegalArgumentException.class)
