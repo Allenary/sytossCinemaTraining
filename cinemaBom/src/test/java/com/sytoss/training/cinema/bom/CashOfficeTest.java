@@ -37,7 +37,7 @@ public class CashOfficeTest {
     cinema.setName("Kronverk");
     cinema.setAddress("kharkov");
     cashoffice.setCinema(cinema);
-    assertEquals(cinema, cashoffice.getCinema());
+    assertEquals(cinema, cashoffice.showCinema());
     assertTrue(cinema.exists(cashoffice));
   }
 
@@ -48,7 +48,7 @@ public class CashOfficeTest {
     Cinema secondCinema = new Cinema("Second");
     cashoffice.setCinema(firstCinema);
     cashoffice.setCinema(secondCinema);
-    assertEquals(secondCinema, cashoffice.getCinema());
+    assertEquals(secondCinema, cashoffice.showCinema());
     assertTrue(secondCinema.exists(cashoffice));
     assertFalse(firstCinema.exists(cashoffice));
   }
@@ -57,15 +57,5 @@ public class CashOfficeTest {
   public void shouldRaiseAnErrorForNullCinemaInstance() {
     CashOffice cashoffice = new CashOffice();
     cashoffice.setCinema(null);
-  }
-
-  @Test
-  public void shouldRemoveCinema() {
-    CashOffice cashOffice = new CashOffice();
-    Cinema cinema = new Cinema();
-    cashOffice.setCinema(cinema);
-    cashOffice.removeCinema();
-    assertEquals(null, cashOffice.getCinema());
-    assertFalse(cinema.exists(cashOffice));
   }
 }

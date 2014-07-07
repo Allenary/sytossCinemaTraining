@@ -4,12 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
+
 import org.junit.Test;
 
 import bom.exception.NullObjectInsertionException;
 
 public class CinemaTest {
 
+  // Cinema[1]-[N]CashOffice
   @Test
   public void shouldAddValidCashoffice() {
 
@@ -17,21 +20,7 @@ public class CinemaTest {
     CashOffice cashoffice = new CashOffice(56);
     cinema.addCashOffice(cashoffice);
     assertTrue(cinema.exists(cashoffice));
-    assertEquals(cinema, cashoffice.getCinema());
-  }
-
-  @Test
-  public void shouldAddMoreThan1DifferentCashOffice() {
-    Cinema cinema = new Cinema("Kronverk");
-    CashOffice cashoffice1 = new CashOffice(1);
-    CashOffice cashoffice2 = new CashOffice(2);
-    cinema.addCashOffice(cashoffice1);
-    cinema.addCashOffice(cashoffice2);
-    assertTrue(cinema.exists(cashoffice1));
-    assertTrue(cinema.exists(cashoffice2));
-    assertEquals(cinema, cashoffice1.getCinema());
-    assertEquals(cinema, cashoffice2.getCinema());
-    assertEquals(2, cinema.countCashOffices());
+    assertEquals(cinema, cashoffice.showCinema());
   }
 
   @Test(expected = NullObjectInsertionException.class)
@@ -46,15 +35,9 @@ public class CinemaTest {
     CashOffice cashOffice = new CashOffice(3);
     cinema.addCashOffice(cashOffice);
     cinema.addCashOffice(cashOffice);
-    assertEquals(1, cinema.countCashOffices());
-  }
-
-  @Test
-  public void shouldNotAddDuplicateNumberCashOffice() {
-    Cinema cinema = new Cinema();
-    cinema.addCashOffice(new CashOffice(1));
-    cinema.addCashOffice(new CashOffice(1));
-    assertEquals(1, cinema.countCashOffices());
+    Iterator<CashOffice> allCashOffices = cinema.showAllCashOffices();
+    allCashOffices.next();
+    assertEquals(false, allCashOffices.hasNext());
   }
 
   @Test
@@ -66,18 +49,26 @@ public class CinemaTest {
     newCinema.addCashOffice(cashOffice);
     assertTrue(newCinema.exists(cashOffice));
     assertFalse(oldCinema.exists(cashOffice));
-    assertEquals(newCinema, cashOffice.getCinema());
+    assertEquals(newCinema, cashOffice.showCinema());
   }
 
   @Test
-  public void shouldRemoveCashoffice() {
+  public void shouldAddValidRoom() {
     Cinema cinema = new Cinema();
-    CashOffice cashOffice = new CashOffice(23);
-    cinema.addCashOffice(cashOffice);
-    cinema.removeCashOffice(cashOffice);
-    assertFalse(cinema.exists(cashOffice));
-    assertEquals(null, cashOffice.getCinema());
+    Room room = new Room();
+    cinema.addRoom(room);
+    assertTrue(cinema.exists(room));
   }
+
+  //  @Test
+  //  public void shouldRemoveCashoffice() {
+  //    Cinema cinema = new Cinema();
+  //    CashOffice cashOffice = new CashOffice(23);
+  //    cinema.addCashOffice(cashOffice);
+  //    cinema.removeCashOffice(cashOffice);
+  //    assertFalse(cinema.exists(cashOffice));
+  //    assertEquals(null, cashOffice.showCinema());
+  //  }
 
   // Name field test cover
   @Test(expected = IllegalArgumentException.class)
@@ -97,10 +88,11 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     cinema.setName("Kronverk");
     cinema.setAddress("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation");
-    assertEquals("Kronverk", cinema.getName());
-    assertEquals("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation", cinema.getAddress());
+    assertEquals("Kronverk", cinema.showName());
+    assertEquals("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation", cinema.showAddress());
   }
 
+  //  address field cover
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForEmptyAddress() {
     Cinema cinema = new Cinema();
@@ -116,7 +108,7 @@ public class CinemaTest {
   // Cinema[1] - [N]Movies reference test cover
   // TODO: create method exists for movie to encapsulate changes
   @Test
-  public void shouldSpecifyMovieInstance() {
+  public void shouldSetValidMovie() {
     Movie movie = new Movie();
     Cinema cinema = new Cinema();
     movie.setName("Brave heart");
@@ -125,7 +117,7 @@ public class CinemaTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullMovieInstance() {
+  public void shouldRaiseAnErrorForNullMovie() {
     Cinema cinema = new Cinema();
     cinema.addMovie(null);
   }

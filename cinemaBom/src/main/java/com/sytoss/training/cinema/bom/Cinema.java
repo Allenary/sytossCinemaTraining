@@ -17,10 +17,13 @@ public class Cinema {
 
   private List<Movie> movies;
 
+  private List<Room> rooms;
+
   private List<CashOffice> cashOffices;
 
   public Cinema() {
     movies = new ArrayList<Movie>();
+    rooms = new ArrayList<Room>();
     cashOffices = new ArrayList<CashOffice>();
   }
 
@@ -29,13 +32,8 @@ public class Cinema {
     this.name = name;
   }
 
-  //not used!!
   public Iterator<CashOffice> showAllCashOffices() {
     return cashOffices.iterator();
-  }
-
-  public int countCashOffices() {
-    return cashOffices.size();
   }
 
   public void addMovie(Movie movie) {
@@ -45,12 +43,20 @@ public class Cinema {
     movies.add(movie);
   }
 
+  public Iterator<Room> showAllRooms() {
+    return rooms.iterator();
+  }
+
+  public Iterator<Movie> showPoster() {
+    return movies.iterator();
+  }
+
   public boolean removeMovie(Movie movie) {
     return movies.remove(movie);
 
   }
 
-  public String getAddress() {
+  public String showAddress() {
     return address;
   }
 
@@ -70,7 +76,7 @@ public class Cinema {
     }
   }
 
-  public String getName() {
+  public String showName() {
     return name;
   }
 
@@ -99,8 +105,15 @@ public class Cinema {
 
   public void removeCashOffice(CashOffice cashOffice) {
     cashOffices.remove(cashOffice);
-    if (cashOffice.getCinema() != null) {
-      cashOffice.removeCinema();
-    }
+  }
+
+  public void addRoom(Room room) {
+    rooms.add(room);
+
+  }
+
+  public boolean exists(Room room) {
+    // TODO Auto-generated method stub
+    return rooms.contains(room);
   }
 }

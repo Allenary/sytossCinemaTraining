@@ -13,7 +13,7 @@ public class CashOffice {
   public CashOffice() {
   }
 
-  public Cinema getCinema() {
+  public Cinema showCinema() {
     return cinema;
   }
 
@@ -41,12 +41,12 @@ public class CashOffice {
     this.number = number;
   }
 
-  public void removeCinema() {
-    if (cinema != null) {
-      if (cinema.exists(this)) {
-        cinema.removeCashOffice(this);
-      }
-      cinema = null;
-    }
-  }
+  /* public void removeCinema() {
+     if (cinema != null) {
+       if (cinema.exists(this)) {
+         cinema.removeCashOffice(this);
+       }
+       cinema = null;
+     }
+   }*/
 }
