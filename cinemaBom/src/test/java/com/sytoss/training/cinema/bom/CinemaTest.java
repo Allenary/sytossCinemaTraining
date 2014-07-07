@@ -17,7 +17,6 @@ public class CinemaTest {
     Seance seance = new Seance();
     cinema.addSeance(seance);
     assertTrue(cinema.exists(seance));
-    assertEquals(cinema, seance.getCinema());
   }
 
   @Test(expected = NullObjectInsertionException.class)
@@ -71,6 +70,7 @@ public class CinemaTest {
     Room room = new Room();
     cinema.addRoom(room);
     assertTrue(cinema.exists(room));
+    assertEquals(cinema, room.getCinema());
   }
 
   @Test(expected = NullObjectInsertionException.class)

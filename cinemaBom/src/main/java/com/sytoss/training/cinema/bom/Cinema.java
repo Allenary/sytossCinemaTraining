@@ -123,6 +123,9 @@ public class Cinema {
       throw new NullObjectInsertionException();
     }
     rooms.add(room);
+    if (room.getCinema() == null) {
+      room.setCinema(this);
+    }
 
   }
 

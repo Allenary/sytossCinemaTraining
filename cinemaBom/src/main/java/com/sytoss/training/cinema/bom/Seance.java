@@ -17,8 +17,6 @@ public class Seance {
 
   private List<Ticket> tickets;
 
-  private Cinema cinema;
-
   private Movie movie;
 
   public Seance() {
@@ -82,10 +80,6 @@ public class Seance {
     if (ticket.getSeance() == this) {
       tickets.add(ticket);
     }
-  }
-
-  public Cinema getCinema() {
-    return cinema;
   }
 
   public Movie getMovie() {

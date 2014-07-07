@@ -8,7 +8,9 @@ import bom.exception.NullObjectInsertionException;
 
 public class Room {
 
-  List<Row> rows;
+  private List<Row> rows;
+
+  private Cinema cinema;
 
   public Room() {
     rows = new ArrayList<Row>();
@@ -42,5 +44,17 @@ public class Room {
 
   public Iterator<Row> getAllRows() {
     return rows.iterator();
+  }
+
+  public Cinema getCinema() {
+    return cinema;
+  }
+
+  public void setCinema(Cinema cinema) {
+    if (cinema == null) {
+      throw new NullObjectInsertionException();
+    }
+    this.cinema = cinema;
+    cinema.addRoom(this);
   }
 }
