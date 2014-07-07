@@ -1,6 +1,10 @@
 package com.sytoss.training.cinema.bom;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import bom.exception.NullObjectInsertionException;
 
 public class Seance {
 
@@ -10,7 +14,10 @@ public class Seance {
 
   private Room room;
 
+  private List<Ticket> tickets;
+
   public Seance() {
+    tickets = new ArrayList<Ticket>();
     status = SeanceStatus.OPENED;
   }
 
@@ -50,6 +57,20 @@ public class Seance {
 
   public Room getRoom() {
     return room;
+  }
+
+  public boolean contains(Ticket ticket) {
+    return tickets.contains(ticket);
+  }
+
+  public void addTicket(Ticket ticket) {
+    if (ticket == null) {
+      throw new NullObjectInsertionException("null ticket shouldn't be added");
+    }
+    tickets.add(ticket);
+    if (ticket.getSeance() != this) {
+      ticket.setSeance(this);
+    }
   }
 
 }

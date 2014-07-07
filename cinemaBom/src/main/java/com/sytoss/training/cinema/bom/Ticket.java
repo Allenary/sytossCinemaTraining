@@ -1,5 +1,7 @@
 package com.sytoss.training.cinema.bom;
 
+import bom.exception.NullObjectInsertionException;
+
 public class Ticket {
 
   private double price;
@@ -20,9 +22,10 @@ public class Ticket {
 
   public void setSeance(Seance seance) {
     if (seance == null) {
-      throw new IllegalArgumentException("Seance shouldn't be NULL.");
+      throw new NullObjectInsertionException("Seance shouldn't be NULL.");
     }
     this.seance = seance;
+    seance.addTicket(this);
   }
 
   public double getPrice() {
