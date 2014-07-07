@@ -1,6 +1,7 @@
 package com.sytoss.training.cinema.bom;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import bom.exception.NullObjectInsertionException;
@@ -37,5 +38,9 @@ public class Room {
 
   public boolean exists(Row row) {
     return rows.contains(row);
+  }
+
+  public Iterator<Row> getAllRows() {
+    return rows.iterator();
   }
 }

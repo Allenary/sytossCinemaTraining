@@ -24,8 +24,10 @@ public class Ticket {
     if (seance == null) {
       throw new NullObjectInsertionException("Seance shouldn't be NULL.");
     }
-    this.seance = seance;
-    seance.addTicket(this);
+    if (this.seance == null) {
+      this.seance = seance;
+      seance.addTicket(this);
+    }
   }
 
   public double getPrice() {

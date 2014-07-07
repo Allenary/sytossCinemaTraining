@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import bom.exception.NullObjectInsertionException;
+
 public class CashOfficeTest {
 
   // Number field test cover
@@ -57,5 +59,18 @@ public class CashOfficeTest {
   public void shouldRaiseAnErrorForNullCinemaInstance() {
     CashOffice cashoffice = new CashOffice();
     cashoffice.setCinema(null);
+  }
+
+  @Test
+  public void shouldAddValidTicket() {
+    CashOffice cashOffice = new CashOffice();
+    Ticket ticket = new Ticket();
+    cashOffice.addTicket(ticket);
+    assertTrue(cashOffice.exists(ticket));
+  }
+
+  @Test(expected = NullObjectInsertionException.class)
+  public void shouldRaiseErrorForAddNullTicket() {
+    new CashOffice().addTicket(null);
   }
 }

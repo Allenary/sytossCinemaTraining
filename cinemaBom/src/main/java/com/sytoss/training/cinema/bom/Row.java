@@ -1,6 +1,7 @@
 package com.sytoss.training.cinema.bom;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import bom.exception.NullObjectInsertionException;
@@ -68,6 +69,10 @@ public class Row {
 
     }
     this.room = room;
+  }
+
+  public Iterator<Place> getAllPlaces() {
+    return places.iterator();
   }
 
 }

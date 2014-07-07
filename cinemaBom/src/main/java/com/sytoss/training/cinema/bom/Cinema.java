@@ -119,6 +119,9 @@ public class Cinema {
   }
 
   public void addRoom(Room room) {
+    if (room == null) {
+      throw new NullObjectInsertionException();
+    }
     rooms.add(room);
 
   }
@@ -129,6 +132,9 @@ public class Cinema {
   }
 
   public void addSeance(Seance seance) {
+    if (seance == null) {
+      throw new NullObjectInsertionException();
+    }
     seances.add(seance);
   }
 }

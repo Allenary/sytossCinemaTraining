@@ -20,6 +20,11 @@ public class CinemaTest {
     assertEquals(cinema, seance.getCinema());
   }
 
+  @Test(expected = NullObjectInsertionException.class)
+  public void shouldRaiseErrorForNullSeance() {
+    new Cinema().addSeance(null);
+  }
+
   // Cinema[1]-[N]CashOffice
   @Test
   public void shouldAddValidCashoffice() {
@@ -68,15 +73,10 @@ public class CinemaTest {
     assertTrue(cinema.exists(room));
   }
 
-  //  @Test
-  //  public void shouldRemoveCashoffice() {
-  //    Cinema cinema = new Cinema();
-  //    CashOffice cashOffice = new CashOffice(23);
-  //    cinema.addCashOffice(cashOffice);
-  //    cinema.removeCashOffice(cashOffice);
-  //    assertFalse(cinema.exists(cashOffice));
-  //    assertEquals(null, cashOffice.showCinema());
-  //  }
+  @Test(expected = NullObjectInsertionException.class)
+  public void shouldRaiseErrorForAddNullRoom() {
+    new Cinema().addRoom(null);
+  }
 
   // Name field test cover
   @Test(expected = IllegalArgumentException.class)

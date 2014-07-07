@@ -1,6 +1,7 @@
 package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -16,6 +17,18 @@ public class TicketTest {
     ticket.setSeance(seance);
     assertEquals(seance, ticket.getSeance());
     assertTrue(seance.contains(ticket));
+  }
+
+  @Test
+  public void shouldNotReassignTicketToAnotherSeance() {
+    Ticket ticket = new Ticket();
+    Seance oldSeance = new Seance();
+    Seance newSeance = new Seance();
+    ticket.setSeance(oldSeance);
+    ticket.setSeance(newSeance);
+    assertEquals(oldSeance, ticket.getSeance());
+    assertTrue(oldSeance.contains(ticket));
+    assertFalse(newSeance.contains(ticket));
   }
 
   @Test

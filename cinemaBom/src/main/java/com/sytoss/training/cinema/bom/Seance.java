@@ -76,9 +76,11 @@ public class Seance {
     if (ticket == null) {
       throw new NullObjectInsertionException("null ticket shouldn't be added");
     }
-    tickets.add(ticket);
-    if (ticket.getSeance() != this) {
+    if (ticket.getSeance() == null) {
       ticket.setSeance(this);
+    }
+    if (ticket.getSeance() == this) {
+      tickets.add(ticket);
     }
   }
 

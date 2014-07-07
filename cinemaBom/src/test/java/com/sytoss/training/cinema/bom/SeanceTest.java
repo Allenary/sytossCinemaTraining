@@ -1,7 +1,6 @@
 package com.sytoss.training.cinema.bom;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -41,6 +40,18 @@ public class SeanceTest {
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseErrorForAddingNullTicket() {
     new Seance().addTicket(null);
+  }
+
+  @Test
+  public void shouldNotAddTicketAssignedToAnotherSeance() {
+    Seance oldSeance = new Seance();
+    Ticket ticket = new Ticket();
+    ticket.setSeance(oldSeance);
+    Seance newSeance = new Seance();
+    newSeance.addTicket(ticket);
+    assertEquals(oldSeance, ticket.getSeance());
+    assertTrue(oldSeance.contains(ticket));
+    assertFalse(newSeance.contains(ticket));
   }
 
   @Test
