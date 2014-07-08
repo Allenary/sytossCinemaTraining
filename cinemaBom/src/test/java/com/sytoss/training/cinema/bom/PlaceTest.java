@@ -26,13 +26,13 @@ public class PlaceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNegativeNumber() {
+  public void shouldRaiseExceptionForNegativeNumber() {
     Place place = new Place(1);
     place.setNumber( -8);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForZeroNumber() {
+  public void shouldRaiseExceptionForZeroNumber() {
     Place place = new Place(1);
     place.setNumber(0);
   }
@@ -45,7 +45,7 @@ public class PlaceTest {
   }
 
   @Test(expected = ReassignObjectException.class)
-  public void shouldRaiseErrorWhenReassignPlaceToAnotherRow() {
+  public void shouldRaiseExceptionWhenReassignPlaceToAnotherRow() {
     Row oldRow = new Row(1);
     Row newRow = new Row(2);
     Place place = new Place(2);

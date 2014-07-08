@@ -143,4 +143,8 @@ public class Cinema {
   public boolean existMovie(Movie movie) {
     return movies.contains(movie);
   }
+
+  public Iterator<Seance> showSeances() {
+    return seances.iterator();
+  }
 }

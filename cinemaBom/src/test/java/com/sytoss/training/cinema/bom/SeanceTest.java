@@ -24,7 +24,7 @@ public class SeanceTest {
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddNullMovie() {
+  public void shouldRaiseExceptionForAddNullMovie() {
     new Seance().setMovie(null);
   }
 
@@ -38,12 +38,12 @@ public class SeanceTest {
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddingNullTicket() {
+  public void shouldRaiseExceptionForAddingNullTicket() {
     new Seance().addTicket(null);
   }
 
   @Test(expected = ReassignObjectException.class)
-  public void shouldRaiseErrorForAddTicketAssignedToAnotherSeance() {
+  public void shouldRaiseExceptionForAddTicketAssignedToAnotherSeance() {
     Seance oldSeance = new Seance();
     Ticket ticket = new Ticket(new Place(1));
     ticket.setSeance(oldSeance);
@@ -72,13 +72,13 @@ public class SeanceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullStartDateTime() {
+  public void shouldRaiseExceptionForNullStartDateTime() {
     Seance seance = new Seance();
     seance.setStartDateTime(null);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullStatus() {
+  public void shouldRaiseExceptionForNullStatus() {
     Seance seance = new Seance();
     seance.setStatus(null);
   }
@@ -100,7 +100,7 @@ public class SeanceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullRoom() {
+  public void shouldRaiseExceptionForNullRoom() {
     Seance seance = new Seance();
     seance.setRoom(null);
   }

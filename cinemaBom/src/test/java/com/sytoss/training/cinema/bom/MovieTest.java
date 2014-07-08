@@ -9,13 +9,13 @@ import com.sytoss.training.cinema.bom.Movie;
 public class MovieTest {
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForZeroDuration() {
+  public void shouldRaiseExceptionForZeroDuration() {
     Movie movie = new Movie("Hoght");
     movie.setDuration(0);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNegativeDuration() {
+  public void shouldRaiseExceptionForNegativeDuration() {
     Movie movie = new Movie("Hoght");
     movie.setDuration( -8);
   }
@@ -27,15 +27,14 @@ public class MovieTest {
     assertEquals(120, movie.getDuration());
   }
 
-  // Name field test cover
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForEmptyName() {
+  public void shouldRaiseExceptionForEmptyName() {
     Movie movie = new Movie("Hoght");
     movie.setName("");
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullName() {
+  public void shouldRaiseExceptionForNullName() {
     Movie movie = new Movie("Hoght");
     movie.setName(null);
   }
@@ -47,9 +46,8 @@ public class MovieTest {
     assertEquals("Titanic", movie.getName());
   }
 
-  // Description field test cover
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullDescription() {
+  public void shouldRaiseExceptionForNullDescription() {
     Movie movie = new Movie("Hoght");
     movie.setDescription(null);
   }

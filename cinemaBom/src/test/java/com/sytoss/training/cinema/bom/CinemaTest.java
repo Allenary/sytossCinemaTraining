@@ -17,11 +17,27 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     Seance seance = new Seance();
     cinema.addSeance(seance);
+    Iterator<Seance> seances = cinema.showSeances();
+    assertTrue(seances.hasNext());
+    seances.next();
+    assertFalse(seances.hasNext());
+  }
+
+  @Test
+  public void shouldReturnTrueWhileSeanceExists() {
+    Cinema cinema = new Cinema();
+    Seance seance = new Seance();
+    cinema.addSeance(seance);
     assertTrue(cinema.existSeance(seance));
   }
 
+  @Test
+  public void shouldReturnFalseWhileSeanceNotExist() {
+    assertFalse(new Cinema().existSeance(new Seance()));
+  }
+
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForNullSeance() {
+  public void shouldRaiseExceptionForNullSeance() {
     new Cinema().addSeance(null);
   }
 
@@ -90,7 +106,7 @@ public class CinemaTest {
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddNullRoom() {
+  public void shouldRaiseExceptionForAddNullRoom() {
     new Cinema().addRoom(null);
   }
 
@@ -104,13 +120,13 @@ public class CinemaTest {
 
   // Name field test cover
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForEmptyName() {
+  public void shouldRaiseExceptionForEmptyName() {
     Cinema cinema = new Cinema();
     cinema.setName("");
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullName() {
+  public void shouldRaiseExceptionForNullName() {
     Cinema cinema = new Cinema();
     cinema.setName(null);
   }
@@ -131,25 +147,34 @@ public class CinemaTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullAddress() {
+  public void shouldRaiseExceptionForNullAddress() {
     Cinema cinema = new Cinema();
     cinema.setAddress(null);
   }
 
-  // Cinema[1] - [N]Movies reference test cover
-  // TODO: create method exists for movie to encapsulate changes
   @Test
   public void shouldAddValidMovie() {
     Movie movie = new Movie("Hoght");
     Cinema cinema = new Cinema();
     movie.setName("Brave heart");
     cinema.addMovie(movie);
+    Iterator<Movie> cinemas = cinema.showPoster();
+    assertTrue(cinemas.hasNext());
+    cinemas.next();
+    assertFalse(cinemas.hasNext());
+  }
+
+  @Test
+  public void shouldReturnTrueIfTicketExists() {
+    Movie movie = new Movie("Hoght");
+    Cinema cinema = new Cinema();
+    cinema.addMovie(movie);
     assertTrue(cinema.existMovie(movie));
 
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseAnErrorForNullMovie() {
+  public void shouldRaiseExceptionForNullMovie() {
     Cinema cinema = new Cinema();
     cinema.addMovie(null);
   }

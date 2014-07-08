@@ -1,14 +1,12 @@
 package com.sytoss.training.cinema.bom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 import bom.exception.ReassignObjectException;
-
-import com.sytoss.training.cinema.bom.Room;
 
 public class RoomTest {
 
@@ -22,7 +20,7 @@ public class RoomTest {
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddingNullRow() {
+  public void shouldRaiseExceptionForAddingNullRow() {
     new Room("blue").addRow(null);
   }
 
@@ -42,7 +40,7 @@ public class RoomTest {
   }
 
   @Test(expected = ReassignObjectException.class)
-  public void shouldRaiseErrorForAddRowAssignedToAnotherRoom() {
+  public void shouldRaiseExceptionForAddRowAssignedToAnotherRoom() {
     Room oldRoom = new Room("blue");
     Room newRoom = new Room("white");
     Row row = new Row(1);
@@ -51,12 +49,12 @@ public class RoomTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForEmptyName() {
+  public void shouldRaiseExceptionForEmptyName() {
     new Room("blue").setName("");
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullName() {
+  public void shouldRaiseExceptionForNullName() {
     new Room("blue").setName(null);
   }
 

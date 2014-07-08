@@ -21,12 +21,12 @@ public class RowTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseErrorForSetNullRoom() {
+  public void shouldRaiseExceptionForSetNullRoom() {
     new Row(1).setRoom(null);
   }
 
   @Test(expected = ReassignObjectException.class)
-  public void shouldRaiseErrorForReassigningRowToAnotherRoom() {
+  public void shouldRaiseExceptionForReassigningRowToAnotherRoom() {
     Room oldRoom = new Room("blue");
     Room newRoom = new Room("white");
     Row row = new Row(1);
@@ -44,7 +44,7 @@ public class RowTest {
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddindNullPlace() {
+  public void shouldRaiseExceptionForAddindNullPlace() {
     new Row(1).addPlace(null);
   }
 
@@ -64,14 +64,14 @@ public class RowTest {
   }
 
   @Test(expected = DuplicateInsertionException.class)
-  public void shouldRaiseErrorForAddingPlaceWithNumberWhichAlreadyExist() {
+  public void shouldRaiseExceptionForAddingPlaceWithNumberWhichAlreadyExist() {
     Row row = new Row(1);
     row.addPlace(new Place(22));
     row.addPlace(new Place(22));
   }
 
   @Test(expected = ReassignObjectException.class)
-  public void shouldRaiseErrorWhenAddPlaceAssignedToAnotherRow() {
+  public void shouldRaiseExceptionWhenAddPlaceAssignedToAnotherRow() {
     Row oldRow = new Row(1);
     Row newRow = new Row(1);
     Place place = new Place(2);
@@ -88,13 +88,13 @@ public class RowTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNegativeNumber() {
+  public void shouldRaiseExceptionForNegativeNumber() {
     Row row = new Row(1);
     row.setNumber( -7);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForZeroNumber() {
+  public void shouldRaiseExceptionForZeroNumber() {
     Row row = new Row(1);
     row.setNumber(0);
   }

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
+
 import org.junit.Test;
 
 import bom.exception.DuplicateInsertionException;
@@ -20,18 +22,16 @@ public class CashOfficeTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForZeroNumber() {
+  public void shouldRaiseExceptionForZeroNumber() {
     CashOffice cashoffice = new CashOffice();
     cashoffice.setNumber(0);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNegativeNumber() {
+  public void shouldRaiseExceptionForNegativeNumber() {
     CashOffice cashoffice = new CashOffice();
     cashoffice.setNumber( -7);
   }
-
-  // CashOffice[1] - [1]Cinema reference test cover
 
   @Test
   public void shouldSetCinema() {
@@ -57,7 +57,7 @@ public class CashOfficeTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullCinemaInstance() {
+  public void shouldRaiseExceptionForNullCinemaInstance() {
     new CashOffice().setCinema(null);
   }
 
@@ -66,7 +66,10 @@ public class CashOfficeTest {
     CashOffice cashOffice = new CashOffice();
     Ticket ticket = new Ticket(new Place(1));
     cashOffice.addTicket(ticket);
-    assertTrue(cashOffice.exists(ticket));
+    Iterator<Ticket> tickets = cashOffice.showTikets();
+    assertTrue(tickets.hasNext());
+    tickets.next();
+    assertFalse(tickets.hasNext());
   }
 
   @Test(expected = NullObjectInsertionException.class)
@@ -80,5 +83,36 @@ public class CashOfficeTest {
     Ticket ticket = new Ticket(new Place(1));
     cashOffice.addTicket(ticket);
     cashOffice.addTicket(ticket);
+  }
+
+  @Test
+  public void shouldShowNoTicketsIfTicketsNotAdded() {
+    assertFalse(new CashOffice().showTikets().hasNext());
+  }
+
+  @Test
+  public void shouldAddTwoTickets() {
+    CashOffice cashOffice = new CashOffice();
+    cashOffice.addTicket(new Ticket(new Place(1)));
+    cashOffice.addTicket(new Ticket(new Place(2)));
+    Iterator<Ticket> tickets = cashOffice.showTikets();
+    assertTrue(tickets.hasNext());
+    tickets.next();
+    assertTrue(tickets.hasNext());
+    tickets.next();
+    assertFalse(tickets.hasNext());
+  }
+
+  @Test
+  public void shouldReturnFalseIfTicketNotExist() {
+    assertFalse(new CashOffice().exists(new Ticket(new Place(1))));
+  }
+
+  @Test
+  public void shouldReturnTrueIfTicketExist() {
+    CashOffice cashOffice = new CashOffice();
+    Ticket ticket = new Ticket(new Place(1));
+    cashOffice.addTicket(ticket);
+    assertTrue(cashOffice.exists(ticket));
   }
 }

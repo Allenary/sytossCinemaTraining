@@ -33,7 +33,7 @@ public class TicketTest {
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddingNullSeance() {
+  public void shouldRaiseExceptionForAddingNullSeance() {
     Ticket ticket = new Ticket(new Place(1));
     ticket.setSeance(null);
   }
@@ -46,7 +46,7 @@ public class TicketTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullStatus() {
+  public void shouldRaiseExceptionForNullStatus() {
     Ticket ticket = new Ticket(new Place(1));
     ticket.changeStatus(null);
   }
@@ -60,13 +60,13 @@ public class TicketTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNegativePrice() {
+  public void shouldRaiseExceptionForNegativePrice() {
     Ticket ticket = new Ticket(new Place(1));
     ticket.setPrice( -5.53);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForZeroPrice() {
+  public void shouldRaiseExceptionForZeroPrice() {
     Ticket ticket = new Ticket(new Place(1));
     ticket.setPrice(0);
   }
@@ -83,7 +83,7 @@ public class TicketTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseAnErrorForNullPlaceInstance() {
+  public void shouldRaiseExceptionForNullPlaceInstance() {
     Ticket ticket = new Ticket(new Place(1));
     ticket.setPlace(null);
   }
