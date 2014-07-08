@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import bom.exception.NullObjectInsertionException;
+import bom.exception.ReassignObjectException;
 
 public class Seance {
 
@@ -77,9 +78,11 @@ public class Seance {
     if (ticket.getSeance() == null) {
       ticket.setSeance(this);
     }
-    if (ticket.getSeance() == this) {
-      tickets.add(ticket);
+    if (ticket.getSeance() != this) {
+      throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
     }
+    tickets.add(ticket);
+
   }
 
   public Movie getMovie() {

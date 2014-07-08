@@ -42,8 +42,8 @@ public class SeanceTest {
     new Seance().addTicket(null);
   }
 
-  @Test
-  public void shouldNotAddTicketAssignedToAnotherSeance() {
+  @Test(expected = ReassignObjectException.class)
+  public void shouldRaiseErrorForAddTicketAssignedToAnotherSeance() {
     Seance oldSeance = new Seance();
     Ticket ticket = new Ticket();
     ticket.setSeance(oldSeance);

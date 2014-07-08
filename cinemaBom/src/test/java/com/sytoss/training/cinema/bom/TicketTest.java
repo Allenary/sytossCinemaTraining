@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import bom.exception.NullObjectInsertionException;
+import bom.exception.*;
 
 public class TicketTest {
 
@@ -19,7 +19,7 @@ public class TicketTest {
     assertTrue(seance.contains(ticket));
   }
 
-  @Test
+  @Test(expected = ReassignObjectException.class)
   public void shouldNotReassignTicketToAnotherSeance() {
     Ticket ticket = new Ticket();
     Seance oldSeance = new Seance();
