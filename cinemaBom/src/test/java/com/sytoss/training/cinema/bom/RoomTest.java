@@ -44,21 +44,6 @@ public class RoomTest {
   }
 
   @Test
-  public void shouldSetValidCinema() {
-    Room room = new Room();
-    Cinema cinema = new Cinema();
-    room.setCinema(cinema);
-    assertEquals(cinema, room.getCinema());
-    assertTrue(cinema.exists(room));
-
-  }
-
-  @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddingNullCinema() {
-    new Room().setCinema(null);
-  }
-
-  @Test
   public void shouldNotAddDuplicateRow() {
     fail("Not yet implemented");
   }

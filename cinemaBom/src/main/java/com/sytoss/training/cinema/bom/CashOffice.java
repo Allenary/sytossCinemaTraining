@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 
 public class CashOffice {
@@ -57,6 +58,9 @@ public class CashOffice {
   public void addTicket(Ticket ticket) {
     if (ticket == null) {
       throw new NullObjectInsertionException("null ticket should not be added");
+    }
+    if (exists(ticket)) {
+      throw new DuplicateInsertionException("This Ticket already added to CashOffice. Could not be added second time");
     }
     tickets.add(ticket);
 

@@ -3,16 +3,17 @@ package com.sytoss.training.cinema.bom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
 import org.junit.Test;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 
 public class CinemaTest {
 
+  @Test
   public void shouldAddValidSeance() {
     Cinema cinema = new Cinema();
     Seance seance = new Seance();
@@ -23,6 +24,14 @@ public class CinemaTest {
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseErrorForNullSeance() {
     new Cinema().addSeance(null);
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseExceptionForAddDuplicateSeance() {
+    Cinema cinema = new Cinema();
+    Seance seance = new Seance();
+    cinema.addSeance(seance);
+    cinema.addSeance(seance);
   }
 
   // Cinema[1]-[N]CashOffice
@@ -67,16 +76,29 @@ public class CinemaTest {
 
   @Test
   public void shouldAddValidRoom() {
+
     Cinema cinema = new Cinema();
-    Room room = new Room();
+    Room room = new Room("red");
     cinema.addRoom(room);
     assertTrue(cinema.exists(room));
-    assertEquals(cinema, room.getCinema());
+
   }
 
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseErrorForAddNullRoom() {
     new Cinema().addRoom(null);
+  }
+
+  @Test
+  public void shouldNotAddDuplicateRoom() {
+    Cinema cinema = new Cinema();
+    Room room = new Room();
+    cinema.addRoom(room);
+    cinema.addRoom(room);
+    assertTrue(cinema.exists(room));
+    Iterator<Room> allRooms = cinema.showAllRooms();
+    allRooms.next();
+    assertFalse(allRooms.hasNext());
   }
 
   // Name field test cover
@@ -131,13 +153,4 @@ public class CinemaTest {
     cinema.addMovie(null);
   }
 
-  @Test
-  public void shouldNotAddDuplicateRoom() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  public void shouldNotAddDuplicateSeance() {
-    fail("Not yet implemented");
-  }
 }

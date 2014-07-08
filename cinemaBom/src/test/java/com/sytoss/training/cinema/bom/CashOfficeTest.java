@@ -3,10 +3,10 @@ package com.sytoss.training.cinema.bom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 
 public class CashOfficeTest {
@@ -75,8 +75,11 @@ public class CashOfficeTest {
     new CashOffice().addTicket(null);
   }
 
-  @Test
-  public void shouldNotAddDuplicateTicket() {
-    fail("Not yet implemented");
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseExceptionForAddDuplicateTicket() {
+    CashOffice cashOffice = new CashOffice();
+    Ticket ticket = new Ticket();
+    cashOffice.addTicket(ticket);
+    cashOffice.addTicket(ticket);
   }
 }

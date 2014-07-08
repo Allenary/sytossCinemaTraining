@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 
 public class Cinema {
@@ -107,7 +108,7 @@ public class Cinema {
   }
 
   public boolean exists(Seance seance) {
-    return cashOffices.contains(seance);
+    return seances.contains(seance);
   }
 
   public Iterator<Seance> getSeances() {
@@ -122,21 +123,24 @@ public class Cinema {
     if (room == null) {
       throw new NullObjectInsertionException();
     }
-    rooms.add(room);
-    if (room.getCinema() == null) {
-      room.setCinema(this);
+
+    if ( !rooms.contains(room)) {
+      rooms.add(room);
     }
 
   }
 
   public boolean exists(Room room) {
-    // TODO Auto-generated method stub
     return rooms.contains(room);
   }
 
   public void addSeance(Seance seance) {
     if (seance == null) {
       throw new NullObjectInsertionException();
+    }
+    if (exists(seance)) {
+      System.out.print("seance exists!");
+      throw new DuplicateInsertionException("this seance already added to sinema. Cannot be added second time.");
     }
     seances.add(seance);
   }

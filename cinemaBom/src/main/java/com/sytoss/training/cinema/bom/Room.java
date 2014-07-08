@@ -10,13 +10,16 @@ public class Room {
 
   private List<Row> rows;
 
-  private Cinema cinema;
+  private String name;
 
   public Room() {
     rows = new ArrayList<Row>();
   }
 
-  private String name;
+  public Room(String name) {
+    this();
+    this.name = name;
+  }
 
   public void setName(String name) {
     if (name == null || name.isEmpty()) {
@@ -46,15 +49,4 @@ public class Room {
     return rows.iterator();
   }
 
-  public Cinema getCinema() {
-    return cinema;
-  }
-
-  public void setCinema(Cinema cinema) {
-    if (cinema == null) {
-      throw new NullObjectInsertionException();
-    }
-    this.cinema = cinema;
-    cinema.addRoom(this);
-  }
 }
