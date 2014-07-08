@@ -12,7 +12,7 @@ public class TicketTest {
 
   @Test
   public void shouldAddValidSeance() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     Seance seance = new Seance();
     ticket.setSeance(seance);
     assertEquals(seance, ticket.getSeance());
@@ -21,7 +21,7 @@ public class TicketTest {
 
   @Test(expected = ReassignObjectException.class)
   public void shouldNotReassignTicketToAnotherSeance() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     Seance oldSeance = new Seance();
     Seance newSeance = new Seance();
     ticket.setSeance(oldSeance);
@@ -29,6 +29,22 @@ public class TicketTest {
     assertEquals(oldSeance, ticket.getSeance());
     assertTrue(oldSeance.contains(ticket));
     assertFalse(newSeance.contains(ticket));
+  }
+
+  @Test(expected = NullObjectInsertionException.class)
+  public void shouldRaiseErrorForAddingNullSeance() {
+    Ticket ticket = new Ticket();
+    ticket.setSeance(null);
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseErrorForSetSeanceWhichAlreadyHasTicketOnSamePlace() {
+    Seance seance = new Seance();
+    Place place = new Place(8);
+    Ticket oldTicket = new Ticket(place);
+    oldTicket.setSeance(seance);
+    Ticket newTicket = new Ticket(place);
+    newTicket.setSeance(seance);
   }
 
   @Test
@@ -79,12 +95,6 @@ public class TicketTest {
   public void shouldRaiseAnErrorForNullPlaceInstance() {
     Ticket ticket = new Ticket();
     ticket.setPlace(null);
-  }
-
-  @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddingNullSeance() {
-    Ticket ticket = new Ticket();
-    ticket.setSeance(null);
   }
 
 }

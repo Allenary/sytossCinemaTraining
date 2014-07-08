@@ -1,5 +1,6 @@
 package com.sytoss.training.cinema.bom;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 import bom.exception.ReassignObjectException;
 
@@ -17,6 +18,11 @@ public class Ticket {
     status = TicketStatus.ENABLE;
   }
 
+  public Ticket(Place place) {
+    this();
+    setPlace(place);
+  }
+
   public Seance getSeance() {
     return seance;
   }
@@ -26,7 +32,10 @@ public class Ticket {
       throw new NullObjectInsertionException("Seance shouldn't be NULL.");
     }
     if (this.seance != null && this.seance != seance) {
-      throw new ReassignObjectException("Ticket already assigned to another seance. Ticjet could not be reassigned.");
+      throw new ReassignObjectException("Ticket already assigned to another seance. Ticket could not be reassigned.");
+    }
+    if (seance.hasTicketOnPlace(this.place)) {
+      throw new DuplicateInsertionException("Seance already has ticket with same place. New ticket could not be added");
     }
     if (this.seance == null) {
       this.seance = seance;

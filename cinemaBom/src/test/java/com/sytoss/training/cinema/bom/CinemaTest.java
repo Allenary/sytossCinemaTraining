@@ -1,8 +1,6 @@
 package com.sytoss.training.cinema.bom;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
@@ -139,18 +137,31 @@ public class CinemaTest {
   // Cinema[1] - [N]Movies reference test cover
   // TODO: create method exists for movie to encapsulate changes
   @Test
-  public void shouldSetValidMovie() {
+  public void shouldAddValidMovie() {
     Movie movie = new Movie();
     Cinema cinema = new Cinema();
     movie.setName("Brave heart");
     cinema.addMovie(movie);
+    assertTrue(cinema.exists(movie));
 
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseAnErrorForNullMovie() {
     Cinema cinema = new Cinema();
     cinema.addMovie(null);
+  }
+
+  @Test
+  public void shouldRaiseErrorForAddDuplicateMovie() {
+    Movie movie = new Movie();
+    Cinema cinema = new Cinema();
+    cinema.addMovie(movie);
+    cinema.addMovie(movie);
+    assertTrue(cinema.exists(movie));
+    Iterator<Movie> allMovies = cinema.showPoster();
+    allMovies.next();
+    assertFalse(allMovies.hasNext());
   }
 
 }

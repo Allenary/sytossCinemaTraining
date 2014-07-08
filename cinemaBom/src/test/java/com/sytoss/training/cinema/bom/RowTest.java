@@ -2,11 +2,12 @@ package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
+import bom.exception.ReassignObjectException;
 
 public class RowTest {
 
@@ -24,6 +25,15 @@ public class RowTest {
     new Row().setRoom(null);
   }
 
+  @Test(expected = ReassignObjectException.class)
+  public void shouldRaiseErrorForReassigningRowToAnotherRoom() {
+    Room oldRoom = new Room();
+    Room newRoom = new Room();
+    Row row = new Row();
+    row.setRoom(oldRoom);
+    row.setRoom(newRoom);
+  }
+
   @Test
   public void shouldAddValidPlace() {
     Row row = new Row();
@@ -38,11 +48,36 @@ public class RowTest {
     new Row().addPlace(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseErrorForAddingPlaceWhichAlreadyExist() {
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldNotAddDuplicatePlace() {
+    Row row = new Row();
+    Place place = new Place(2);
+    row.addPlace(place);
+    row.addPlace(place);
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldNotAddDuplicateNumberPlace() {
+    Row row = new Row();
+    row.addPlace(new Place(2));
+    row.addPlace(new Place(2));
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseErrorForAddingPlaceWithNumberWhichAlreadyExist() {
     Row row = new Row();
     row.addPlace(new Place(22));
     row.addPlace(new Place(22));
+  }
+
+  @Test(expected = ReassignObjectException.class)
+  public void shouldRaiseErrorWhenAddPlaceAssignedToAnotherRow() {
+    Row oldRow = new Row();
+    Row newRow = new Row();
+    Place place = new Place(2);
+    oldRow.addPlace(place);
+    newRow.addPlace(place);
+
   }
 
   @Test
@@ -64,8 +99,4 @@ public class RowTest {
     row.setNumber(0);
   }
 
-  @Test
-  public void shouldNotAddDuplicatePlace() {
-    fail("Not yet implemented");
-  }
 }

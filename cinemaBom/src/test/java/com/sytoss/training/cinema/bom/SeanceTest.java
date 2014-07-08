@@ -1,17 +1,17 @@
 package com.sytoss.training.cinema.bom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import com.sytoss.training.cinema.bom.Room;
-import com.sytoss.training.cinema.bom.Seance;
-import com.sytoss.training.cinema.bom.SeanceStatus;
-
-import bom.exception.*;
+import bom.exception.DuplicateInsertionException;
+import bom.exception.NullObjectInsertionException;
+import bom.exception.ReassignObjectException;
 
 public class SeanceTest {
 
@@ -31,7 +31,7 @@ public class SeanceTest {
   @Test
   public void shouldAddValidTicket() {
     Seance seance = new Seance();
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     seance.addTicket(ticket);
     assertEquals(seance, ticket.getSeance());
     assertTrue(seance.contains(ticket));
@@ -45,13 +45,39 @@ public class SeanceTest {
   @Test(expected = ReassignObjectException.class)
   public void shouldRaiseErrorForAddTicketAssignedToAnotherSeance() {
     Seance oldSeance = new Seance();
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.setSeance(oldSeance);
     Seance newSeance = new Seance();
     newSeance.addTicket(ticket);
     assertEquals(oldSeance, ticket.getSeance());
     assertTrue(oldSeance.contains(ticket));
     assertFalse(newSeance.contains(ticket));
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldNotAddDuplicateTicket() {
+    Seance seance = new Seance();
+    Ticket ticket = new Ticket(new Place(1));
+    seance.addTicket(ticket);
+    seance.addTicket(ticket);
+
+  }
+
+  @Test(expected = NullObjectInsertionException.class)
+  public void ShouldNotAddTicketWithoutPlace() {
+    new Seance().addTicket(new Ticket());
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseErrorForAddTicketWithPlaceWhichAlreadyHasTicket() {
+    Seance seance = new Seance();
+    Ticket oldTicket = new Ticket();
+    Place place = new Place();
+    oldTicket.setPlace(place);
+    seance.addTicket(oldTicket);
+    Ticket newTicket = new Ticket();
+    newTicket.setPlace(place);
+    seance.addTicket(newTicket);
   }
 
   @Test
@@ -106,18 +132,4 @@ public class SeanceTest {
     seance.setRoom(null);
   }
 
-  @Test
-  public void shouldNotAddDuplicateTicket() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  public void shouldNotAddDuplicateMovie() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  public void shouldNotAddDuplicateRoom() {
-    fail("Not yet implemented");
-  }
 }

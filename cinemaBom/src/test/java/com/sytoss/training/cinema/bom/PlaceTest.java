@@ -2,11 +2,11 @@ package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import bom.exception.NullObjectInsertionException;
+import bom.exception.ReassignObjectException;
 
 public class PlaceTest {
 
@@ -44,9 +44,13 @@ public class PlaceTest {
     assertEquals(12, place.getNumber());
   }
 
-  @Test
-  public void shouldNotAddDuplicateTicket() {
-    fail("Not yet implemented");
-  }
+  @Test(expected = ReassignObjectException.class)
+  public void shouldRaiseErrorWhenReassignPlaceToAnotherRow() {
+    Row oldRow = new Row();
+    Row newRow = new Row();
+    Place place = new Place(2);
+    place.setRow(oldRow);
+    place.setRow(newRow);
 
+  }
 }

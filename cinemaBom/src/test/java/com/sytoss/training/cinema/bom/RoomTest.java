@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
+import bom.exception.ReassignObjectException;
 
 import com.sytoss.training.cinema.bom.Room;
 
@@ -22,6 +24,30 @@ public class RoomTest {
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseErrorForAddingNullRow() {
     new Room().addRow(null);
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseErrorForAddDuplicateRow() {
+    Room room = new Room();
+    Row row = new Row(1);
+    room.addRow(row);
+    room.addRow(row);
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseErrorForAddDuplicateNumberRow() {
+    Room room = new Room();
+    room.addRow(new Row(1));
+    room.addRow(new Row(1));
+  }
+
+  @Test(expected = ReassignObjectException.class)
+  public void shouldRaiseErrorForAddRowAssignedToAnotherRoom() {
+    Room oldRoom = new Room();
+    Room newRoom = new Room();
+    Row row = new Row();
+    oldRoom.addRow(row);
+    newRoom.addRow(row);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -43,8 +69,4 @@ public class RoomTest {
     assertEquals("White", room.getName());
   }
 
-  @Test
-  public void shouldNotAddDuplicateRow() {
-    fail("Not yet implemented");
-  }
 }

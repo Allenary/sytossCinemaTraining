@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 import bom.exception.ReassignObjectException;
 
@@ -75,14 +76,31 @@ public class Seance {
     if (ticket == null) {
       throw new NullObjectInsertionException("null ticket shouldn't be added");
     }
+    if (ticket.getPlace() == null) {
+      throw new NullObjectInsertionException("ticket with null place shouldn't be added");
+    }
+    if (hasTicketOnPlace(ticket.getPlace())) {
+      throw new DuplicateInsertionException("Ticket with same place already exists");
+    }
     if (ticket.getSeance() == null) {
       ticket.setSeance(this);
     }
     if (ticket.getSeance() != this) {
       throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
     }
-    tickets.add(ticket);
+    if ( !tickets.contains(ticket)) {
+      tickets.add(ticket);
+    }
 
+  }
+
+  public boolean hasTicketOnPlace(Place place) {
+    for (Ticket ticket : tickets) {
+      if (ticket.getPlace().equals(place)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public Movie getMovie() {

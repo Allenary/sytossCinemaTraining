@@ -42,9 +42,12 @@ public class Cinema {
 
   public void addMovie(Movie movie) {
     if (movie == null) {
-      throw new IllegalArgumentException("Movie shouldn't be NULL.");
+      throw new NullObjectInsertionException("Movie shouldn't be NULL.");
     }
-    movies.add(movie);
+    if ( !exists(movie)) {
+      movies.add(movie);
+    }
+
   }
 
   public Iterator<Room> showAllRooms() {
@@ -143,5 +146,9 @@ public class Cinema {
       throw new DuplicateInsertionException("this seance already added to sinema. Cannot be added second time.");
     }
     seances.add(seance);
+  }
+
+  public boolean exists(Movie movie) {
+    return movies.contains(movie);
   }
 }

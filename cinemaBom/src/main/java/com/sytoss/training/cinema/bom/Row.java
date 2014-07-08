@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
+import bom.exception.ReassignObjectException;
 
 public class Row {
 
@@ -43,7 +45,10 @@ public class Row {
       throw new NullObjectInsertionException("Place couldn't be null");
     }
     if (exists(place)) {
-      throw new IllegalArgumentException("Place with number " + place.getNumber() + " already exists.");
+      throw new DuplicateInsertionException("Place with number " + place.getNumber() + " already exists.");
+    }
+    if (place.getRow() != null && place.getRow() != this) {
+      throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
     }
     places.add(place);
     place.setRow(this);
