@@ -23,6 +23,19 @@ public class Room {
     this.name = name;
   }
 
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    if ( !(other instanceof Room))
+      return false;
+    Room otherRoom = (Room) other;
+    return this.name.equals(otherRoom.name);
+
+  }
+
   public void setName(String name) {
     if (name == null || name.isEmpty()) {
       throw new IllegalArgumentException("Name shouldn't be NULL or empty.");
@@ -50,6 +63,8 @@ public class Room {
   }
 
   public boolean exists(Row row) {
+
+    //TODO: hasRowWithNumber should be removed, but logic sjould be the same
     return rows.contains(row) || hasRowWithNumber(row.getNumber());
   }
 

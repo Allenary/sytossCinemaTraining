@@ -26,15 +26,33 @@ public class Seance {
     status = SeanceStatus.OPENED;
   }
 
+  public Seance(Room room, Calendar startDateTime) {
+    this();
+    setRoom(room);
+    setStartDateTime(startDateTime);
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    if ( !(other instanceof Seance))
+      return false;
+    Seance otherSeance = (Seance) other;
+    return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
+
+  }
+
   public Iterator<Ticket> getTickets() {
     return tickets.iterator();
   }
 
   public void setStartDateTime(Calendar calendar) {
 
-    Calendar now = Calendar.getInstance();
-    if (calendar == (null) || calendar.before(now)) {
-      throw new IllegalArgumentException("StartDateTime shouldn't be NULL or past date.");
+    if (calendar == null) {
+      throw new IllegalArgumentException("StartDateTime shouldn't be NULL.");
     }
 
     this.startDateTime = calendar;

@@ -2,6 +2,7 @@ package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.junit.Test;
@@ -30,6 +31,14 @@ public class CinemaTest {
     Seance seance = new Seance();
     cinema.addSeance(seance);
     cinema.addSeance(seance);
+  }
+
+  @Test(expected = DuplicateInsertionException.class)
+  public void shouldRaiseExceptionForAddSeanceWithDateAndRoomWhichAlreadyHasAnotherSeance() {
+    Cinema cinema = new Cinema();
+    Calendar now = Calendar.getInstance();
+    cinema.addSeance(new Seance(new Room("a"), now));
+    cinema.addSeance(new Seance(new Room("a"), now));
   }
 
   // Cinema[1]-[N]CashOffice
