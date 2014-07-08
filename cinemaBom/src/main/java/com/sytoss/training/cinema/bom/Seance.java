@@ -79,18 +79,16 @@ public class Seance {
     if (ticket.getPlace() == null) {
       throw new NullObjectInsertionException("ticket with null place shouldn't be added");
     }
-    if (hasTicketOnPlace(ticket.getPlace())) {
-      throw new DuplicateInsertionException("Ticket with same place already exists");
-    }
-    if (ticket.getSeance() == null) {
-      ticket.setSeance(this);
-    }
-    if (ticket.getSeance() != this) {
+
+    if (ticket.getSeance() != this && ticket.getSeance() != null) {
       throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
     }
-    if ( !tickets.contains(ticket)) {
+    if (tickets.contains(ticket)) {
+      throw new DuplicateInsertionException("Seance already has same ticket");
+    } else {
       tickets.add(ticket);
     }
+    ticket.setSeance(this);
 
   }
 

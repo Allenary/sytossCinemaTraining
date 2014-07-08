@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import bom.exception.*;
@@ -37,6 +38,7 @@ public class TicketTest {
     ticket.setSeance(null);
   }
 
+  @Ignore
   @Test(expected = DuplicateInsertionException.class)
   public void shouldRaiseErrorForSetSeanceWhichAlreadyHasTicketOnSamePlace() {
     Seance seance = new Seance();
@@ -82,7 +84,7 @@ public class TicketTest {
 
   // Ticket[1] - [1]Place reference test cover
   @Test
-  public void shouldSpecifyPlaceInstance() {
+  public void shouldSetPlace() {
     Ticket ticket = new Ticket();
     Place place = new Place();
     place.setNumber(72);
