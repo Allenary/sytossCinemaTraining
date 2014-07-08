@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import bom.exception.*;
+import bom.exception.NullObjectInsertionException;
+import bom.exception.ReassignObjectException;
 
 public class TicketTest {
 
@@ -36,17 +36,6 @@ public class TicketTest {
   public void shouldRaiseErrorForAddingNullSeance() {
     Ticket ticket = new Ticket();
     ticket.setSeance(null);
-  }
-
-  @Ignore
-  @Test(expected = DuplicateInsertionException.class)
-  public void shouldRaiseErrorForSetSeanceWhichAlreadyHasTicketOnSamePlace() {
-    Seance seance = new Seance();
-    Place place = new Place(8);
-    Ticket oldTicket = new Ticket(place);
-    oldTicket.setSeance(seance);
-    Ticket newTicket = new Ticket(place);
-    newTicket.setSeance(seance);
   }
 
   @Test
