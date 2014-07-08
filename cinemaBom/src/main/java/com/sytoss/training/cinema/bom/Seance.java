@@ -32,29 +32,14 @@ public class Seance {
     setStartDateTime(startDateTime);
   }
 
-  @Override
-  public boolean equals(Object other) {
-    if (other == null)
-      return false;
-    if (other == this)
-      return true;
-    if ( !(other instanceof Seance))
-      return false;
-    Seance otherSeance = (Seance) other;
-    return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
-
-  }
-
   public Iterator<Ticket> getTickets() {
     return tickets.iterator();
   }
 
   public void setStartDateTime(Calendar calendar) {
-
     if (calendar == null) {
       throw new IllegalArgumentException("StartDateTime shouldn't be NULL.");
     }
-
     this.startDateTime = calendar;
   }
 
@@ -63,12 +48,10 @@ public class Seance {
   }
 
   public void setStatus(SeanceStatus status) {
-
     if (status == null) {
       throw new IllegalArgumentException("Status shouldn't be NULL");
-    } else {
-      this.status = status;
     }
+    this.status = status;
   }
 
   public SeanceStatus getStatus() {
@@ -94,20 +77,16 @@ public class Seance {
     if (ticket == null) {
       throw new NullObjectInsertionException("null ticket shouldn't be added");
     }
-    if (ticket.getPlace() == null) {
-      throw new NullObjectInsertionException("ticket with null place shouldn't be added");
-    }
 
     if (ticket.getSeance() != this && ticket.getSeance() != null) {
       throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
     }
+
     if (tickets.contains(ticket)) {
       throw new DuplicateInsertionException("Seance already has same ticket");
-    } else {
-      tickets.add(ticket);
     }
+    tickets.add(ticket);
     ticket.setSeance(this);
-
   }
 
   public boolean hasTicketOnPlace(Place place) {
@@ -130,4 +109,16 @@ public class Seance {
     this.movie = movie;
   }
 
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    if ( !(other instanceof Seance))
+      return false;
+    Seance otherSeance = (Seance) other;
+    return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
+
+  }
 }

@@ -63,11 +63,6 @@ public class SeanceTest {
 
   }
 
-  @Test(expected = NullObjectInsertionException.class)
-  public void ShouldNotAddTicketWithoutPlace() {
-    new Seance().addTicket(new Ticket());
-  }
-
   @Test
   public void shouldSpecifyStartDateTime() {
     Seance seance = new Seance();
@@ -82,7 +77,6 @@ public class SeanceTest {
     seance.setStartDateTime(null);
   }
 
-  // Status field test cover
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNullStatus() {
     Seance seance = new Seance();
@@ -96,11 +90,10 @@ public class SeanceTest {
     assertEquals(SeanceStatus.CANCEL, seance.getStatus());
   }
 
-  // Seance[1] - [1]Room reference test cover
   @Test
   public void shouldAddValidRoom() {
     Seance seance = new Seance();
-    Room room = new Room();
+    Room room = new Room("b");
     room.setName("White");
     seance.setRoom(room);
     assertEquals(room, seance.getRoom());

@@ -34,7 +34,7 @@ public class CashOffice {
     if (this.cinema != null) {
       this.cinema.removeCashOffice(this);
     }
-    if ( !cinema.exists(this)) {
+    if ( !cinema.existCashOffice(this)) {
       cinema.addCashOffice(this);
     }
     this.cinema = cinema;
@@ -63,7 +63,6 @@ public class CashOffice {
       throw new DuplicateInsertionException("This Ticket already added to CashOffice. Could not be added second time");
     }
     tickets.add(ticket);
-
   }
 
   public boolean exists(Ticket ticket) {

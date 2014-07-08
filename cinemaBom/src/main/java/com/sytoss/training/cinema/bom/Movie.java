@@ -1,22 +1,17 @@
 package com.sytoss.training.cinema.bom;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Movie {
 
   private String name;
 
   private String description;
 
-  /*
-   * duration counted in minutes.
-   */
   private int duration;
 
   public Movie(String name) {
-    this.name = name;
-  }
-
-  public Movie() {
-
+    setName(name);
   }
 
   public String getName() {
@@ -24,7 +19,7 @@ public class Movie {
   }
 
   public void setName(String name) {
-    if (name == null || name.isEmpty()) {
+    if (StringUtils.isEmpty(name)) {
       throw new IllegalArgumentException("Name shouldn't be NULL or empty.");
     }
     this.name = name;
@@ -52,5 +47,4 @@ public class Movie {
     }
     this.duration = duration;
   }
-
 }

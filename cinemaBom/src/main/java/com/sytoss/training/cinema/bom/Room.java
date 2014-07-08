@@ -14,26 +14,9 @@ public class Room {
 
   private String name;
 
-  public Room() {
-    rows = new ArrayList<Row>();
-  }
-
   public Room(String name) {
-    this();
-    this.name = name;
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other == null)
-      return false;
-    if (other == this)
-      return true;
-    if ( !(other instanceof Room))
-      return false;
-    Room otherRoom = (Room) other;
-    return this.name.equals(otherRoom.name);
-
+    setName(name);
+    rows = new ArrayList<Row>();
   }
 
   public void setName(String name) {
@@ -51,20 +34,19 @@ public class Room {
     if (row == null) {
       throw new NullObjectInsertionException();
     }
-    if (exists(row)) {
-      throw new DuplicateInsertionException("this row already added to the room. cannot be added second time");
-    }
-    if (row.getRoom() != null && row.getRoom() != this) {
+
+    if (row.getRoom() != null && row.getRoom().equals(this)) {
       throw new ReassignObjectException("This row already assigned to another room");
+    }
+
+    if (exists(row)) {
+      throw new ReassignObjectException();
     }
     rows.add(row);
     row.setRoom(this);
-
   }
 
   public boolean exists(Row row) {
-
-    //TODO: hasRowWithNumber should be removed, but logic sjould be the same
     return rows.contains(row) || hasRowWithNumber(row.getNumber());
   }
 
@@ -79,6 +61,16 @@ public class Room {
 
   public Iterator<Row> getAllRows() {
     return rows.iterator();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    Room otherRoom = (Room) other;
+    return this.name.equals(otherRoom.name);
   }
 
 }

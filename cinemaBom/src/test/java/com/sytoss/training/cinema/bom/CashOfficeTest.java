@@ -41,7 +41,7 @@ public class CashOfficeTest {
     cinema.setAddress("kharkov");
     cashoffice.setCinema(cinema);
     assertEquals(cinema, cashoffice.showCinema());
-    assertTrue(cinema.exists(cashoffice));
+    assertTrue(cinema.existCashOffice(cashoffice));
   }
 
   @Test
@@ -52,33 +52,32 @@ public class CashOfficeTest {
     cashoffice.setCinema(firstCinema);
     cashoffice.setCinema(secondCinema);
     assertEquals(secondCinema, cashoffice.showCinema());
-    assertTrue(secondCinema.exists(cashoffice));
-    assertFalse(firstCinema.exists(cashoffice));
+    assertTrue(secondCinema.existCashOffice(cashoffice));
+    assertFalse(firstCinema.existCashOffice(cashoffice));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNullCinemaInstance() {
-    CashOffice cashoffice = new CashOffice();
-    cashoffice.setCinema(null);
+    new CashOffice().setCinema(null);
   }
 
   @Test
   public void shouldAddValidTicket() {
     CashOffice cashOffice = new CashOffice();
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     cashOffice.addTicket(ticket);
     assertTrue(cashOffice.exists(ticket));
   }
 
   @Test(expected = NullObjectInsertionException.class)
-  public void shouldRaiseErrorForAddNullTicket() {
+  public void shouldRaiseExceptionForAddNullTicket() {
     new CashOffice().addTicket(null);
   }
 
   @Test(expected = DuplicateInsertionException.class)
   public void shouldRaiseExceptionForAddDuplicateTicket() {
     CashOffice cashOffice = new CashOffice();
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     cashOffice.addTicket(ticket);
     cashOffice.addTicket(ticket);
   }

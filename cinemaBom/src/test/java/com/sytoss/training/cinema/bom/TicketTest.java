@@ -34,26 +34,26 @@ public class TicketTest {
 
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseErrorForAddingNullSeance() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.setSeance(null);
   }
 
   @Test
   public void shouldSpecifyStatus() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.changeStatus(TicketStatus.ENABLE);
     assertEquals(TicketStatus.ENABLE, ticket.getStatus());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNullStatus() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.changeStatus(null);
   }
 
   @Test
   public void shouldSpecifyPrice() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.setPrice(22.43);
     assertEquals(22.43, ticket.getPrice(), 0);
 
@@ -61,21 +61,21 @@ public class TicketTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNegativePrice() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.setPrice( -5.53);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForZeroPrice() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.setPrice(0);
   }
 
   // Ticket[1] - [1]Place reference test cover
   @Test
   public void shouldSetPlace() {
-    Ticket ticket = new Ticket();
-    Place place = new Place();
+    Ticket ticket = new Ticket(new Place(1));
+    Place place = new Place(1);
     place.setNumber(72);
     ticket.setPlace(place);
     assertEquals(place, ticket.getPlace());
@@ -84,7 +84,7 @@ public class TicketTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNullPlaceInstance() {
-    Ticket ticket = new Ticket();
+    Ticket ticket = new Ticket(new Place(1));
     ticket.setPlace(null);
   }
 

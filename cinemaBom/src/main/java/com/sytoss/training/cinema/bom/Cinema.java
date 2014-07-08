@@ -36,7 +36,7 @@ public class Cinema {
     this.name = name;
   }
 
-  public Iterator<CashOffice> showAllCashOffices() {
+  public Iterator<CashOffice> showCashOffices() {
     return cashOffices.iterator();
   }
 
@@ -44,10 +44,10 @@ public class Cinema {
     if (movie == null) {
       throw new NullObjectInsertionException("Movie shouldn't be NULL.");
     }
-    if ( !exists(movie)) {
-      movies.add(movie);
+    if (existMovie(movie)) {
+      throw new DuplicateInsertionException();
     }
-
+    movies.add(movie);
   }
 
   public Iterator<Room> showAllRooms() {
@@ -58,11 +58,6 @@ public class Cinema {
     return movies.iterator();
   }
 
-  public boolean removeMovie(Movie movie) {
-    return movies.remove(movie);
-
-  }
-
   public String showAddress() {
     return address;
   }
@@ -70,17 +65,15 @@ public class Cinema {
   public void setAddress(String address) {
     if (StringUtils.isBlank(address)) {
       throw new IllegalArgumentException("Address shouldn't be blank, NULL or empty.");
-    } else {
-      this.address = address;
     }
+    this.address = address;
   }
 
   public void setName(String name) {
     if (StringUtils.isBlank(name)) {
       throw new IllegalArgumentException("Name shouldn't be NULL or empty.");
-    } else {
-      this.name = name;
     }
+    this.name = name;
   }
 
   public String showName() {
@@ -91,11 +84,11 @@ public class Cinema {
     if (cashOffice == null) {
       throw new NullObjectInsertionException("Null CashOffice cannot be added");
     }
-    if ( !exists(cashOffice) && ( !hasCashOfficeWithSameNumber(cashOffice))) {
+
+    if ( !existCashOffice(cashOffice) && !hasCashOfficeWithSameNumber(cashOffice)) {
       cashOffices.add(cashOffice);
       cashOffice.setCinema(this);
     }
-
   }
 
   private boolean hasCashOfficeWithSameNumber(CashOffice searchedCashOffice) {
@@ -106,11 +99,11 @@ public class Cinema {
     return false;
   }
 
-  public boolean exists(CashOffice searchedCashOffice) {
+  public boolean existCashOffice(CashOffice searchedCashOffice) {
     return cashOffices.contains(searchedCashOffice);
   }
 
-  public boolean exists(Seance seance) {
+  public boolean existSeance(Seance seance) {
     return seances.contains(seance);
   }
 
@@ -127,13 +120,13 @@ public class Cinema {
       throw new NullObjectInsertionException();
     }
 
-    if ( !rooms.contains(room)) {
-      rooms.add(room);
+    if (rooms.contains(room)) {
+      throw new DuplicateInsertionException();
     }
-
+    rooms.add(room);
   }
 
-  public boolean exists(Room room) {
+  public boolean existRoom(Room room) {
     return rooms.contains(room);
   }
 
@@ -141,14 +134,13 @@ public class Cinema {
     if (seance == null) {
       throw new NullObjectInsertionException();
     }
-    if (exists(seance)) {
-      System.out.print("seance exists!");
+    if (existSeance(seance)) {
       throw new DuplicateInsertionException("this seance already added to sinema. Cannot be added second time.");
     }
     seances.add(seance);
   }
 
-  public boolean exists(Movie movie) {
+  public boolean existMovie(Movie movie) {
     return movies.contains(movie);
   }
 }

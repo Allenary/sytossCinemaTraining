@@ -16,17 +16,13 @@ public class Row {
 
   private Room room;
 
-  public Room getRoom() {
-    return room;
-  }
-
   public Row(int number) {
-    this();
+    places = new ArrayList<Place>();
     this.number = number;
   }
 
-  public Row() {
-    places = new ArrayList<Place>();
+  public Room getRoom() {
+    return room;
   }
 
   public int getNumber() {
@@ -47,12 +43,12 @@ public class Row {
     if (exists(place)) {
       throw new DuplicateInsertionException("Place with number " + place.getNumber() + " already exists.");
     }
-    if (place.getRow() != null && place.getRow() != this) {
+    if (place.getRow() != null) {
       throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
     }
+
     places.add(place);
     place.setRow(this);
-
   }
 
   public boolean exists(Place searchedPlace) {
@@ -68,10 +64,12 @@ public class Row {
     if (room == null) {
       throw new IllegalArgumentException();
     }
+    if (this.room != null && !this.room.equals(room)) {
+      throw new ReassignObjectException();
+    }
+
     if ( !room.exists(this)) {
-
       room.addRow(this);
-
     }
     this.room = room;
   }

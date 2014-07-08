@@ -9,12 +9,8 @@ public class Place {
 
   private Row row;
 
-  public Place() {
-  }
-
   public Place(int number) {
     this.number = number;
-
   }
 
   public int getNumber() {
@@ -36,14 +32,15 @@ public class Place {
     if (row == null) {
       throw new NullObjectInsertionException("Null row cannot be added");
     }
-    if (this.row != null && !this.row.equals(row)) {
+    if (this.row != null) {
       throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
     }
-    this.row = row;
+
     if ( !row.exists(this)) {
       row.addPlace(this);
     }
 
-  }
+    this.row = row;
 
+  }
 }

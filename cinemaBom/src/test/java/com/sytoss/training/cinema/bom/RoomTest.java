@@ -14,7 +14,7 @@ public class RoomTest {
 
   @Test
   public void shouldAddRowToRoom() {
-    Room room = new Room();
+    Room room = new Room("blue");
     Row row = new Row(1);
     room.addRow(row);
     assertEquals(room, row.getRoom());
@@ -23,50 +23,47 @@ public class RoomTest {
 
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseErrorForAddingNullRow() {
-    new Room().addRow(null);
+    new Room("blue").addRow(null);
   }
 
-  @Test(expected = DuplicateInsertionException.class)
-  public void shouldRaiseErrorForAddDuplicateRow() {
-    Room room = new Room();
+  @Test(expected = ReassignObjectException.class)
+  public void shouldNotAddDuplicateRow() {
+    Room room = new Room("blue");
     Row row = new Row(1);
     room.addRow(row);
     room.addRow(row);
   }
 
-  @Test(expected = DuplicateInsertionException.class)
-  public void shouldRaiseErrorForAddDuplicateNumberRow() {
-    Room room = new Room();
+  @Test(expected = ReassignObjectException.class)
+  public void shouldNotAddDuplicateNumberRow() {
+    Room room = new Room("blue");
     room.addRow(new Row(1));
     room.addRow(new Row(1));
   }
 
   @Test(expected = ReassignObjectException.class)
   public void shouldRaiseErrorForAddRowAssignedToAnotherRoom() {
-    Room oldRoom = new Room();
-    Room newRoom = new Room();
-    Row row = new Row();
+    Room oldRoom = new Room("blue");
+    Room newRoom = new Room("white");
+    Row row = new Row(1);
     oldRoom.addRow(row);
     newRoom.addRow(row);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForEmptyName() {
-    Room room = new Room();
-    room.setName("");
+    new Room("blue").setName("");
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNullName() {
-    Room room = new Room();
-    room.setName(null);
+    new Room("blue").setName(null);
   }
 
   @Test
   public void shouldSpecifyName() {
-    Room room = new Room();
+    Room room = new Room("blue");
     room.setName("White");
     assertEquals("White", room.getName());
   }
-
 }

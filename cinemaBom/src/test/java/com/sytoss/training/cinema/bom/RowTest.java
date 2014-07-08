@@ -13,8 +13,8 @@ public class RowTest {
 
   @Test
   public void shouldSetValidRoom() {
-    Row row = new Row();
-    Room room = new Room();
+    Row row = new Row(1);
+    Room room = new Room("a");
     row.setRoom(room);
     assertEquals(room, row.getRoom());
     assertTrue(room.exists(row));
@@ -22,21 +22,21 @@ public class RowTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseErrorForSetNullRoom() {
-    new Row().setRoom(null);
+    new Row(1).setRoom(null);
   }
 
   @Test(expected = ReassignObjectException.class)
   public void shouldRaiseErrorForReassigningRowToAnotherRoom() {
-    Room oldRoom = new Room();
-    Room newRoom = new Room();
-    Row row = new Row();
+    Room oldRoom = new Room("blue");
+    Room newRoom = new Room("white");
+    Row row = new Row(1);
     row.setRoom(oldRoom);
     row.setRoom(newRoom);
   }
 
   @Test
   public void shouldAddValidPlace() {
-    Row row = new Row();
+    Row row = new Row(1);
     Place place = new Place(22);
     row.addPlace(place);
     assertTrue(row.exists(place));
@@ -45,12 +45,12 @@ public class RowTest {
 
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseErrorForAddindNullPlace() {
-    new Row().addPlace(null);
+    new Row(1).addPlace(null);
   }
 
   @Test(expected = DuplicateInsertionException.class)
   public void shouldNotAddDuplicatePlace() {
-    Row row = new Row();
+    Row row = new Row(1);
     Place place = new Place(2);
     row.addPlace(place);
     row.addPlace(place);
@@ -58,22 +58,22 @@ public class RowTest {
 
   @Test(expected = DuplicateInsertionException.class)
   public void shouldNotAddDuplicateNumberPlace() {
-    Row row = new Row();
+    Row row = new Row(1);
     row.addPlace(new Place(2));
     row.addPlace(new Place(2));
   }
 
   @Test(expected = DuplicateInsertionException.class)
   public void shouldRaiseErrorForAddingPlaceWithNumberWhichAlreadyExist() {
-    Row row = new Row();
+    Row row = new Row(1);
     row.addPlace(new Place(22));
     row.addPlace(new Place(22));
   }
 
   @Test(expected = ReassignObjectException.class)
   public void shouldRaiseErrorWhenAddPlaceAssignedToAnotherRow() {
-    Row oldRow = new Row();
-    Row newRow = new Row();
+    Row oldRow = new Row(1);
+    Row newRow = new Row(1);
     Place place = new Place(2);
     oldRow.addPlace(place);
     newRow.addPlace(place);
@@ -82,20 +82,20 @@ public class RowTest {
 
   @Test
   public void shouldSpecifyNumber() {
-    Row row = new Row();
+    Row row = new Row(1);
     row.setNumber(4);
     assertEquals(4, row.getNumber());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNegativeNumber() {
-    Row row = new Row();
+    Row row = new Row(1);
     row.setNumber( -7);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForZeroNumber() {
-    Row row = new Row();
+    Row row = new Row(1);
     row.setNumber(0);
   }
 

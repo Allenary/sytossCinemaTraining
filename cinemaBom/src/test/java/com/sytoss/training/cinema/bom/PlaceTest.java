@@ -22,35 +22,34 @@ public class PlaceTest {
 
   @Test(expected = NullObjectInsertionException.class)
   public void shouldRaiseExceptionForAddingNullRow() {
-    new Place().setRow(null);
+    new Place(1).setRow(null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForNegativeNumber() {
-    Place place = new Place();
+    Place place = new Place(1);
     place.setNumber( -8);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseAnErrorForZeroNumber() {
-    Place place = new Place();
+    Place place = new Place(1);
     place.setNumber(0);
   }
 
   @Test
   public void shouldSpecifyNumber() {
-    Place place = new Place();
+    Place place = new Place(1);
     place.setNumber(12);
     assertEquals(12, place.getNumber());
   }
 
   @Test(expected = ReassignObjectException.class)
   public void shouldRaiseErrorWhenReassignPlaceToAnotherRow() {
-    Row oldRow = new Row();
-    Row newRow = new Row();
+    Row oldRow = new Row(1);
+    Row newRow = new Row(2);
     Place place = new Place(2);
     place.setRow(oldRow);
     place.setRow(newRow);
-
   }
 }
