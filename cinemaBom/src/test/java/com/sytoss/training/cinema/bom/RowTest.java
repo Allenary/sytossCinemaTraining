@@ -1,7 +1,8 @@
 package com.sytoss.training.cinema.bom;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
+import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -39,8 +40,21 @@ public class RowTest {
     Row row = new Row(1);
     Place place = new Place(22);
     row.addPlace(place);
-    assertTrue(row.exists(place));
     assertEquals(row, place.getRow());
+    Iterator<Place> places = row.getAllPlaces();
+    assertTrue(places.hasNext());
+    places.next();
+    assertFalse(places.hasNext());
+  }
+
+  @Test
+  public void shouldVerifyExistanceOfPlace() {
+    Row row = new Row(1);
+    Place place = new Place(22);
+    assertFalse(row.exists(place));
+    row.addPlace(place);
+    assertTrue(row.exists(place));
+
   }
 
   @Test(expected = NullObjectInsertionException.class)

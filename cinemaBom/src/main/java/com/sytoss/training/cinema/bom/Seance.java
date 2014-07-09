@@ -69,7 +69,7 @@ public class Seance {
     return room;
   }
 
-  public boolean contains(Ticket ticket) {
+  public boolean existsTicket(Ticket ticket) {
     return tickets.contains(ticket);
   }
 

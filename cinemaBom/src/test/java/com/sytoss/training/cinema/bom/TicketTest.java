@@ -17,7 +17,7 @@ public class TicketTest {
     Seance seance = new Seance();
     ticket.setSeance(seance);
     assertEquals(seance, ticket.getSeance());
-    assertTrue(seance.contains(ticket));
+    assertTrue(seance.existsTicket(ticket));
   }
 
   @Test(expected = ReassignObjectException.class)
@@ -28,8 +28,8 @@ public class TicketTest {
     ticket.setSeance(oldSeance);
     ticket.setSeance(newSeance);
     assertEquals(oldSeance, ticket.getSeance());
-    assertTrue(oldSeance.contains(ticket));
-    assertFalse(newSeance.contains(ticket));
+    assertTrue(oldSeance.existsTicket(ticket));
+    assertFalse(newSeance.existsTicket(ticket));
   }
 
   @Test(expected = NullObjectInsertionException.class)

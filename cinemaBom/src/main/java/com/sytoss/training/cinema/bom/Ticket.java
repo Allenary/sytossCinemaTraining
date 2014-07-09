@@ -29,7 +29,7 @@ public class Ticket {
     if (this.seance != null) {
       throw new ReassignObjectException("Ticket already assigned to another seance. Ticket could not be reassigned.");
     }
-    if ( !seance.contains(this)) {
+    if ( !seance.existsTicket(this)) {
       seance.addTicket(this);
     }
     this.seance = seance;

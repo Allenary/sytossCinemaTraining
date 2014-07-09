@@ -13,7 +13,6 @@ import bom.exception.NullObjectInsertionException;
 
 public class CashOfficeTest {
 
-  // Number field test cover
   @Test
   public void shouldSpecifyNumber() {
     CashOffice cashoffice = new CashOffice();
@@ -104,7 +103,7 @@ public class CashOfficeTest {
   }
 
   @Test
-  public void shouldReturnFalseIfTicketNotExist() {
+  public void shouldReturnFalseIfTicketsNoExist() {
     assertFalse(new CashOffice().exists(new Ticket(new Place(1))));
   }
 

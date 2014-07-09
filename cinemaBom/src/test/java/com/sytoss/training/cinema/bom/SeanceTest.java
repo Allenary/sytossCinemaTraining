@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -34,7 +35,19 @@ public class SeanceTest {
     Ticket ticket = new Ticket(new Place(1));
     seance.addTicket(ticket);
     assertEquals(seance, ticket.getSeance());
-    assertTrue(seance.contains(ticket));
+    Iterator<Ticket> tickets = seance.getTickets();
+    assertTrue(tickets.hasNext());
+    tickets.next();
+    assertFalse(tickets.hasNext());
+  }
+
+  @Test
+  public void shouldVerifyExistanceOfTicket() {
+    Seance seance = new Seance();
+    Ticket ticket = new Ticket(new Place(1));
+    seance.addTicket(ticket);
+    assertEquals(seance, ticket.getSeance());
+    assertTrue(seance.existsTicket(ticket));
   }
 
   @Test(expected = NullObjectInsertionException.class)
@@ -50,8 +63,8 @@ public class SeanceTest {
     Seance newSeance = new Seance();
     newSeance.addTicket(ticket);
     assertEquals(oldSeance, ticket.getSeance());
-    assertTrue(oldSeance.contains(ticket));
-    assertFalse(newSeance.contains(ticket));
+    assertTrue(oldSeance.existsTicket(ticket));
+    assertFalse(newSeance.existsTicket(ticket));
   }
 
   @Test(expected = DuplicateInsertionException.class)

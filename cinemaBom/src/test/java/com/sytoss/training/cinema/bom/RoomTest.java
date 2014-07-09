@@ -2,6 +2,9 @@ package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+
+import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -14,6 +17,18 @@ public class RoomTest {
   public void shouldAddRowToRoom() {
     Room room = new Room("blue");
     Row row = new Row(1);
+    room.addRow(row);
+    assertEquals(room, row.getRoom());
+    Iterator<Row> rows = room.getAllRows();
+    assertTrue(rows.hasNext());
+    rows.next();
+    assertFalse(rows.hasNext());
+  }
+
+  public void shouldVerifyExistanceOfRow() {
+    Room room = new Room("blue");
+    Row row = new Row(1);
+    assertFalse(room.exists(row));
     room.addRow(row);
     assertEquals(room, row.getRoom());
     assertTrue(room.exists(row));

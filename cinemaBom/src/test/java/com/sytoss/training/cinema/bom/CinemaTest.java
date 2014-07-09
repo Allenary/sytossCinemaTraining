@@ -63,9 +63,14 @@ public class CinemaTest {
 
     Cinema cinema = new Cinema("Kronverk");
     CashOffice cashoffice = new CashOffice(56);
+    assertFalse(cinema.existCashOffice(cashoffice));
     cinema.addCashOffice(cashoffice);
     assertTrue(cinema.existCashOffice(cashoffice));
     assertEquals(cinema, cashoffice.showCinema());
+    Iterator<CashOffice> allCashOffices = cinema.showCashOffices();
+    assertTrue(allCashOffices.hasNext());
+    allCashOffices.next();
+    assertFalse(allCashOffices.hasNext());
   }
 
   @Test(expected = NullObjectInsertionException.class)
@@ -101,6 +106,18 @@ public class CinemaTest {
   public void shouldAddValidRoom() {
     Cinema cinema = new Cinema();
     Room room = new Room("red");
+    cinema.addRoom(room);
+    Iterator<Room> rooms = cinema.showAllRooms();
+    assertTrue(rooms.hasNext());
+    rooms.next();
+    assertFalse(rooms.hasNext());
+  }
+
+  @Test
+  public void shouldVerifyExistanceOfRoom() {
+    Cinema cinema = new Cinema();
+    Room room = new Room("red");
+    assertFalse(cinema.existRoom(room));
     cinema.addRoom(room);
     assertTrue(cinema.existRoom(room));
   }
@@ -158,19 +175,24 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     movie.setName("Brave heart");
     cinema.addMovie(movie);
-    Iterator<Movie> cinemas = cinema.showPoster();
-    assertTrue(cinemas.hasNext());
-    cinemas.next();
-    assertFalse(cinemas.hasNext());
+    Iterator<Movie> movies = cinema.showPoster();
+    assertTrue(movies.hasNext());
+    movies.next();
+    assertFalse(movies.hasNext());
   }
 
   @Test
-  public void shouldReturnTrueIfTicketExists() {
+  public void shouldReturnTrueIfMovieExists() {
     Movie movie = new Movie("Hoght");
     Cinema cinema = new Cinema();
     cinema.addMovie(movie);
     assertTrue(cinema.existMovie(movie));
 
+  }
+
+  @Test
+  public void shouldReturnFalseIfMovieNotExists() {
+    assertFalse(new Cinema().existMovie(new Movie("Hoght")));
   }
 
   @Test(expected = NullObjectInsertionException.class)
