@@ -114,4 +114,17 @@ public class CashOfficeTest {
     cashOffice.addTicket(ticket);
     assertTrue(cashOffice.exists(ticket));
   }
+
+  @Test
+  public void shouldSaleEnableTicket() {
+    Ticket ticket = new Ticket(new Place(2));
+    Seance seance = new Seance();
+    ticket.setSeance(seance);
+    CashOffice cashOffice = new CashOffice();
+    cashOffice.saleTicket(ticket);
+    assertEquals(TicketStatus.SOLD, ticket.getStatus());
+    assertFalse(seance.getAvaliableTickets().hasNext());
+    assertTrue(cashOffice.showTikets().hasNext());
+  }
+
 }

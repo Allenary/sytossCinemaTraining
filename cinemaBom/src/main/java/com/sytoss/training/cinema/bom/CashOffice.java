@@ -68,4 +68,10 @@ public class CashOffice {
   public boolean exists(Ticket ticket) {
     return tickets.contains(ticket);
   }
+
+  public void saleTicket(Ticket ticket) {
+    ticket.changeStatus(TicketStatus.SOLD);
+    addTicket(ticket);
+
+  }
 }

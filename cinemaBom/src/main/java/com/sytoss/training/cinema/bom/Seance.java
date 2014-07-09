@@ -121,4 +121,14 @@ public class Seance {
     return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
 
   }
+
+  public Iterator<Ticket> getAvaliableTickets() {
+    List<Ticket> avaliableTickets = new ArrayList<Ticket>();
+    for (Ticket ticket : tickets) {
+      if (ticket.getStatus() == TicketStatus.ENABLE) {
+        avaliableTickets.add(ticket);
+      }
+    }
+    return avaliableTickets.iterator();
+  }
 }
