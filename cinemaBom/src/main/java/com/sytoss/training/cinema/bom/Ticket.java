@@ -67,4 +67,16 @@ public class Ticket {
     }
     this.place = place;
   }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    if (this.seance == null)
+      return false;
+    Ticket otherTicket = (Ticket) other;
+    return this.place.equals(otherTicket.getPlace()) && this.seance.equals(otherTicket.getSeance());
+  }
 }

@@ -78,4 +78,15 @@ public class Row {
     return places.iterator();
   }
 
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    if (this.room == null)
+      return false;
+    Row otherRow = (Row) other;
+    return this.number == otherRow.getNumber() && this.room.equals(otherRow.getRoom());
+  }
 }
