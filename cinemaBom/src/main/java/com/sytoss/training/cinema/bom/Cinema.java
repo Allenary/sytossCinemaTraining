@@ -13,7 +13,6 @@ import bom.exception.NullObjectInsertionException;
 
 public class Cinema {
 
-  // TODO: implement dependencies with 1-to-many multiplicity
   private String name;
 
   private String address;

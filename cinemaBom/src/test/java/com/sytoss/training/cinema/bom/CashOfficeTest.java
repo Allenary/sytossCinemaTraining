@@ -262,7 +262,7 @@ public class CashOfficeTest {
   }
 
   @Test(expected = CashOfficeManipulationException.class)
-  public void shouldRaiseEcxeptionForReturnSoldTicketForClosedSeance() {
+  public void shouldRaiseExceptionForReturnSoldTicketForClosedSeance() {
     Ticket ticket = new Ticket(new Place(2));
     Seance seance = new Seance();
     ticket.setSeance(seance);

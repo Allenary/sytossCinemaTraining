@@ -171,6 +171,15 @@ public class SeanceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseExceptionWhenDisableSoldTicket() {
+    Ticket ticket = new Ticket(new Place(1));
+    Seance seance = new Seance();
+    seance.addTicket(ticket);
+    new CashOffice().saleTicket(ticket);
+    seance.disableTicket(ticket);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
   public void shouldRaiseExceptionWhenDisableNullTicket() {
     new Seance().disableTicket(null);
   }
@@ -195,7 +204,7 @@ public class SeanceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseEsceptionForDisableRowFromAnotherRoom() {
+  public void shouldRaiseExceptionForDisableRowFromAnotherRoom() {
     Seance seance = new Seance();
     Room roomOfSeance = new Room("red");
     Room anotherRoom = new Room("blue");
@@ -204,7 +213,7 @@ public class SeanceTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldRaiseEsceptionForDisableNullRow() {
+  public void shouldRaiseExceptionForDisableNullRow() {
     new Seance().disableRow(null);
   }
 }
