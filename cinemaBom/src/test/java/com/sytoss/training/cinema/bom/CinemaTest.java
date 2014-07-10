@@ -208,4 +208,30 @@ public class CinemaTest {
     cinema.addMovie(movie);
     cinema.addMovie(movie);
   }
+
+  @Test
+  public void shouldShowNextSeances() {
+    Cinema cinema = new Cinema();
+    Calendar pastDate = Calendar.getInstance();
+    pastDate.add(Calendar.HOUR_OF_DAY, -1);
+    Seance pastSeance = new Seance();
+    pastSeance.setStartDateTime(pastDate);
+    Calendar futureDate = Calendar.getInstance();
+    futureDate.add(Calendar.HOUR_OF_DAY, +2);
+    Seance futureSeance = new Seance();
+    futureSeance.setStartDateTime(futureDate);
+    Calendar futurestDate = Calendar.getInstance();
+    futurestDate.add(Calendar.HOUR_OF_DAY, +8);
+    Seance futurestSeance = new Seance();
+    futurestSeance.setStartDateTime(futurestDate);
+    cinema.addSeance(futurestSeance);
+    cinema.addSeance(pastSeance);
+    cinema.addSeance(futureSeance);
+    Iterator<Seance> nextSeances = cinema.showNextSeances();
+    assertTrue(nextSeances.hasNext());
+    assertEquals(futureSeance, nextSeances.next());
+    assertTrue(nextSeances.hasNext());
+    assertEquals(futurestSeance, nextSeances.next());
+    assertFalse(nextSeances.hasNext());
+  }
 }

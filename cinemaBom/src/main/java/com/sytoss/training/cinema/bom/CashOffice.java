@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import bom.exception.CashOfficeManipulationException;
 import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 
@@ -70,8 +71,52 @@ public class CashOffice {
   }
 
   public void saleTicket(Ticket ticket) {
+    if (ticket == null) {
+      throw new CashOfficeManipulationException("Cannot sale NULL ticket");
+    }
+    if (ticket.getStatus() == TicketStatus.NOT_FOR_SALE || ticket.getStatus() == TicketStatus.SOLD) {
+      throw new CashOfficeManipulationException("Cannot sale ticket with status 'NOT FOR SALE' or 'SOLD'");
+    }
     ticket.changeStatus(TicketStatus.SOLD);
-    addTicket(ticket);
+    if ( !exists(ticket)) {
+      addTicket(ticket);
+    }
 
+  }
+
+  public void reserveTicket(Ticket ticket) {
+    if (ticket == null) {
+      throw new CashOfficeManipulationException("Cannot reserve NULL ticket");
+    }
+    if (ticket.getStatus() != TicketStatus.ENABLE) {
+      throw new CashOfficeManipulationException("Cannot reserve ticket with status != ENABLE");
+    }
+    ticket.changeStatus(TicketStatus.RESERVED);
+    if ( !exists(ticket)) {
+      addTicket(ticket);
+    }
+  }
+
+  public void returnTicket(Ticket ticket) {
+    if (ticket == null) {
+      throw new CashOfficeManipulationException("Cannot reserve NULL ticket");
+    }
+    if (ticket.getStatus() != TicketStatus.SOLD) {
+      throw new CashOfficeManipulationException("Cannot return ticket which not SOLD");
+    }
+    switch (ticket.getSeance().getStatus()) {
+      case OPENED:
+        ticket.changeStatus(TicketStatus.ENABLE);
+        break;
+      case CANCELED:
+        ticket.changeStatus(TicketStatus.NOT_FOR_SALE);
+        break;
+      case CLOSED:
+        throw new CashOfficeManipulationException("Cannot return ticket for seance which already ended");
+    }
+
+    if ( !exists(ticket)) {
+      addTicket(ticket);
+    }
   }
 }

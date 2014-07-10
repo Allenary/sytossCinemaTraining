@@ -13,6 +13,7 @@ import org.junit.Test;
 import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 import bom.exception.ReassignObjectException;
+import bom.exception.SeanceChangeStateException;
 
 public class SeanceTest {
 
@@ -99,8 +100,8 @@ public class SeanceTest {
   @Test
   public void shouldSpecifyStatus() {
     Seance seance = new Seance();
-    seance.setStatus(SeanceStatus.CANCEL);
-    assertEquals(SeanceStatus.CANCEL, seance.getStatus());
+    seance.setStatus(SeanceStatus.CANCELED);
+    assertEquals(SeanceStatus.CANCELED, seance.getStatus());
   }
 
   @Test
@@ -118,4 +119,92 @@ public class SeanceTest {
     seance.setRoom(null);
   }
 
+  @Test
+  public void shouldReturnTrueIfSeanceOpened() {
+    assertTrue(new Seance().isOpen());
+  }
+
+  @Test
+  public void shouldReturnFalseIfSeanceNotOpened() {
+    Seance seance = new Seance();
+    seance.cancel();
+    assertFalse(seance.isOpen());
+  }
+
+  @Test
+  public void shouldCancelSeance() {
+    Seance seance = new Seance();
+    Ticket soldTicket = new Ticket(new Place(1));
+    seance.addTicket(soldTicket);
+    new CashOffice().saleTicket(soldTicket);
+    Ticket forSaleTicket = new Ticket(new Place(1));
+    seance.addTicket(forSaleTicket);
+    seance.cancel();
+    assertEquals(SeanceStatus.CANCELED, seance.getStatus());
+    assertEquals(TicketStatus.NOT_FOR_SALE, forSaleTicket.getStatus());
+    assertEquals(TicketStatus.SOLD, soldTicket.getStatus());
+    assertFalse(seance.getAvaliableTickets().hasNext());
+  }
+
+  @Test(expected = SeanceChangeStateException.class)
+  public void shouldRaiseExceptionForCancelClosedSeance() {
+    Seance seance = new Seance();
+    seance.setStatus(SeanceStatus.CLOSED);
+    seance.cancel();
+  }
+
+  @Test
+  public void shouldDisableEnabledTicket() {
+    Ticket ticket = new Ticket(new Place(1));
+    Seance seance = new Seance();
+    seance.addTicket(ticket);
+    seance.disableTicket(ticket);
+    assertEquals(TicketStatus.NOT_FOR_SALE, ticket.getStatus());
+    assertFalse(seance.getAvaliableTickets().hasNext());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseExceptionWhenDisableTicketFromAnotherSeance() {
+    Ticket ticket = new Ticket(new Place(1));
+    Seance seance = new Seance();
+    seance.disableTicket(ticket);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseExceptionWhenDisableNullTicket() {
+    new Seance().disableTicket(null);
+  }
+
+  @Test
+  public void shouldDisableRow() {
+    Room room = new Room("blue");
+    Row row = new Row(1, room);
+    Ticket ticket1 = new Ticket(new Place(1, row));
+    Ticket ticket2 = new Ticket(new Place(2, row));
+    Row anotherRow = new Row(2, room);
+    Ticket ticketFromAnotherRow = new Ticket(new Place(1, anotherRow));
+    Seance seance = new Seance();
+    seance.setRoom(room);
+    seance.addTicket(ticket1);
+    seance.addTicket(ticket2);
+    seance.addTicket(ticketFromAnotherRow);
+    seance.disableRow(row);
+    assertEquals(TicketStatus.NOT_FOR_SALE, ticket1.getStatus());
+    assertEquals(TicketStatus.NOT_FOR_SALE, ticket2.getStatus());
+    assertEquals(TicketStatus.ENABLE, ticketFromAnotherRow.getStatus());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseEsceptionForDisableRowFromAnotherRoom() {
+    Seance seance = new Seance();
+    Room roomOfSeance = new Room("red");
+    Room anotherRoom = new Room("blue");
+    seance.setRoom(roomOfSeance);
+    seance.disableRow(new Row(1, anotherRoom));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseEsceptionForDisableNullRow() {
+    new Seance().disableRow(null);
+  }
 }

@@ -8,8 +8,9 @@ import java.util.List;
 import bom.exception.DuplicateInsertionException;
 import bom.exception.NullObjectInsertionException;
 import bom.exception.ReassignObjectException;
+import bom.exception.SeanceChangeStateException;
 
-public class Seance {
+public class Seance implements Comparable {
 
   private Calendar startDateTime;
 
@@ -43,7 +44,7 @@ public class Seance {
     this.startDateTime = calendar;
   }
 
-  public Object getStartDateTime() {
+  public Calendar getStartDateTime() {
     return startDateTime;
   }
 
@@ -115,9 +116,13 @@ public class Seance {
       return false;
     if (other == this)
       return true;
+    if (this.getRoom() == null)
+      return false;
     if ( !(other instanceof Seance))
       return false;
     Seance otherSeance = (Seance) other;
+    if (otherSeance.getRoom() == null)
+      return false;
     return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
 
   }
@@ -131,4 +136,51 @@ public class Seance {
     }
     return avaliableTickets.iterator();
   }
+
+  public void cancel() {
+    if (status != SeanceStatus.OPENED) {
+      throw new SeanceChangeStateException("Closed or Canceled seance cannot be caneled");
+    }
+    setStatus(SeanceStatus.CANCELED);
+    for (Ticket ticket : tickets) {
+      if (ticket.getStatus() != TicketStatus.SOLD) {
+        disableTicket(ticket);
+      }
+    }
+  }
+
+  public void disableTicket(Ticket ticket) {
+    if ( !existsTicket(ticket)) {
+      throw new IllegalArgumentException("Ticket from another seance cannot be disabled");
+    }
+    if (ticket.getStatus() != TicketStatus.ENABLE) {
+      throw new IllegalArgumentException("Cannot disable ticket which is not ENABLED");
+    }
+    ticket.changeStatus(TicketStatus.NOT_FOR_SALE);
+  }
+
+  public boolean isOpen() {
+    return this.status == SeanceStatus.OPENED;
+  }
+
+  public void disableRow(Row row) {
+    if (row == null) {
+      throw new IllegalArgumentException("cannot disable NULL row");
+    }
+    if ( !this.room.equals(row.getRoom())) {
+      throw new IllegalArgumentException("cannot disable row from another room.");
+    }
+
+    for (Ticket ticket : tickets) {
+      if (ticket.getPlace().getRow().equals(row)) {
+        disableTicket(ticket);
+      }
+    }
+  }
+
+  public int compareTo(Object anotherSeance) {
+    Seance comparedSeance = (Seance) anotherSeance;
+    return this.startDateTime.compareTo(comparedSeance.getStartDateTime());
+  }
+
 }

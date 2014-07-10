@@ -10,7 +10,12 @@ public class Place {
   private Row row;
 
   public Place(int number) {
-    this.number = number;
+    setNumber(number);
+  }
+
+  public Place(int number, Row row) {
+    this(number);
+    setRow(row);
   }
 
   public int getNumber() {

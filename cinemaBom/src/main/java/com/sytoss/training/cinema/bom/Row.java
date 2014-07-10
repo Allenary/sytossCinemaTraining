@@ -18,7 +18,12 @@ public class Row {
 
   public Row(int number) {
     places = new ArrayList<Place>();
-    this.number = number;
+    setNumber(number);
+  }
+
+  public Row(int number, Room anotherRoom) {
+    this(number);
+    setRoom(anotherRoom);
   }
 
   public Room getRoom() {

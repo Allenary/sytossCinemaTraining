@@ -1,6 +1,8 @@
 package com.sytoss.training.cinema.bom;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -146,5 +148,17 @@ public class Cinema {
 
   public Iterator<Seance> showSeances() {
     return seances.iterator();
+  }
+
+  public Iterator<Seance> showNextSeances() {
+    List<Seance> nextSeances = new ArrayList<Seance>();
+    Calendar now = Calendar.getInstance();
+    for (Seance seance : seances) {
+      if (seance.getStartDateTime().after(now)) {
+        nextSeances.add(seance);
+      }
+    }
+    Collections.sort(nextSeances);
+    return nextSeances.iterator();
   }
 }

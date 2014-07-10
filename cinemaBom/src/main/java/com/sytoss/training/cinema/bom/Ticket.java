@@ -79,4 +79,5 @@ public class Ticket {
     Ticket otherTicket = (Ticket) other;
     return this.place.equals(otherTicket.getPlace()) && this.seance.equals(otherTicket.getSeance());
   }
+
 }
