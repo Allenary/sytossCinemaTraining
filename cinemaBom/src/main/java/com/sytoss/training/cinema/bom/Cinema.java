@@ -157,7 +157,7 @@ public class Cinema {
         nextSeances.add(seance);
       }
     }
-    Collections.sort(nextSeances);
+    Collections.sort(nextSeances, new SeanceComparatorByDate());
     return nextSeances.iterator();
   }
 }

@@ -212,26 +212,28 @@ public class CinemaTest {
   @Test
   public void shouldShowNextSeances() {
     Cinema cinema = new Cinema();
+
     Calendar pastDate = Calendar.getInstance();
-    pastDate.add(Calendar.HOUR_OF_DAY, -1);
-    Seance pastSeance = new Seance();
-    pastSeance.setStartDateTime(pastDate);
     Calendar futureDate = Calendar.getInstance();
-    futureDate.add(Calendar.HOUR_OF_DAY, +2);
-    Seance futureSeance = new Seance();
-    futureSeance.setStartDateTime(futureDate);
     Calendar futurestDate = Calendar.getInstance();
+
+    Seance pastSeance = new Seance();
+    Seance firstFutureSeance = new Seance();
+    Seance secondFutureSeance = new Seance();
+
+    pastDate.add(Calendar.HOUR_OF_DAY, -1);
+    pastSeance.setStartDateTime(pastDate);
+    futureDate.add(Calendar.HOUR_OF_DAY, +2);
+    secondFutureSeance.setStartDateTime(futurestDate);
     futurestDate.add(Calendar.HOUR_OF_DAY, +8);
-    Seance futurestSeance = new Seance();
-    futurestSeance.setStartDateTime(futurestDate);
-    cinema.addSeance(futurestSeance);
+    firstFutureSeance.setStartDateTime(futureDate);
+    cinema.addSeance(firstFutureSeance);
     cinema.addSeance(pastSeance);
-    cinema.addSeance(futureSeance);
+    cinema.addSeance(secondFutureSeance);
     Iterator<Seance> nextSeances = cinema.showNextSeances();
-    assertTrue(nextSeances.hasNext());
-    assertEquals(futureSeance, nextSeances.next());
-    assertTrue(nextSeances.hasNext());
-    assertEquals(futurestSeance, nextSeances.next());
+
+    assertEquals(firstFutureSeance, nextSeances.next());
+    assertEquals(secondFutureSeance, nextSeances.next());
     assertFalse(nextSeances.hasNext());
   }
 }

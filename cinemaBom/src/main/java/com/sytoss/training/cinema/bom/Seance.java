@@ -10,7 +10,7 @@ import bom.exception.NullObjectInsertionException;
 import bom.exception.ReassignObjectException;
 import bom.exception.SeanceChangeStateException;
 
-public class Seance implements Comparable {
+public class Seance {
 
   private Calendar startDateTime;
 
@@ -160,14 +160,14 @@ public class Seance implements Comparable {
   }
 
   public boolean isOpen() {
-    return this.status == SeanceStatus.OPENED;
+    return status == SeanceStatus.OPENED;
   }
 
   public void disableRow(Row row) {
     if (row == null) {
       throw new IllegalArgumentException("cannot disable NULL row");
     }
-    if ( !this.room.equals(row.getRoom())) {
+    if ( !room.equals(row.getRoom())) {
       throw new IllegalArgumentException("cannot disable row from another room.");
     }
 
@@ -176,11 +176,6 @@ public class Seance implements Comparable {
         disableTicket(ticket);
       }
     }
-  }
-
-  public int compareTo(Object anotherSeance) {
-    Seance comparedSeance = (Seance) anotherSeance;
-    return this.startDateTime.compareTo(comparedSeance.getStartDateTime());
   }
 
 }
