@@ -13,6 +13,8 @@ public class Ticket {
 
   private Seance seance;
 
+  private CashOffice cashOffice;
+
   public Ticket(Place place) {
     setPlace(place);
     status = TicketStatus.ENABLE;
@@ -78,6 +80,17 @@ public class Ticket {
       return false;
     Ticket otherTicket = (Ticket) other;
     return this.place.equals(otherTicket.getPlace()) && this.seance.equals(otherTicket.getSeance());
+  }
+
+  public CashOffice getCashOffice() {
+    return cashOffice;
+  }
+
+  public void setCashOffice(CashOffice cashOffice) {
+    this.cashOffice = cashOffice;
+    if ( !cashOffice.exists(this)) {
+      cashOffice.addTicket(this);
+    }
   }
 
 }

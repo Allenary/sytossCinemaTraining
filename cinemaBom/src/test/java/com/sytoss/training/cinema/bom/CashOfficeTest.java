@@ -64,6 +64,7 @@ public class CashOfficeTest {
     CashOffice cashOffice = new CashOffice();
     Ticket ticket = new Ticket(new Place(1));
     cashOffice.addTicket(ticket);
+    assertEquals(cashOffice, ticket.getCashOffice());
     Iterator<Ticket> tickets = cashOffice.showTikets();
     assertTrue(tickets.hasNext());
     tickets.next();

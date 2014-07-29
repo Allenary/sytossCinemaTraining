@@ -17,6 +17,7 @@ public class CashOffice {
   private List<Ticket> tickets;
 
   public CashOffice(int number) {
+    this();
     this.number = number;
   }
 
@@ -64,6 +65,8 @@ public class CashOffice {
       throw new DuplicateInsertionException("This Ticket already added to CashOffice. Could not be added second time");
     }
     tickets.add(ticket);
+    ticket.setCashOffice(this);
+
   }
 
   public boolean exists(Ticket ticket) {

@@ -88,4 +88,12 @@ public class TicketTest {
     ticket.setPlace(null);
   }
 
+  @Test
+  public void shouldSetCashOffice() {
+    CashOffice cashOffice = new CashOffice(2);
+    Ticket ticket = new Ticket(new Place(1));
+    ticket.setCashOffice(cashOffice);
+    assertEquals(cashOffice, ticket.getCashOffice());
+    assertTrue(cashOffice.exists(ticket));
+  }
 }
