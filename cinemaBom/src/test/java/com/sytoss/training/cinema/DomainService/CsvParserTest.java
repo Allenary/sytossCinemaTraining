@@ -34,10 +34,10 @@ public class CsvParserTest {
 
   @Test
   public void shouldParseValidRowWithQuotesInName() {
-    String[] ticketAttributes = new CsvParser().parse("Kronverk,red,Корпорация \"Марионетки\",20.08.2014,5,6,60.00,8");
+    String[] ticketAttributes = new CsvParser().parse("Kronverk,red,\"Корпорация \"Марионетки\"\",20.08.2014,5,6,60.00,8");
     assertEquals("Kronverk", ticketAttributes[0]);
     assertEquals("red", ticketAttributes[1]);
-    assertEquals("Корпорация \"Марионетки\"", ticketAttributes[2]);
+    assertEquals("\"Корпорация \"Марионетки\"\"", ticketAttributes[2]);
     assertEquals("20.08.2014", ticketAttributes[3]);
     assertEquals("5", ticketAttributes[4]);
     assertEquals("6", ticketAttributes[5]);
