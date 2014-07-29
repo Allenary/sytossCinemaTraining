@@ -16,7 +16,11 @@ public class Ticket {
   private CashOffice cashOffice;
 
   public Ticket(Place place) {
+    this();
     setPlace(place);
+  }
+
+  public Ticket() {
     status = TicketStatus.ENABLE;
   }
 
