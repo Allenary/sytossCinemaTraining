@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import bom.exception.NullObjectInsertionException;
-import bom.exception.ReassignObjectException;
+import com.sytoss.training.cinema.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.ReassignObjectException;
 
 public class TicketTest {
 

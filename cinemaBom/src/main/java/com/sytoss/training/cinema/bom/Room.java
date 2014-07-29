@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import bom.exception.NullObjectInsertionException;
-import bom.exception.ReassignObjectException;
+import com.sytoss.training.cinema.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.ReassignObjectException;
 
 public class Room {
 

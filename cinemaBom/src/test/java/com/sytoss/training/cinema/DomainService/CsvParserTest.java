@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import bom.exception.CsvStringParseException;
+import com.sytoss.training.cinema.exception.CsvStringParseException;
 
 public class CsvParserTest {
 

@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-import bom.exception.*;
+import com.sytoss.training.cinema.exception.*;
 
 public class CashOfficeTest {
 

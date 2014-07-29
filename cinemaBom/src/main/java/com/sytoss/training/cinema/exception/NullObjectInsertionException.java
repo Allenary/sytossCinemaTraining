@@ -1,4 +1,4 @@
-package bom.exception;
+package com.sytoss.training.cinema.exception;
 
 public class NullObjectInsertionException extends RuntimeException {
 

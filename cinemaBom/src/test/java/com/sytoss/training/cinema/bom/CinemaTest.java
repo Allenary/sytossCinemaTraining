@@ -7,8 +7,8 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-import bom.exception.DuplicateInsertionException;
-import bom.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.DuplicateInsertionException;
+import com.sytoss.training.cinema.exception.NullObjectInsertionException;
 
 public class CinemaTest {
 

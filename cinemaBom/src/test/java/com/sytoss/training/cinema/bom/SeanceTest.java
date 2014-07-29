@@ -10,10 +10,10 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-import bom.exception.DuplicateInsertionException;
-import bom.exception.NullObjectInsertionException;
-import bom.exception.ReassignObjectException;
-import bom.exception.SeanceChangeStateException;
+import com.sytoss.training.cinema.exception.DuplicateInsertionException;
+import com.sytoss.training.cinema.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.ReassignObjectException;
+import com.sytoss.training.cinema.exception.SeanceChangeStateException;
 
 public class SeanceTest {
 

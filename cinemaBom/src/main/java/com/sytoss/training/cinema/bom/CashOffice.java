@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import bom.exception.CashOfficeManipulationException;
-import bom.exception.DuplicateInsertionException;
-import bom.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.CashOfficeManipulationException;
+import com.sytoss.training.cinema.exception.DuplicateInsertionException;
+import com.sytoss.training.cinema.exception.NullObjectInsertionException;
 
 public class CashOffice {
 

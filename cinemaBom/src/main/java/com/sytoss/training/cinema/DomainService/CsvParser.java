@@ -3,7 +3,7 @@ package com.sytoss.training.cinema.DomainService;
 import java.util.ArrayList;
 import java.util.List;
 
-import bom.exception.CsvStringParseException;
+import com.sytoss.training.cinema.exception.CsvStringParseException;
 
 public class CsvParser {
 

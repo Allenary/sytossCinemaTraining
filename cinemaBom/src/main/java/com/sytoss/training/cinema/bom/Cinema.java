@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import bom.exception.DuplicateInsertionException;
-import bom.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.DuplicateInsertionException;
+import com.sytoss.training.cinema.exception.NullObjectInsertionException;
 
 public class Cinema {
 
