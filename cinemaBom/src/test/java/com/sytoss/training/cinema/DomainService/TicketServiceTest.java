@@ -3,9 +3,12 @@ package com.sytoss.training.cinema.DomainService;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,32 +80,31 @@ public class TicketServiceTest {
    * end-to-end. With data files.
    */
   @Test
-  public void shouldMerge2files() throws IOException {
+  public void shouldMerge2files() throws IOException, URISyntaxException {
     List<String> inputFiles = Arrays.asList(
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge2files\\1ticket.csv",
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge2files\\3tickets.csv");
+      new File(getClass().getResource("/shouldMerge2files/1ticket.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource("/shouldMerge2files/3tickets.csv").toURI()).getAbsolutePath());
 
     new TicketService().mergeCSV(
       inputFiles,
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge2files\\testRunResult.csv");
+      new File(getClass().getResource("/shouldMerge2files/testRunResult.csv").toURI()).getAbsolutePath());
 
-    areFilesEqual(
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge2files\\Standard.csv",
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge2files\\testRunResult.csv");
+    areFilesEqual(new File(getClass().getResource("/shouldMerge2files/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource("/shouldMerge2files/testRunResult.csv")
+      .toURI()).getAbsolutePath());
   }
 
   @Test
-  public void shouldMerge1file() throws IOException {
-    List<String> inputFiles = Arrays
-      .asList("C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge1file\\1ticket.csv");
+  public void shouldMerge1file() throws IOException, URISyntaxException {
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource("/shouldMerge1file/1ticket.csv").toURI()).getAbsolutePath());
 
     new TicketService().mergeCSV(
       inputFiles,
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge1file\\testRunResult.csv");
+      new File(getClass().getResource("/shouldMerge1file/testRunResult.csv").toURI()).getAbsolutePath());
 
-    areFilesEqual(
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge1file\\Standard.csv",
-      "C:\\Users\\school\\Ninak+katen\\repo\\sytossCinemaTraining\\testData\\shouldMerge1file\\testRunResult.csv");
+    areFilesEqual(new File(getClass().getResource("/shouldMerge1file/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource("/shouldMerge1file/testRunResult.csv")
+      .toURI()).getAbsolutePath());
   }
 
   private void areFilesEqual(String fileName1, String fileName2) throws IOException {
