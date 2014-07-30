@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sytoss.training.cinema.bom.Ticket;
+import com.sytoss.training.cinema.connector.CSVFileSystemConnector;
 import com.sytoss.training.cinema.translator.TicketTranslator;
 
 public class TicketService {
@@ -20,4 +21,26 @@ public class TicketService {
 
   }
 
+  public void write(List<Ticket> tickets, String fileNameDestination) {
+    List<String> csvStrings = new ArrayList<String>();
+    for (Ticket ticket : tickets) {
+      csvStrings.add(new CsvParser().deParse((new TicketTranslator().toDTO(ticket))));
+    }
+    new CSVFileSystemConnector().write(csvStrings, fileNameDestination);
+  }
+
+  public boolean equalsCashOfficeID(List<Ticket> tickets) {
+    if (tickets.size() == 0) {
+      return false;
+    }
+    int firstRowCashOfficeID = tickets.get(0).getCashOffice().getNumber();
+    for (Ticket ticket : tickets) {
+      if (ticket.getCashOffice() == null || ticket.getCashOffice().getNumber() != firstRowCashOfficeID) {
+        return false;
+      }
+
+    }
+
+    return true;
+  }
 }
