@@ -1,14 +1,14 @@
 package com.sytoss.training.cinema.DomainService;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,6 +105,25 @@ public class TicketServiceTest {
     areFilesEqual(new File(getClass().getResource("/shouldMerge1file/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource("/shouldMerge1file/testRunResult.csv")
       .toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldNotMergeFileWithDifferentCashOffice() throws IOException, URISyntaxException {
+    List<String> inputFiles = Arrays.asList(new File(getClass()
+      .getResource("/shouldNotMergeFileWithDifferentCashOffice/validTicket.csv")
+      .toURI()).getAbsolutePath(), new File(getClass()
+      .getResource("/shouldNotMergeFileWithDifferentCashOffice/emptyCashOffice.csv")
+      .toURI()).getAbsolutePath(), new File(getClass()
+      .getResource("/shouldNotMergeFileWithDifferentCashOffice/anotherCashOffice.csv")
+      .toURI()).getAbsolutePath());
+
+    new TicketService().mergeCSV(inputFiles, new File(getClass()
+      .getResource("/shouldNotMergeFileWithDifferentCashOffice/testRunResult.csv")
+      .toURI()).getAbsolutePath());
+
+    areFilesEqual(
+      new File(getClass().getResource("/shouldNotMergeFileWithDifferentCashOffice/Standard.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource("/shouldNotMergeFileWithDifferentCashOffice/testRunResult.csv").toURI()).getAbsolutePath());
   }
 
   private void areFilesEqual(String fileName1, String fileName2) throws IOException {

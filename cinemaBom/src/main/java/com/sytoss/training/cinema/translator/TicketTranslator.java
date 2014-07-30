@@ -74,31 +74,31 @@ public class TicketTranslator {
     return dto;
   }
 
-  public Ticket fromDTO(String[] ticketDTO) {
+  public Ticket fromDTO(String[] ticketDTO) throws ParseException {
     Ticket ticket = new Ticket();
 
-    Row row = new Row(Integer.parseInt(ticketDTO[4]));
-    Place place = new Place(Integer.parseInt(ticketDTO[5]), row);
-    ticket.setPlace(place);
-
-    Calendar calendar = Calendar.getInstance();
-
     try {
+      Row row = new Row(Integer.parseInt(ticketDTO[4]));
+      Place place = new Place(Integer.parseInt(ticketDTO[5]), row);
+      ticket.setPlace(place);
+
+      Calendar calendar = Calendar.getInstance();
+
       calendar.setTime(new SimpleDateFormat(dateFormat).parse(ticketDTO[3]));
-    } catch (ParseException e) {
-      logger.error("date '" + ticketDTO[3] + "' do not correspond format '" + dateFormat);
-      calendar = null;
+      Seance seance = new Seance(new Room(ticketDTO[1]), calendar);
+      seance.setMovie(new Movie(ticketDTO[2]));
+      ticket.setSeance(seance);
+
+      CashOffice cashOffice = new CashOffice(Integer.parseInt(ticketDTO[7]));
+      cashOffice.setCinema(new Cinema(ticketDTO[0]));
+      ticket.setCashOffice(cashOffice);
+
+      ticket.setPrice(Double.parseDouble(ticketDTO[6]));
+
+    } catch (Exception e) {
+      logger.error("could not convert to Ticket rows: " + ticketDTO.toString());
+      throw new ParseException(e.getMessage(), 0);
     }
-    Seance seance = new Seance(new Room(ticketDTO[1]), calendar);
-    seance.setMovie(new Movie(ticketDTO[2]));
-    ticket.setSeance(seance);
-
-    CashOffice cashOffice = new CashOffice(Integer.parseInt(ticketDTO[7]));
-    cashOffice.setCinema(new Cinema(ticketDTO[0]));
-    ticket.setCashOffice(cashOffice);
-
-    ticket.setPrice(Double.parseDouble(ticketDTO[6]));
-
     return ticket;
   }
 }

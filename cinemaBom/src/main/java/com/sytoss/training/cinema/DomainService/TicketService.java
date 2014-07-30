@@ -1,8 +1,12 @@
 package com.sytoss.training.cinema.DomainService;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.connector.CSVFileSystemConnector;
@@ -10,17 +14,33 @@ import com.sytoss.training.cinema.translator.TicketTranslator;
 
 public class TicketService {
 
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
+
   private List<Ticket> read(List<String> fileNames) {
     List<String> csvRows = new ArrayList<String>();
+    List<Ticket> allTickets = new ArrayList<Ticket>();
+    List<Ticket> ticketsIn1File;
+    boolean isFileSkipped;
     for (String inputFile : fileNames) {
-      csvRows.addAll(new CSVFileSystemConnector().read(inputFile));
-    }
-    List<Ticket> tickets = new ArrayList<Ticket>();
-    for (String row : csvRows) {
-      tickets.add(new TicketTranslator().fromDTO(new CsvParser().parse(row)));
+      logger.warn("start with processing file: " + inputFile);
+      csvRows = new CSVFileSystemConnector().read(inputFile);
+      ticketsIn1File = new ArrayList<Ticket>();
+      isFileSkipped = false;
+      for (String row : csvRows) {
+        try {
+          ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser().parse(row)));
+        } catch (ParseException e) {
+          logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data.");
+          isFileSkipped = true;
+        }
+      }
+      if ( !isFileSkipped && equalsCashOfficeID(ticketsIn1File)) {
+        allTickets.addAll(ticketsIn1File);
+        logger.warn("file added to merge: " + inputFile);
+      }
     }
 
-    return tickets;
+    return allTickets;
 
   }
 

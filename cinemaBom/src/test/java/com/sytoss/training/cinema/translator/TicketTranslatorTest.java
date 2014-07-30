@@ -2,6 +2,7 @@ package com.sytoss.training.cinema.translator;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -80,7 +81,7 @@ public class TicketTranslatorTest {
   }
 
   @Test
-  public void shouldTranslateFromDTOFull() {
+  public void shouldTranslateFromDTOFull() throws ParseException {
     Ticket ticket = new TicketTranslator()
       .fromDTO(new String[] {"Kronverk", "blue", "Titanik", "12.04.2014 10:30", "2", "1", "59.99", "8"});
 
