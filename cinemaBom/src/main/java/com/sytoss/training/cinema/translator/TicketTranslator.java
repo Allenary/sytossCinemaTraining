@@ -6,6 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sytoss.training.cinema.bom.CashOffice;
 import com.sytoss.training.cinema.bom.Cinema;
 import com.sytoss.training.cinema.bom.Movie;
@@ -16,6 +19,10 @@ import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 
 public class TicketTranslator {
+
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+  private String dateFormat = "dd.MM.yyyy HH:mm";
 
   public String[] toDTO(Ticket ticket) {
     String[] dto = new String[8];
@@ -67,7 +74,7 @@ public class TicketTranslator {
     return dto;
   }
 
-  public Ticket fromDTO(String[] ticketDTO) throws ParseException {
+  public Ticket fromDTO(String[] ticketDTO) {
     Ticket ticket = new Ticket();
 
     Row row = new Row(Integer.parseInt(ticketDTO[4]));
@@ -75,7 +82,13 @@ public class TicketTranslator {
     ticket.setPlace(place);
 
     Calendar calendar = Calendar.getInstance();
-    calendar.setTime(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(ticketDTO[3]));
+
+    try {
+      calendar.setTime(new SimpleDateFormat(dateFormat).parse(ticketDTO[3]));
+    } catch (ParseException e) {
+      logger.error("date '" + ticketDTO[3] + "' do not correspond format '" + dateFormat);
+      calendar = null;
+    }
     Seance seance = new Seance(new Room(ticketDTO[1]), calendar);
     seance.setMovie(new Movie(ticketDTO[2]));
     ticket.setSeance(seance);

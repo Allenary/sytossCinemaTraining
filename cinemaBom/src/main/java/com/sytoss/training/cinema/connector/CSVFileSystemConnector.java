@@ -10,7 +10,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CSVFileSystemConnector {
+
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private boolean appendFile;
 
@@ -51,12 +56,15 @@ public class CSVFileSystemConnector {
 
   public List<String> read(String fileName) {
     List<String> csvStrings = new ArrayList<String>();
+    if ( !new File(fileName).exists()) {
+      logger.warn("File " + fileName + " does not exist!");
+    }
 
     try {
       csvStrings = Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"));
 
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error("unable read file " + fileName);
     }
     return csvStrings;
 
