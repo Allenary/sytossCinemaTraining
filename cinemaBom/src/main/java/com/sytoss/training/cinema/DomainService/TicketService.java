@@ -1,5 +1,6 @@
 package com.sytoss.training.cinema.DomainService;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class TicketService {
       isFileSkipped = false;
       for (String row : csvRows) {
         try {
-          ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser().parse(row)));
+          ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
         } catch (ParseException e) {
           logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data.");
           isFileSkipped = true;
@@ -48,9 +49,13 @@ public class TicketService {
   private void writeInFile(List<Ticket> tickets, String fileNameDestination) {
     List<String> csvStrings = new ArrayList<String>();
     for (Ticket ticket : tickets) {
-      csvStrings.add(new CsvParser().deParse((new TicketTranslator().toDTO(ticket))));
+      csvStrings.add(new CsvParser(new SplitSplitStringStrategy()).deParse((new TicketTranslator().toDTO(ticket))));
     }
-    new CSVFileSystemConnector().write(csvStrings, fileNameDestination);
+    try {
+      new CSVFileSystemConnector().write(csvStrings, fileNameDestination);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private boolean equalsCashOfficeID(List<Ticket> tickets) {
@@ -69,7 +74,6 @@ public class TicketService {
   }
 
   public void mergeCSV(List<String> inputFileNames, String outputFileName) {
-    List<Ticket> inputTickets = readFromFile(inputFileNames);
-    writeInFile(inputTickets, outputFileName);
+    writeInFile(readFromFile(inputFileNames), outputFileName);
   }
 }

@@ -9,7 +9,13 @@ import org.slf4j.LoggerFactory;
 
 public class CsvParser {
 
+  private ISplitStategy strategy;
+
   private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+  public CsvParser(ISplitStategy splitStategy) {
+    strategy = splitStategy;
+  }
 
   private int countQuotes(String row, int startPosition, int endPosition) {
     int count = 0;
@@ -30,12 +36,8 @@ public class CsvParser {
     return (countQuotes(row) % 2 != 0);
   }
 
-  public String[] SplitByCommas(String rowToParse) {
-    return rowToParse.split(",");
-  }
-
   public String[] parse(String rowToParse) throws ParseException {
-    String[] tempParams = SplitByCommas(rowToParse);
+    String[] tempParams = strategy.splitByCommas(rowToParse);
     String tempParam;
     List<String> resultParams = new ArrayList<String>();
     for (int i = 0; i < tempParams.length; i++ ) {
@@ -65,7 +67,7 @@ public class CsvParser {
     String tempString;
     for (int i = 0; i < attributes.length - 1; i++ ) {
       tempString = attributes[i];
-      if (countQuotes(tempString) > 0 || tempString.matches(".*[А-Яа-я,]+.*")) {
+      if (countQuotes(tempString) > 0 || tempString.matches(".*[,А-Яа-я\"]+.*")) {
         tempString = "\"" + tempString + "\"";
       }
       csvRow += tempString + ",";

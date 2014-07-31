@@ -17,27 +17,26 @@ public class CSVFileSystemConnector {
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  public void write(List<String> csvStrings, String fileNameDestination) {
+  public void write(List<String> csvStrings, String fileNameDestination) throws IOException {
     File file = new File(fileNameDestination);
     logger.info("outfilename=" + fileNameDestination);
-    try {
-      if ( !file.exists()) {
-        file.createNewFile();
+    if ( !file.exists()) {
+      file.createNewFile();
 
-      }
-
-      new FileWriter(file, false).write(""); //clear file content
-      PrintWriter printWriter = new PrintWriter(new FileWriter(file, true));
-
-      for (String row : csvStrings) {
-        //        printWriter.append(row);
-        printWriter.println(row);
-        logger.info("row added to output: " + row);
-      }
-      printWriter.close();
-    } catch (IOException e) {
-      e.printStackTrace();
     }
+
+    FileWriter fileWriter = new FileWriter(file, false);
+    fileWriter.write(""); //clear file content
+    fileWriter.close();
+    fileWriter = new FileWriter(file, true);
+    PrintWriter printWriter = new PrintWriter(fileWriter);
+
+    for (String row : csvStrings) {
+      printWriter.println(row);
+      logger.info("row added to output: " + row);
+    }
+    printWriter.close();
+    fileWriter.close();
   }
 
   public List<String> read(String fileName) {
