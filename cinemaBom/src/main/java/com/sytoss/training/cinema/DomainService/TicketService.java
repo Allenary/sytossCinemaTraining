@@ -1,7 +1,6 @@
 package com.sytoss.training.cinema.DomainService;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class TicketService {
         for (String row : csvRows) {
           try {
             ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
-          } catch (ParseException e) {
+          } catch (Exception e) {
             logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data.");
             isFileSkipped = true;
           }
