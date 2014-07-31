@@ -2,6 +2,8 @@ package com.sytoss.training.cinema.DomainService;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.ParseException;
+
 import org.junit.Test;
 
 import com.sytoss.training.cinema.exception.CsvStringParseException;
@@ -9,7 +11,7 @@ import com.sytoss.training.cinema.exception.CsvStringParseException;
 public class CsvParserTest {
 
   @Test
-  public void shouldParseValidRow() {
+  public void shouldParseValidRow() throws ParseException {
     String[] ticketAttributes = new CsvParser().parse("cinema-name,room-name,movie-name,date,row,place,price,cashoffice_ID");
     assertEquals("cinema-name", ticketAttributes[0]);
     assertEquals("room-name", ticketAttributes[1]);
@@ -22,7 +24,7 @@ public class CsvParserTest {
   }
 
   @Test
-  public void shouldParseValidRowWithCommasInName() {
+  public void shouldParseValidRowWithCommasInName() throws ParseException {
     String[] ticketAttributes = new CsvParser().parse("Kronverk,red,\"Run, Forest, Run!\",20.08.2014,5,6,60.00,8");
     assertEquals("Kronverk", ticketAttributes[0]);
     assertEquals("red", ticketAttributes[1]);
@@ -35,7 +37,7 @@ public class CsvParserTest {
   }
 
   @Test
-  public void shouldParseValidRowWithQuotesInName() {
+  public void shouldParseValidRowWithQuotesInName() throws ParseException {
     String[] ticketAttributes = new CsvParser().parse("Kronverk,\"red\",\"Корпорация \"Марионетки\"\",20.08.2014,5,6,60.00,8");
     assertEquals("Kronverk", ticketAttributes[0]);
     assertEquals("\"red\"", ticketAttributes[1]);
@@ -47,8 +49,8 @@ public class CsvParserTest {
     assertEquals("8", ticketAttributes[7]);
   }
 
-  @Test(expected = CsvStringParseException.class)
-  public void shouldRaiseParseExceptionWhenQuotesCountIsOdd() {
+  @Test(expected = ParseException.class)
+  public void shouldRaiseParseExceptionWhenQuotesCountIsOdd() throws ParseException {
     new CsvParser().parse("Kronverk,\"red\",\"Корпорация \"Марионетки\",20.08.2014,5,6,60.00,8");
   }
 

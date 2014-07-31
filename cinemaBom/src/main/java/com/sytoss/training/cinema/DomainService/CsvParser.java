@@ -1,9 +1,8 @@
 package com.sytoss.training.cinema.DomainService;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sytoss.training.cinema.exception.CsvStringParseException;
 
 public class CsvParser {
 
@@ -22,21 +21,30 @@ public class CsvParser {
     return countQuotes(row, 0, row.length() - 1);
   }
 
-  public String[] parse(String rowToParse) {
+  public String[] parse(String rowToParse) throws ParseException {
     List<String> tokens = new ArrayList<String>();
     String delimeter = ",";
     int beginIndex = 0;
     int endIndex = rowToParse.indexOf(delimeter, beginIndex);
+    boolean isCsvRow = true;
     while (endIndex != -1) {
+
       while (countQuotes(rowToParse, beginIndex, endIndex) % 2 != 0) {
         endIndex = rowToParse.indexOf(delimeter, endIndex + 1);
-        if (endIndex == -1) {
-          throw new CsvStringParseException("String is incorrect: odd count of quotes found.");
+        isCsvRow = (endIndex == -1);
+        if ( !isCsvRow) {
+          break;
         }
+      }
+      if ( !isCsvRow) {
+        break;
       }
       tokens.add(rowToParse.substring(beginIndex, endIndex));
       beginIndex = endIndex + 1;
       endIndex = rowToParse.indexOf(delimeter, beginIndex);
+    }
+    if ( !isCsvRow) {
+      throw new ParseException("Odd count of quotes in row.", 0);
     }
     tokens.add(rowToParse.substring(beginIndex, rowToParse.length()));
     return tokens.toArray(new String[8]);

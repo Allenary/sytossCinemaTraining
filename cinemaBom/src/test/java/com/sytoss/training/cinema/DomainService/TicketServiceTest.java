@@ -81,53 +81,91 @@ public class TicketServiceTest {
    */
   @Test
   public void shouldMerge2files() throws IOException, URISyntaxException {
-    List<String> inputFiles = Arrays.asList(
-      new File(getClass().getResource("/shouldMerge2files/1ticket.csv").toURI()).getAbsolutePath(),
-      new File(getClass().getResource("/shouldMerge2files/3tickets.csv").toURI()).getAbsolutePath());
+    String folder = "/shouldMerge2files";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath(), new File(
+      getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
 
-    new TicketService().mergeCSV(
-      inputFiles,
-      new File(getClass().getResource("/shouldMerge2files/testRunResult.csv").toURI()).getAbsolutePath());
+    new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    areFilesEqual(new File(getClass().getResource("/shouldMerge2files/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource("/shouldMerge2files/testRunResult.csv")
-      .toURI()).getAbsolutePath());
+    areFilesEqual(
+      new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
   }
 
   @Test
   public void shouldMerge1file() throws IOException, URISyntaxException {
-    List<String> inputFiles = Arrays.asList(new File(getClass().getResource("/shouldMerge1file/1ticket.csv").toURI()).getAbsolutePath());
+    String folder = "/shouldMerge1file";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath());
 
-    new TicketService().mergeCSV(
-      inputFiles,
-      new File(getClass().getResource("/shouldMerge1file/testRunResult.csv").toURI()).getAbsolutePath());
+    new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    areFilesEqual(new File(getClass().getResource("/shouldMerge1file/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource("/shouldMerge1file/testRunResult.csv")
-      .toURI()).getAbsolutePath());
+    areFilesEqual(
+      new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
   }
 
   @Test
   public void shouldNotMergeFileWithDifferentCashOffice() throws IOException, URISyntaxException {
-    List<String> inputFiles = Arrays.asList(new File(getClass()
-      .getResource("/shouldNotMergeFileWithDifferentCashOffice/validTicket.csv")
-      .toURI()).getAbsolutePath(), new File(getClass()
-      .getResource("/shouldNotMergeFileWithDifferentCashOffice/emptyCashOffice.csv")
-      .toURI()).getAbsolutePath(), new File(getClass()
-      .getResource("/shouldNotMergeFileWithDifferentCashOffice/anotherCashOffice.csv")
-      .toURI()).getAbsolutePath());
+    String folder = "/shouldNotMergeFileWithDifferentCashOffice";
+    List<String> inputFiles = Arrays.asList(
+      new File(getClass().getResource(folder + "/validTicket.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/emptyCashOffice.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/anotherCashOffice.csv").toURI()).getAbsolutePath());
 
-    new TicketService().mergeCSV(inputFiles, new File(getClass()
-      .getResource("/shouldNotMergeFileWithDifferentCashOffice/testRunResult.csv")
-      .toURI()).getAbsolutePath());
+    new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
     areFilesEqual(
-      new File(getClass().getResource("/shouldNotMergeFileWithDifferentCashOffice/Standard.csv").toURI()).getAbsolutePath(),
-      new File(getClass().getResource("/shouldNotMergeFileWithDifferentCashOffice/testRunResult.csv").toURI()).getAbsolutePath());
+      new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldNotMergeFileWithRowsWithWrongLength() throws IOException, URISyntaxException {
+    String folder = "/shouldNotMergeFileWithRowsWithWrongLength";
+    List<String> inputFiles = Arrays.asList(
+      new File(getClass().getResource(folder + "/validTicket.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/lessParamsInRow.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/moreParamsInRow.csv").toURI()).getAbsolutePath());
+
+    new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
+
+    areFilesEqual(
+      new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldNotMergeFileWithRowsWithWrongParams() throws IOException, URISyntaxException {
+    String folder = "/shouldNotMergeFileWithRowsWithWrongParams";
+    List<String> inputFiles = Arrays.asList(
+      new File(getClass().getResource(folder + "/validTicket.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/wrongDate.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/wrongPrice.csv").toURI()).getAbsolutePath());
+
+    new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
+
+    areFilesEqual(
+      new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldMergeFileWithQuotesInParams() throws IOException, URISyntaxException {
+    String folder = "/shouldMergeFileWithQuotesInParams";
+    List<String> inputFiles = Arrays.asList(
+      new File(getClass().getResource(folder + "/CommasInQuotes.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/QuotesInQuotes.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/invalidTicket.csv").toURI()).getAbsolutePath());
+
+    new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
+
+    areFilesEqual(
+      new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
   }
 
   private void areFilesEqual(String fileName1, String fileName2) throws IOException {
-    assertArrayEquals(getFileBytes(fileName1), (getFileBytes(fileName2)));
+    assertArrayEquals(getFileBytes(fileName1), getFileBytes(fileName2));
   }
 
   private byte[] getFileBytes(String fileName) throws IOException {
@@ -144,7 +182,9 @@ public class TicketServiceTest {
       bos.flush();
       return bos.toByteArray();
     } catch (IOException e) {
+      System.out.print("getFileBytes Error");
       e.printStackTrace();
+
     } finally {
       fis.close();
       bos.close();

@@ -76,6 +76,11 @@ public class TicketTranslator {
 
   public Ticket fromDTO(String[] ticketDTO) throws ParseException {
     Ticket ticket = new Ticket();
+    if (ticketDTO.length != 8) {
+      String errorMessage = "could not convert DTO to Ticket. Reason: wrong count of params. Expected:8, Actual: " + ticketDTO.length;
+      logger.error(errorMessage);
+      throw new ParseException(errorMessage, 0);
+    }
 
     try {
       Row row = new Row(Integer.parseInt(ticketDTO[4]));
@@ -96,7 +101,7 @@ public class TicketTranslator {
       ticket.setPrice(Double.parseDouble(ticketDTO[6]));
 
     } catch (Exception e) {
-      logger.error("could not convert to Ticket rows: " + ticketDTO.toString());
+      logger.error("could not convert DTO to Ticket. Reason: parse exception.");
       throw new ParseException(e.getMessage(), 0);
     }
     return ticket;

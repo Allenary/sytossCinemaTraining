@@ -1,6 +1,5 @@
 package com.sytoss.training.cinema.DomainService;
 
-import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ public class TicketService {
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private List<Ticket> read(List<String> fileNames) {
+
     List<String> csvRows = new ArrayList<String>();
     List<Ticket> allTickets = new ArrayList<Ticket>();
     List<Ticket> ticketsIn1File;
@@ -36,8 +36,9 @@ public class TicketService {
       }
       if ( !isFileSkipped && equalsCashOfficeID(ticketsIn1File)) {
         allTickets.addAll(ticketsIn1File);
-        logger.warn("file added to merge: " + inputFile);
+        logger.debug("file added to merge: " + inputFile);
       }
+
     }
 
     return allTickets;
@@ -69,17 +70,11 @@ public class TicketService {
 
   public void mergeCSV(List<String> inputFileNames, String outputFileName) {
     List<Ticket> inputTickets = read(inputFileNames);
-    if (equalsCashOfficeID(inputTickets)) {
-      List<String> rowsToOutput = new ArrayList<String>();
-      for (Ticket ticket : inputTickets) {
-        rowsToOutput.add(new CsvParser().deParse(new TicketTranslator().toDTO(ticket)));
-      }
-      CSVFileSystemConnector writer = new CSVFileSystemConnector(true);
-      File outputFile = new File(outputFileName);
-      if (outputFile.exists()) {
-        outputFile.delete();
-      }
-      writer.write(rowsToOutput, outputFileName);
+    List<String> rowsToOutput = new ArrayList<String>();
+    for (Ticket ticket : inputTickets) {
+      rowsToOutput.add(new CsvParser().deParse(new TicketTranslator().toDTO(ticket)));
     }
+    CSVFileSystemConnector writer = new CSVFileSystemConnector();
+    writer.write(rowsToOutput, outputFileName);
   }
 }
