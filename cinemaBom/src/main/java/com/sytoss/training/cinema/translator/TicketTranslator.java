@@ -3,17 +3,12 @@ package com.sytoss.training.cinema.translator;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sytoss.training.cinema.bom.CashOffice;
-import com.sytoss.training.cinema.bom.Cinema;
-import com.sytoss.training.cinema.bom.Movie;
 import com.sytoss.training.cinema.bom.Place;
-import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Row;
 import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
@@ -22,55 +17,33 @@ public class TicketTranslator {
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  private String dateFormat = "dd.MM.yyyy HH:mm";
-
-  public String[] toDTO(Ticket ticket) {
+  public String[] toDTO(Ticket ticket) throws ParseException {
     String[] dto = new String[8];
-    String place = "";
-    String row = "";
-    String room = "";
-    String cinema = "";
-    String movie = "";
-    String seance = "";
-    String price = "";
-    String cashOffice = "";
+    try {
+      String place = new PlaceTranslator().toDTO(ticket.getPlace());
+      String row = new RowTranslator().toDTO(ticket.getPlace().getRow());
 
-    if (ticket.getPlace() != null) {
-      place = new PlaceTranslator().toDTO(ticket.getPlace());
-      if (ticket.getPlace().getRow() != null) {
-        row = new RowTranslator().toDTO(ticket.getPlace().getRow());
-      }
+      String seance = new SeanceTranslator().toDTO(ticket.getSeance());
+      String room = new RoomTranslator().toDTO(ticket.getSeance().getRoom());
+      String movie = new MovieTranslator().toDTO(ticket.getSeance().getMovie());
+      String cashOffice = new CashOfficeTranslator().toDTO(ticket.getCashOffice());
+      String cinema = new CinemaTranslator().toDTO(ticket.getCashOffice().showCinema());
+
+      DecimalFormatSymbols decimalSymbols = new DecimalFormatSymbols();
+      decimalSymbols.setDecimalSeparator('.');
+      String price = new DecimalFormat("0.00", decimalSymbols).format(ticket.getPrice());
+
+      dto[0] = cinema;
+      dto[1] = room;
+      dto[2] = movie;
+      dto[3] = seance;
+      dto[4] = row;
+      dto[5] = place;
+      dto[6] = price;
+      dto[7] = cashOffice;
+    } catch (Exception e) {
+      throw new ParseException("Ticket not full ", 0);
     }
-
-    if (ticket.getSeance() != null) {
-      seance = new SeanceTranslator().toDTO(ticket.getSeance());
-      if (ticket.getSeance().getRoom() != null) {
-        room = new RoomTranslator().toDTO(ticket.getSeance().getRoom());
-      }
-      if (ticket.getSeance().getMovie() != null) {
-        movie = new MovieTranslator().toDTO(ticket.getSeance().getMovie());
-      }
-    }
-
-    if (ticket.getCashOffice() != null) {
-      cashOffice = new CashOfficeTranslator().toDTO(ticket.getCashOffice());
-      if (ticket.getCashOffice().showCinema() != null) {
-        cinema = new CinemaTranslator().toDTO(ticket.getCashOffice().showCinema());
-      }
-    }
-
-    DecimalFormatSymbols decimalSymbols = new DecimalFormatSymbols();
-    decimalSymbols.setDecimalSeparator('.');
-    price = new DecimalFormat("0.00", decimalSymbols).format(ticket.getPrice());
-
-    dto[0] = cinema;
-    dto[1] = room;
-    dto[2] = movie;
-    dto[3] = seance;
-    dto[4] = row;
-    dto[5] = place;
-    dto[6] = price;
-    dto[7] = cashOffice;
     return dto;
   }
 
@@ -82,28 +55,22 @@ public class TicketTranslator {
       throw new ParseException(errorMessage, 0);
     }
 
-    try {
-      Row row = new Row(Integer.parseInt(ticketDTO[4]));
-      Place place = new Place(Integer.parseInt(ticketDTO[5]), row);
-      ticket.setPlace(place);
+    Row row = new RowTranslator().fromDTO(ticketDTO[4]);
+    Place place = new PlaceTranslator().fromDTO(ticketDTO[5]);
+    place.setRow(row);
+    ticket.setPlace(place);
 
-      Calendar calendar = Calendar.getInstance();
+    Seance seance = new SeanceTranslator().fromDTO(ticketDTO[3]);
+    seance.setMovie(new MovieTranslator().fromDTO(ticketDTO[2]));
+    seance.setRoom(new RoomTranslator().fromDTO(ticketDTO[1]));
+    ticket.setSeance(seance);
 
-      calendar.setTime(new SimpleDateFormat(dateFormat).parse(ticketDTO[3]));
-      Seance seance = new Seance(new Room(ticketDTO[1]), calendar);
-      seance.setMovie(new Movie(ticketDTO[2]));
-      ticket.setSeance(seance);
+    CashOffice cashOffice = new CashOfficeTranslator().fromDTO(ticketDTO[7]);
+    cashOffice.setCinema(new CinemaTranslator().fromDTO(ticketDTO[0]));
+    ticket.setCashOffice(cashOffice);
 
-      CashOffice cashOffice = new CashOffice(Integer.parseInt(ticketDTO[7]));
-      cashOffice.setCinema(new Cinema(ticketDTO[0]));
-      ticket.setCashOffice(cashOffice);
+    ticket.setPrice(Double.parseDouble(ticketDTO[6]));
 
-      ticket.setPrice(Double.parseDouble(ticketDTO[6]));
-
-    } catch (Exception e) {
-      logger.error("could not convert DTO to Ticket. Reason: parse exception.");
-      throw new ParseException(e.getMessage(), 0);
-    }
     return ticket;
   }
 }

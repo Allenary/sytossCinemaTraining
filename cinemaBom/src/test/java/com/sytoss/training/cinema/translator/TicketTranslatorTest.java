@@ -20,7 +20,7 @@ import com.sytoss.training.cinema.bom.Ticket;
 public class TicketTranslatorTest {
 
   @Test
-  public void shouldTranslateToDTOFullTicket() {
+  public void shouldTranslateToDTOFullTicket() throws ParseException {
     Place place = new Place(1);
     place.setRow(new Row(2));
     Ticket ticket = new Ticket(place);
@@ -44,40 +44,22 @@ public class TicketTranslatorTest {
     assertEquals("8", ticketDTO[7]);
   }
 
-  @Test
-  public void shouldTranslateToDTOTicketWithNoInfo() {
+  @Test(expected = ParseException.class)
+  public void shouldRaiseExceptionWhenTranslateToDTOTicketWithNoInfo() throws ParseException {
     Ticket ticket = new Ticket();
 
-    String[] ticketDTO = new TicketTranslator().toDTO(ticket);
-
-    assertEquals("", ticketDTO[0]);
-    assertEquals("", ticketDTO[1]);
-    assertEquals("", ticketDTO[2]);
-    assertEquals("", ticketDTO[3]);
-    assertEquals("", ticketDTO[4]);
-    assertEquals("", ticketDTO[5]);
-    assertEquals("0.00", ticketDTO[6]);
-    assertEquals("", ticketDTO[7]);
+    new TicketTranslator().toDTO(ticket);
   }
 
-  @Test
-  public void shouldTranslateToDTOTicketWithPlaceDateCashOffice() {
+  @Test(expected = ParseException.class)
+  public void shouldRaiseExceptionWhenTranslateToDTONotFullTicket() throws ParseException {
     Ticket ticket = new Ticket(new Place(1));
     ticket.setCashOffice(new CashOffice(8));
     Seance seance = new Seance();
     seance.setStartDateTime(new GregorianCalendar(2014, Calendar.APRIL, 12, 10, 30));
     ticket.setSeance(seance);
 
-    String[] ticketDTO = new TicketTranslator().toDTO(ticket);
-
-    assertEquals("", ticketDTO[0]);
-    assertEquals("", ticketDTO[1]);
-    assertEquals("", ticketDTO[2]);
-    assertEquals("12.04.2014 10:30", ticketDTO[3]);
-    assertEquals("", ticketDTO[4]);
-    assertEquals("1", ticketDTO[5]);
-    assertEquals("0.00", ticketDTO[6]);
-    assertEquals("8", ticketDTO[7]);
+    new TicketTranslator().toDTO(ticket);
   }
 
   @Test
