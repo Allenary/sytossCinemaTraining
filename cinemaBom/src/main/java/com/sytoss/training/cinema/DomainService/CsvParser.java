@@ -4,7 +4,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CsvParser {
+
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private int countQuotes(String row, int startPosition, int endPosition) {
     int count = 0;
@@ -21,34 +26,38 @@ public class CsvParser {
     return countQuotes(row, 0, row.length() - 1);
   }
 
-  public String[] parse(String rowToParse) throws ParseException {
-    List<String> tokens = new ArrayList<String>();
-    String delimeter = ",";
-    int beginIndex = 0;
-    int endIndex = rowToParse.indexOf(delimeter, beginIndex);
-    boolean isCsvRow = true;
-    while (endIndex != -1) {
+  private boolean isOddQuotesCount(String row) {
+    return (countQuotes(row) % 2 != 0);
+  }
 
-      while (countQuotes(rowToParse, beginIndex, endIndex) % 2 != 0) {
-        endIndex = rowToParse.indexOf(delimeter, endIndex + 1);
-        isCsvRow = (endIndex == -1);
-        if ( !isCsvRow) {
-          break;
+  public String[] SplitByCommas(String rowToParse) {
+    return rowToParse.split(",");
+  }
+
+  public String[] parse(String rowToParse) throws ParseException {
+    String[] tempParams = SplitByCommas(rowToParse);
+    String tempParam;
+    List<String> resultParams = new ArrayList<String>();
+    for (int i = 0; i < tempParams.length; i++ ) {
+      tempParam = tempParams[i];
+      if (tempParam.contains("\"")) {
+        while (isOddQuotesCount(tempParam) && i < tempParams.length - 1) {
+          i++ ;
+          tempParam = tempParam + "," + tempParams[i];
+        }
+        if (isOddQuotesCount(tempParam)) {
+          throw new ParseException("Odd count quotes", 0);
+        }
+        if (tempParam.startsWith("\"") && tempParam.endsWith("\"")) {
+          tempParam = tempParam.substring(1, tempParam.length() - 1);
+          logger.info(tempParam);
+        } else {
+          throw new ParseException("quotes is not first and/or last symbol of param", 0);
         }
       }
-      if ( !isCsvRow) {
-        break;
-      }
-      tokens.add(rowToParse.substring(beginIndex, endIndex));
-      beginIndex = endIndex + 1;
-      endIndex = rowToParse.indexOf(delimeter, beginIndex);
+      resultParams.add(tempParam);
     }
-    if ( !isCsvRow) {
-      throw new ParseException("Odd count of quotes in row.", 0);
-    }
-    tokens.add(rowToParse.substring(beginIndex, rowToParse.length()));
-    return tokens.toArray(new String[8]);
-
+    return resultParams.toArray(new String[resultParams.size()]);
   }
 
   public String deParse(String[] attributes) {
@@ -56,7 +65,6 @@ public class CsvParser {
     String tempString;
     for (int i = 0; i < attributes.length - 1; i++ ) {
       tempString = attributes[i];
-      //      tempString.matches("")
       if (countQuotes(tempString) > 0 || tempString.matches(".*[А-Яа-я,]+.*")) {
         tempString = "\"" + tempString + "\"";
       }

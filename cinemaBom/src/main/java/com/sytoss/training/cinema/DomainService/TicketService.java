@@ -15,7 +15,7 @@ public class TicketService {
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  private List<Ticket> read(List<String> fileNames) {
+  private List<Ticket> readFromFile(List<String> fileNames) {
 
     List<String> csvRows = new ArrayList<String>();
     List<Ticket> allTickets = new ArrayList<Ticket>();
@@ -45,7 +45,7 @@ public class TicketService {
 
   }
 
-  public void write(List<Ticket> tickets, String fileNameDestination) {
+  private void writeInFile(List<Ticket> tickets, String fileNameDestination) {
     List<String> csvStrings = new ArrayList<String>();
     for (Ticket ticket : tickets) {
       csvStrings.add(new CsvParser().deParse((new TicketTranslator().toDTO(ticket))));
@@ -53,7 +53,7 @@ public class TicketService {
     new CSVFileSystemConnector().write(csvStrings, fileNameDestination);
   }
 
-  public boolean equalsCashOfficeID(List<Ticket> tickets) {
+  private boolean equalsCashOfficeID(List<Ticket> tickets) {
     if (tickets.size() == 0) {
       return false;
     }
@@ -69,12 +69,7 @@ public class TicketService {
   }
 
   public void mergeCSV(List<String> inputFileNames, String outputFileName) {
-    List<Ticket> inputTickets = read(inputFileNames);
-    List<String> rowsToOutput = new ArrayList<String>();
-    for (Ticket ticket : inputTickets) {
-      rowsToOutput.add(new CsvParser().deParse(new TicketTranslator().toDTO(ticket)));
-    }
-    CSVFileSystemConnector writer = new CSVFileSystemConnector();
-    writer.write(rowsToOutput, outputFileName);
+    List<Ticket> inputTickets = readFromFile(inputFileNames);
+    writeInFile(inputTickets, outputFileName);
   }
 }

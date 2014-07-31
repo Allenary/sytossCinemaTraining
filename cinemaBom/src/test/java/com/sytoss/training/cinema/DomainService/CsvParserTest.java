@@ -6,8 +6,6 @@ import java.text.ParseException;
 
 import org.junit.Test;
 
-import com.sytoss.training.cinema.exception.CsvStringParseException;
-
 public class CsvParserTest {
 
   @Test
@@ -28,7 +26,7 @@ public class CsvParserTest {
     String[] ticketAttributes = new CsvParser().parse("Kronverk,red,\"Run, Forest, Run!\",20.08.2014,5,6,60.00,8");
     assertEquals("Kronverk", ticketAttributes[0]);
     assertEquals("red", ticketAttributes[1]);
-    assertEquals("\"Run, Forest, Run!\"", ticketAttributes[2]);
+    assertEquals("Run, Forest, Run!", ticketAttributes[2]);
     assertEquals("20.08.2014", ticketAttributes[3]);
     assertEquals("5", ticketAttributes[4]);
     assertEquals("6", ticketAttributes[5]);
@@ -40,8 +38,8 @@ public class CsvParserTest {
   public void shouldParseValidRowWithQuotesInName() throws ParseException {
     String[] ticketAttributes = new CsvParser().parse("Kronverk,\"red\",\"Корпорация \"Марионетки\"\",20.08.2014,5,6,60.00,8");
     assertEquals("Kronverk", ticketAttributes[0]);
-    assertEquals("\"red\"", ticketAttributes[1]);
-    assertEquals("\"Корпорация \"Марионетки\"\"", ticketAttributes[2]);
+    assertEquals("red", ticketAttributes[1]);
+    assertEquals("Корпорация \"Марионетки\"", ticketAttributes[2]);
     assertEquals("20.08.2014", ticketAttributes[3]);
     assertEquals("5", ticketAttributes[4]);
     assertEquals("6", ticketAttributes[5]);
