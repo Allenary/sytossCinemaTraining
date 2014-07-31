@@ -23,17 +23,21 @@ public class TicketService {
     List<Ticket> ticketsIn1File;
     boolean isFileSkipped;
     for (String inputFile : fileNames) {
-      logger.warn("start with processing file: " + inputFile);
-      csvRows = new CSVFileSystemConnector().read(inputFile);
-      ticketsIn1File = new ArrayList<Ticket>();
       isFileSkipped = false;
-      for (String row : csvRows) {
-        try {
-          ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
-        } catch (ParseException e) {
-          logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data.");
-          isFileSkipped = true;
+      logger.warn("start with processing file: " + inputFile);
+      ticketsIn1File = new ArrayList<Ticket>();
+      try {
+        csvRows = new CSVFileSystemConnector().read(inputFile);
+        for (String row : csvRows) {
+          try {
+            ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
+          } catch (ParseException e) {
+            logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data.");
+            isFileSkipped = true;
+          }
         }
+      } catch (IOException e1) {
+        isFileSkipped = true;
       }
       if ( !isFileSkipped && equalsCashOfficeID(ticketsIn1File)) {
         allTickets.addAll(ticketsIn1File);
@@ -48,12 +52,12 @@ public class TicketService {
 
   private void writeInFile(List<Ticket> tickets, String fileNameDestination) {
     List<String> csvStrings = new ArrayList<String>();
-    for (Ticket ticket : tickets) {
-      csvStrings.add(new CsvParser(new SplitSplitStringStrategy()).deParse((new TicketTranslator().toDTO(ticket))));
-    }
     try {
+      for (Ticket ticket : tickets) {
+        csvStrings.add(new CsvParser(new SplitSplitStringStrategy()).deParse((new TicketTranslator().toDTO(ticket))));
+      }
       new CSVFileSystemConnector().write(csvStrings, fileNameDestination);
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

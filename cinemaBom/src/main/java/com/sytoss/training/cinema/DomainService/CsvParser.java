@@ -4,14 +4,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class CsvParser {
 
-  private ISplitStategy strategy;
+  private String quote = "\"";
 
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
+  private String separator = ",";
+
+  private ISplitStategy strategy;
 
   public CsvParser(ISplitStategy splitStategy) {
     strategy = splitStategy;
@@ -19,7 +18,6 @@ public class CsvParser {
 
   private int countQuotes(String row, int startPosition, int endPosition) {
     int count = 0;
-    String quote = "\"";
     int index = row.indexOf(quote, startPosition);
     while (index != -1 && index <= endPosition) {
       count++ ;
@@ -36,26 +34,30 @@ public class CsvParser {
     return (countQuotes(row) % 2 != 0);
   }
 
+  private String deleteExternalQuotes(String param) throws ParseException {
+    if (param.startsWith(quote) && param.endsWith(quote)) {
+      param = param.substring(1, param.length() - 1);
+    } else {
+      throw new ParseException("quotes is not first and/or last symbol of param", 0);
+    }
+    return param;
+  }
+
   public String[] parse(String rowToParse) throws ParseException {
     String[] tempParams = strategy.splitByCommas(rowToParse);
     String tempParam;
     List<String> resultParams = new ArrayList<String>();
     for (int i = 0; i < tempParams.length; i++ ) {
       tempParam = tempParams[i];
-      if (tempParam.contains("\"")) {
+      if (tempParam.contains(quote)) {
         while (isOddQuotesCount(tempParam) && i < tempParams.length - 1) {
           i++ ;
-          tempParam = tempParam + "," + tempParams[i];
+          tempParam = tempParam + separator + tempParams[i];
         }
         if (isOddQuotesCount(tempParam)) {
           throw new ParseException("Odd count quotes", 0);
         }
-        if (tempParam.startsWith("\"") && tempParam.endsWith("\"")) {
-          tempParam = tempParam.substring(1, tempParam.length() - 1);
-          logger.info(tempParam);
-        } else {
-          throw new ParseException("quotes is not first and/or last symbol of param", 0);
-        }
+        tempParam = deleteExternalQuotes(tempParam);
       }
       resultParams.add(tempParam);
     }
@@ -68,9 +70,9 @@ public class CsvParser {
     for (int i = 0; i < attributes.length - 1; i++ ) {
       tempString = attributes[i];
       if (countQuotes(tempString) > 0 || tempString.matches(".*[,А-Яа-я\"]+.*")) {
-        tempString = "\"" + tempString + "\"";
+        tempString = quote + tempString + quote;
       }
-      csvRow += tempString + ",";
+      csvRow += tempString + separator;
     }
     csvRow += attributes[attributes.length - 1];
     return csvRow;

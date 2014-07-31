@@ -14,7 +14,7 @@ public class CSVFileSystemConnectorTest {
   }
 
   @Test
-  public void shouldReadFile() {
+  public void shouldReadFile() throws IOException {
     List<String> csvStrings = new CSVFileSystemConnector().read("C:\\Users\\school\\testData\\simpleTest.csv");
     for (String row : csvStrings) {
       System.out.println(row);

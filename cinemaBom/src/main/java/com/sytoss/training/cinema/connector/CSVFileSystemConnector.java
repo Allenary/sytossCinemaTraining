@@ -39,18 +39,11 @@ public class CSVFileSystemConnector {
     fileWriter.close();
   }
 
-  public List<String> read(String fileName) {
+  public List<String> read(String fileName) throws IOException {
     List<String> csvStrings = new ArrayList<String>();
-    if ( !new File(fileName).exists()) {
-      logger.warn("File " + fileName + " does not exist!");
-    }
 
-    try {
-      csvStrings = Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"));
+    csvStrings = Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"));
 
-    } catch (IOException e) {
-      logger.error("unable read file " + fileName);
-    }
     return csvStrings;
 
   }
