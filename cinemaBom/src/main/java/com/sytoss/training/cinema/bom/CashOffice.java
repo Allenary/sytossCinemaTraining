@@ -122,4 +122,22 @@ public class CashOffice {
       addTicket(ticket);
     }
   }
+
+  public List<Seance> getSeances() {
+    List<Seance> seances = new ArrayList<Seance>();
+    Seance tempSeance;
+    int tempIndex;
+    for (Ticket ticket : tickets) {
+      System.out.println(ticket.getPlace().getNumber());
+      tempSeance = ticket.getSeance();
+      tempIndex = seances.indexOf(tempSeance);
+      if (tempIndex == -1) {
+        seances.add(tempSeance);
+      } else {
+        //        seances.get(tempIndex).addTicket(ticket);
+      }
+    }
+    return seances;
+  }
+
 }

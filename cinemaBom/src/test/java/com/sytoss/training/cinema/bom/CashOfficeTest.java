@@ -4,7 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -300,5 +303,34 @@ public class CashOfficeTest {
     Ticket ticket = new Ticket(new Place(2));
     CashOffice cashOffice = new CashOffice();
     cashOffice.returnTicket(ticket);
+  }
+
+  @Test
+  public void shouldReturnListSeances() {
+    CashOffice cashOffice = new CashOffice(1);
+
+    Seance seance_1 = new Seance(new Room("blue"), new GregorianCalendar(2014, Calendar.APRIL, 21, 20, 30, 0));
+    seance_1.setMovie(new Movie("Star Wars"));
+
+    Ticket ticket_1 = new Ticket(new Place(7, new Row(3)), 20.0);
+    ticket_1.setSeance(seance_1);
+    ticket_1.setCashOffice(cashOffice);
+
+    Ticket ticket_2 = new Ticket(new Place(6, new Row(3)), 20.0);
+    ticket_2.setSeance(seance_1);
+    ticket_2.setCashOffice(cashOffice);
+
+    Seance seance_2 = new Seance(new Room("red"), new GregorianCalendar(2014, Calendar.APRIL, 22, 20, 30, 0));
+    seance_2.setMovie(new Movie("Tor"));
+
+    Ticket ticket_3 = new Ticket(new Place(5, new Row(3)), 20.0);
+    ticket_3.setSeance(seance_2);
+    ticket_3.setCashOffice(cashOffice);
+
+    List<Seance> seances = cashOffice.getSeances();
+
+    assertEquals(2, seances.size());
+    assertEquals(seance_1, seances.get(0));
+    assertEquals(seance_2, seances.get(1));
   }
 }

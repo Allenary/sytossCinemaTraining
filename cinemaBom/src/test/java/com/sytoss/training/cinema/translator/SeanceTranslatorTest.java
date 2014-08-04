@@ -17,6 +17,7 @@ import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Row;
 import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
+import com.sytoss.training.cinema.exception.SeanceNotFullException;
 
 public class SeanceTranslatorTest {
 
@@ -67,5 +68,22 @@ public class SeanceTranslatorTest {
     assertEquals(3, ticketElements.get(1).getAttribute("place").getIntValue());
     assertEquals(1, ticketElements.get(1).getAttribute("row").getIntValue());
     assertEquals(59.5, ticketElements.get(1).getAttribute("price").getDoubleValue(), 0);
+  }
+
+  @Test(expected = SeanceNotFullException.class)
+  public void shouldRaiseErrorWhenNoTicketis() {
+    Seance seance = new Seance(new Room("blue"), new GregorianCalendar(2014, Calendar.APRIL, 21, 20, 30, 0));
+    seance.setMovie(new Movie("Star Wars"));
+
+    new SeanceTranslator().toElement(seance);
+  }
+
+  @Test(expected = SeanceNotFullException.class)
+  public void shouldRaiseErrorWhenSeanceHasOnlyTickets() {
+    Seance seance = new Seance();
+    seance.addTicket(new Ticket(new Place(2, new Row(1)), 59.50));
+
+    new SeanceTranslator().toElement(seance);
+
   }
 }
