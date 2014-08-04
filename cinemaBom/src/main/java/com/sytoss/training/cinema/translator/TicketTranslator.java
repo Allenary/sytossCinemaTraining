@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 
+import org.jdom2.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +13,7 @@ import com.sytoss.training.cinema.bom.Place;
 import com.sytoss.training.cinema.bom.Row;
 import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
+import com.sytoss.training.cinema.exception.TicketNotFullException;
 
 public class TicketTranslator {
 
@@ -72,5 +74,17 @@ public class TicketTranslator {
     ticket.setPrice(Double.parseDouble(ticketDTO[6]));
 
     return ticket;
+  }
+
+  public Element toElement(Ticket ticket) {
+    Element element = new Element("ticket");
+    try {
+      element.setAttribute("row", Integer.toString(ticket.getPlace().getRow().getNumber()));
+      element.setAttribute("place", Integer.toString(ticket.getPlace().getNumber()));
+      element.setAttribute("price", Double.toString(ticket.getPrice()));
+    } catch (Exception e) {
+      throw new TicketNotFullException("Not full data in ticket.");
+    }
+    return element;
   }
 }

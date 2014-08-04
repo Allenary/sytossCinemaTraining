@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.jdom2.DataConversionException;
+import org.jdom2.Element;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.bom.CashOffice;
@@ -16,6 +18,7 @@ import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Row;
 import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
+import com.sytoss.training.cinema.exception.TicketNotFullException;
 
 public class TicketTranslatorTest {
 
@@ -82,5 +85,24 @@ public class TicketTranslatorTest {
     assertEquals(2014, ticket.getSeance().getStartDateTime().get(Calendar.YEAR));
     assertEquals(10, ticket.getSeance().getStartDateTime().get(Calendar.HOUR_OF_DAY));
     assertEquals(30, ticket.getSeance().getStartDateTime().get(Calendar.MINUTE));
+  }
+
+  @Test
+  public void shouldTranslateToElement() throws DataConversionException {
+    Ticket ticket = new Ticket(new Place(5, new Row(7)));
+    ticket.setPrice(35.0);
+
+    Element element = new TicketTranslator().toElement(ticket);
+
+    assertEquals("ticket", element.getName());
+    assertEquals(7, element.getAttribute("row").getIntValue());
+    assertEquals(5, element.getAttribute("place").getIntValue());
+    assertEquals(35.0, element.getAttribute("price").getDoubleValue(), 0);
+
+  }
+
+  @Test(expected = TicketNotFullException.class)
+  public void shouldRaiseExceptionWhenTicketNotFull() {
+    new TicketTranslator().toElement(new Ticket());
   }
 }

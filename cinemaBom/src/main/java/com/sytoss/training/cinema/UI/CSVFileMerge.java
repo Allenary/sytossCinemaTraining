@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.UI;
+package com.sytoss.training.cinema.ui;
 
 import java.util.ArrayList;
 import java.util.List;

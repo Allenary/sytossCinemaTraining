@@ -1,7 +1,8 @@
 package com.sytoss.training.cinema.translator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import org.jdom2.Element;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.bom.Room;
@@ -18,5 +19,12 @@ public class RoomTranslatorTest {
   public void shouldTranslateFromDTO() {
     Room room = new RoomTranslator().fromDTO("blue");
     assertEquals("blue", room.getName());
+  }
+
+  @Test
+  public void shouldTranslateToElement() {
+    Element roomElement = new RoomTranslator().toElement(new Room("Green"));
+    assertEquals("room", roomElement.getName());
+    assertEquals("Green", roomElement.getText());
   }
 }

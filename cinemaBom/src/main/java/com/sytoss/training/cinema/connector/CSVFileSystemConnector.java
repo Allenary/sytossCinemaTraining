@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom2.Document;
+import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,4 +50,9 @@ public class CSVFileSystemConnector {
 
   }
 
+  public void write(Document document, String fileNameDestination) throws IOException {
+    XMLOutputter xmlOutputter = new XMLOutputter();
+    xmlOutputter.output(document, new FileWriter(fileNameDestination));
+
+  }
 }

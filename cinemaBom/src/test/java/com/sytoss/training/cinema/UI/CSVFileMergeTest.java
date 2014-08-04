@@ -1,6 +1,8 @@
-package com.sytoss.training.cinema.UI;
+package com.sytoss.training.cinema.ui;
 
 import org.junit.Test;
+
+import com.sytoss.training.cinema.ui.CSVFileMerge;
 
 public class CSVFileMergeTest {
 
