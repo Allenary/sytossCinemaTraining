@@ -24,6 +24,11 @@ public class Ticket {
     status = TicketStatus.ENABLE;
   }
 
+  public Ticket(Place place, double price) {
+    this(place);
+    setPrice(price);
+  }
+
   public Seance getSeance() {
     return seance;
   }
