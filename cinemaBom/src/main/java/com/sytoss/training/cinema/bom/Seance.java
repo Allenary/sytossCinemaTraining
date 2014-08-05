@@ -80,7 +80,7 @@ public class Seance {
     }
 
     if (ticket.getSeance() != this && ticket.getSeance() != null) {
-      throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
+      //      throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
     }
 
     if (tickets.contains(ticket)) {

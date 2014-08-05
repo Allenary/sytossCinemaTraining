@@ -38,7 +38,7 @@ public class Ticket {
       throw new NullObjectInsertionException("Seance shouldn't be NULL.");
     }
     if (this.seance != null) {
-      throw new ReassignObjectException("Ticket already assigned to another seance. Ticket could not be reassigned.");
+      //      throw new ReassignObjectException("Ticket already assigned to another seance. Ticket could not be reassigned.");
     }
     if ( !seance.existsTicket(this)) {
       seance.addTicket(this);
