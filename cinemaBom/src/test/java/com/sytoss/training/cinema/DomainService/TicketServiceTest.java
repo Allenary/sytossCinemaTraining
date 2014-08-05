@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.DomainService;
+package com.sytoss.training.cinema.domainservice;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.sytoss.training.cinema.domainservice.TicketService;
 import com.sytoss.training.cinema.testutils.TestUtils;
 
 public class TicketServiceTest {

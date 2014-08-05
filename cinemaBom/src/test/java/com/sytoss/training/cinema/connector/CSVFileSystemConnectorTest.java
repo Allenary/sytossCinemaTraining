@@ -29,6 +29,7 @@ public class CSVFileSystemConnectorTest {
   public void shouldsWriteInXML() throws IOException {
     Document document = new Document();
     document.setRootElement(new Element("cinemas"));
+
     new CSVFileSystemConnector().write(document, "C:\\Users\\school\\Desktop\\testResult.xml");
     new TestUtils().checkFiles("C:\\Users\\school\\Desktop\\all.xml", "C:\\Users\\school\\Desktop\\testResult.xml");
 

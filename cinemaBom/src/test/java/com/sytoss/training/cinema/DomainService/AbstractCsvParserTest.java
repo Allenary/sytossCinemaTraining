@@ -1,10 +1,13 @@
-package com.sytoss.training.cinema.DomainService;
+package com.sytoss.training.cinema.domainservice;
 
 import static org.junit.Assert.assertEquals;
 
 import java.text.ParseException;
 
 import org.junit.Test;
+
+import com.sytoss.training.cinema.domainservice.CsvParser;
+import com.sytoss.training.cinema.domainservice.ISplitStategy;
 
 public abstract class AbstractCsvParserTest {
 

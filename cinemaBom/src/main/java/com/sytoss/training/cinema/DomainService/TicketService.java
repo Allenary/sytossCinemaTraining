@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.DomainService;
+package com.sytoss.training.cinema.domainservice;
 
 import java.io.IOException;
 import java.util.ArrayList;

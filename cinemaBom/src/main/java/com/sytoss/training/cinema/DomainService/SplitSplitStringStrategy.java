@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.DomainService;
+package com.sytoss.training.cinema.domainservice;
 
 public class SplitSplitStringStrategy implements ISplitStategy {
 

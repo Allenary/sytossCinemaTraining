@@ -3,7 +3,7 @@ package com.sytoss.training.cinema.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sytoss.training.cinema.DomainService.TicketService;
+import com.sytoss.training.cinema.domainservice.TicketService;
 
 public class CSVFileMerge {
 

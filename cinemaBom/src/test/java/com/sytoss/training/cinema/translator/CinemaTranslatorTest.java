@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Element;
@@ -95,7 +94,5 @@ public class CinemaTranslatorTest {
         .getDoubleValue(),
       0);
 
-    //List<Element> cashOffices = cinemaElement.getChildren("seance");
-    //assertEquals("Star Wars", cashOffices.get(0).getChild("movie").getChildren().get(0).getText());
   }
 }
