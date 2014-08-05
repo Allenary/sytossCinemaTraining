@@ -33,24 +33,28 @@ public class TicketService {
       ticketsIn1File = new ArrayList<Ticket>();
       try {
         csvRows = new FileSystemConnector().read(inputFile);
+        logger.warn("Rows found: " + csvRows.size());
         for (String row : csvRows) {
           try {
             ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
+            logger.warn("row '" + row + "' parsed");
           } catch (Exception e) {
-            logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data.");
+            logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data. Row: " + row);
             isFileSkipped = true;
           }
         }
       } catch (IOException e1) {
         isFileSkipped = true;
+        logger.error(e1.getMessage());
+        e1.printStackTrace();
       }
       if ( !isFileSkipped && equalsCashOfficeID(ticketsIn1File)) {
         allTickets.addAll(ticketsIn1File);
-        logger.debug("file added to merge: " + inputFile);
+        logger.warn("file added to merge: " + inputFile);
       }
 
     }
-
+    logger.warn("count tickets=" + allTickets.size());
     return allTickets;
 
   }

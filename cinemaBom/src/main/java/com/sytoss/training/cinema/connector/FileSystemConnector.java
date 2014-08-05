@@ -1,6 +1,8 @@
 package com.sytoss.training.cinema.connector;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.Document;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,15 +46,22 @@ public class FileSystemConnector {
 
   public List<String> read(String fileName) throws IOException {
     List<String> csvStrings = new ArrayList<String>();
+    FileReader fileReader = new FileReader(fileName);
+    BufferedReader bufReader = new BufferedReader(fileReader);
+    String line;
 
-    csvStrings = Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"));
+    while ((line = bufReader.readLine()) != null) {
+      csvStrings.add(line);
+    }
 
+    //    csvStrings = Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"));
+    bufReader.close();
     return csvStrings;
 
   }
 
   public void write(Document document, String fileNameDestination) throws IOException {
-    XMLOutputter xmlOutputter = new XMLOutputter();
+    XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
     xmlOutputter.output(document, new FileWriter(fileNameDestination));
 
   }

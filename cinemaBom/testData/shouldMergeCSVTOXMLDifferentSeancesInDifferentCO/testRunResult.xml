@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cinemas>
+  <cinema name="Kronverk">
+    <cashOffice id="2">
+      <seance startDateTime="2014-08-21T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="2" price="45.99" />
+        </tickets>
+      </seance>
+    </cashOffice>
+    <cashOffice id="1">
+      <seance startDateTime="2014-08-21T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="2" price="49.99" />
+        </tickets>
+      </seance>
+      <seance startDateTime="2014-08-22T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="2" price="59.99" />
+        </tickets>
+      </seance>
+      <seance startDateTime="2014-08-23T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="2" price="34.99" />
+        </tickets>
+      </seance>
+    </cashOffice>
+  </cinema>
+</cinemas>
