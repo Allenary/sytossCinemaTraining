@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.sytoss.training.cinema.domainservice.TicketService;
 import com.sytoss.training.cinema.testutils.TestUtils;
 
 public class TicketServiceTest {
@@ -98,4 +97,17 @@ public class TicketServiceTest {
       .toURI()).getAbsolutePath());
   }
 
+  @Test
+  public void shouldMergeCSVTOXML() throws IOException, URISyntaxException {
+    String folder = "/shouldMerge2files";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
+
+    new TicketService()
+      .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
+
+    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource(folder + "/testRunResult.xml")
+      .toURI()).getAbsolutePath());
+
+  }
 }
