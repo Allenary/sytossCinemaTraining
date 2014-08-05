@@ -160,4 +160,14 @@ public class Cinema {
     Collections.sort(nextSeances, new SeanceComparatorByDate());
     return nextSeances.iterator();
   }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    Cinema otherCinema = (Cinema) other;
+    return this.name.equals(otherCinema.name);
+  }
 }

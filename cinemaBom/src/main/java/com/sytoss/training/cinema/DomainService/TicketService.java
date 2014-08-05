@@ -2,13 +2,19 @@ package com.sytoss.training.cinema.domainservice;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.jdom2.Document;
+import org.jdom2.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sytoss.training.cinema.bom.CashOffice;
+import com.sytoss.training.cinema.bom.Cinema;
 import com.sytoss.training.cinema.bom.Ticket;
-import com.sytoss.training.cinema.connector.CSVFileSystemConnector;
+import com.sytoss.training.cinema.connector.FileSystemConnector;
+import com.sytoss.training.cinema.translator.CinemaTranslator;
 import com.sytoss.training.cinema.translator.TicketTranslator;
 
 public class TicketService {
@@ -26,7 +32,7 @@ public class TicketService {
       logger.warn("start with processing file: " + inputFile);
       ticketsIn1File = new ArrayList<Ticket>();
       try {
-        csvRows = new CSVFileSystemConnector().read(inputFile);
+        csvRows = new FileSystemConnector().read(inputFile);
         for (String row : csvRows) {
           try {
             ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
@@ -55,7 +61,7 @@ public class TicketService {
       for (Ticket ticket : tickets) {
         csvStrings.add(new CsvParser(new SplitSplitStringStrategy()).deParse((new TicketTranslator().toDTO(ticket))));
       }
-      new CSVFileSystemConnector().write(csvStrings, fileNameDestination);
+      new FileSystemConnector().write(csvStrings, fileNameDestination);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -78,5 +84,54 @@ public class TicketService {
 
   public void mergeCSV(List<String> inputFileNames, String outputFileName) {
     writeInFile(readFromFile(inputFileNames), outputFileName);
+  }
+
+  private CashOffice getSameCashOfficeInCinema(Cinema cinema, CashOffice searchedCashOffice) {
+    Iterator<CashOffice> cashOffices = cinema.showCashOffices();
+    CashOffice tempCashOffice;
+    while (cashOffices.hasNext()) {
+      tempCashOffice = cashOffices.next();
+      if (tempCashOffice.equals(searchedCashOffice)) {
+        return tempCashOffice;
+      }
+    }
+    return null;
+  }
+
+  private List<Cinema> getCinemasFromTickets(List<Ticket> tickets) {
+    List<Cinema> cinemas = new ArrayList<Cinema>();
+    Cinema tempCinema;
+    int tempIndexCinema;
+    CashOffice tempCashOffice;
+    for (Ticket ticket : tickets) {
+      tempCinema = ticket.getCashOffice().showCinema();
+      tempIndexCinema = cinemas.indexOf(tempCinema);
+      if (tempIndexCinema == -1) {
+        cinemas.add(tempCinema);
+      } else {
+        tempCashOffice = getSameCashOfficeInCinema(cinemas.get(tempIndexCinema), ticket.getCashOffice());
+        if (tempCashOffice == null) {
+          cinemas.get(tempIndexCinema).addCashOffice(ticket.getCashOffice());
+        } else {
+          tempCashOffice.addTicket(ticket);
+        }
+      }
+
+    }
+    return cinemas;
+  }
+
+  public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) throws IOException {
+    List<Ticket> tickets = readFromFile(inputFileNames);
+    List<Cinema> cinemas = getCinemasFromTickets(tickets);
+    List<Element> cinemaElements = new ArrayList<Element>();
+    for (Cinema cinema : cinemas) {
+      cinemaElements.add(new CinemaTranslator().toElement(cinema));
+    }
+    Element rootElement = new Element("cinemas");
+    rootElement.addContent(cinemaElements);
+    Document document = new Document();
+    document.setRootElement(rootElement);
+    new FileSystemConnector().write(document, fileNameDestination);
   }
 }

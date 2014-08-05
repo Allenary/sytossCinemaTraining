@@ -10,16 +10,16 @@ import org.junit.Test;
 
 import com.sytoss.training.cinema.testutils.TestUtils;
 
-public class CSVFileSystemConnectorTest {
+public class FileSystemConnectorTest {
 
   @Test
   public void shouldWriteToFile() throws IOException {
-    new CSVFileSystemConnector().write(Arrays.asList("Buenos Aires", "Córdoba", "La Plata"), "C:\\Users\\school\\testData\\simpleTest.csv");
+    new FileSystemConnector().write(Arrays.asList("Buenos Aires", "Córdoba", "La Plata"), "C:\\Users\\school\\testData\\simpleTest.csv");
   }
 
   @Test
   public void shouldReadFile() throws IOException {
-    List<String> csvStrings = new CSVFileSystemConnector().read("C:\\Users\\school\\testData\\simpleTest.csv");
+    List<String> csvStrings = new FileSystemConnector().read("C:\\Users\\school\\testData\\simpleTest.csv");
     for (String row : csvStrings) {
       System.out.println(row);
     }
@@ -30,7 +30,7 @@ public class CSVFileSystemConnectorTest {
     Document document = new Document();
     document.setRootElement(new Element("cinemas"));
 
-    new CSVFileSystemConnector().write(document, "C:\\Users\\school\\Desktop\\testResult.xml");
+    new FileSystemConnector().write(document, "C:\\Users\\school\\Desktop\\testResult.xml");
     new TestUtils().checkFiles("C:\\Users\\school\\Desktop\\all.xml", "C:\\Users\\school\\Desktop\\testResult.xml");
 
   }

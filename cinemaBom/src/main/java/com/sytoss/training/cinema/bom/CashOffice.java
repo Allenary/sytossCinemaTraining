@@ -140,4 +140,14 @@ public class CashOffice {
     return seances;
   }
 
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    CashOffice otherCashOffice = (CashOffice) other;
+    return this.number == otherCashOffice.number;
+  }
+
 }

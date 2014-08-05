@@ -15,7 +15,7 @@ import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CSVFileSystemConnector {
+public class FileSystemConnector {
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
