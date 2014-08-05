@@ -6,9 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +51,6 @@ public class FileSystemConnector {
       csvStrings.add(line);
     }
 
-    //    csvStrings = Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"));
     bufReader.close();
     return csvStrings;
 

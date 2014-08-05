@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.sytoss.training.cinema.exception.DuplicateInsertionException;
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
-import com.sytoss.training.cinema.exception.ReassignObjectException;
 import com.sytoss.training.cinema.exception.SeanceChangeStateException;
 
 public class Seance {
@@ -110,23 +109,6 @@ public class Seance {
     this.movie = movie;
   }
 
-  @Override
-  public boolean equals(Object other) {
-    if (other == null)
-      return false;
-    if (other == this)
-      return true;
-    if (this.getRoom() == null)
-      return false;
-    if ( !(other instanceof Seance))
-      return false;
-    Seance otherSeance = (Seance) other;
-    if (otherSeance.getRoom() == null)
-      return false;
-    return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
-
-  }
-
   public Iterator<Ticket> getAvaliableTickets() {
     List<Ticket> avaliableTickets = new ArrayList<Ticket>();
     for (Ticket ticket : tickets) {
@@ -178,4 +160,20 @@ public class Seance {
     }
   }
 
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    if (this.getRoom() == null)
+      return false;
+    if ( !(other instanceof Seance))
+      return false;
+    Seance otherSeance = (Seance) other;
+    if (otherSeance.getRoom() == null)
+      return false;
+    return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
+
+  }
 }

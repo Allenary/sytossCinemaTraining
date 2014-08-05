@@ -1,7 +1,6 @@
 package com.sytoss.training.cinema.bom;
 
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
-import com.sytoss.training.cinema.exception.ReassignObjectException;
 
 public class Ticket {
 
