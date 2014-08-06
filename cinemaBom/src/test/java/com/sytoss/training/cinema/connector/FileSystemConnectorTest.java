@@ -1,6 +1,10 @@
 package com.sytoss.training.cinema.connector;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,25 +17,34 @@ import com.sytoss.training.cinema.testutils.TestUtils;
 public class FileSystemConnectorTest {
 
   @Test
-  public void shouldWriteToFile() throws IOException {
-    new FileSystemConnector().write(Arrays.asList("Buenos Aires", "Córdoba", "La Plata"), "C:\\Users\\school\\testData\\simpleTest.csv");
+  public void shouldWriteToFile() throws IOException, URISyntaxException {
+    new FileSystemConnector().write(
+      Arrays.asList("Row1", "Row2", "Row3"),
+      new File(getClass().getResource("/simpleTest2.csv").toURI()).getAbsolutePath());
+    new TestUtils().checkFiles(new File(getClass().getResource("/simpleTest.csv").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource("/simpleTest2.csv")
+      .toURI()).getAbsolutePath());
   }
 
   @Test
-  public void shouldReadFile() throws IOException {
-    List<String> csvStrings = new FileSystemConnector().read("C:\\Users\\school\\testData\\simpleTest.csv");
-    for (String row : csvStrings) {
-      System.out.println(row);
-    }
+  public void shouldReadFile() throws IOException, URISyntaxException {
+    List<String> csvStrings = new FileSystemConnector().read(new File(getClass().getResource("/simpleTest.csv").toURI()).getAbsolutePath());
+    assertEquals(3, csvStrings.size());
+    assertEquals("Row1", csvStrings.get(0));
+    assertEquals("Row2", csvStrings.get(1));
+    assertEquals("Row3", csvStrings.get(2));
   }
 
   @Test
-  public void shouldsWriteInXML() throws IOException {
+  public void shouldsWriteInXML() throws IOException, URISyntaxException {
+    String folder = "/FileSystemConnectorTest";
     Document document = new Document();
     document.setRootElement(new Element("cinemas"));
 
-    new FileSystemConnector().write(document, "C:\\Users\\school\\Desktop\\testResult.xml");
-    new TestUtils().checkFiles("C:\\Users\\school\\Desktop\\all.xml", "C:\\Users\\school\\Desktop\\testResult.xml");
+    new FileSystemConnector().write(document, new File(getClass().getResource(folder + "/testResult.xml").toURI()).getAbsolutePath());
+    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource(folder + "/testResult.xml")
+      .toURI()).getAbsolutePath());
 
   }
 

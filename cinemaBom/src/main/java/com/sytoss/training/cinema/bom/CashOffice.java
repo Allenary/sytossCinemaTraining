@@ -128,7 +128,6 @@ public class CashOffice {
     Seance tempSeance;
     int tempIndex;
     for (Ticket ticket : tickets) {
-      System.out.println(ticket.getPlace().getNumber());
       tempSeance = ticket.getSeance();
       tempIndex = seances.indexOf(tempSeance);
       if (tempIndex == -1) {

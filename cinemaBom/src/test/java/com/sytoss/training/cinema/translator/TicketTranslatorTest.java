@@ -78,8 +78,6 @@ public class TicketTranslatorTest {
     assertEquals(59.99, ticket.getPrice(), 0);
     assertEquals(8, ticket.getCashOffice().getNumber());
 
-    System.out.println(ticket.getSeance().getStartDateTime().getTime());
-
     assertEquals(12, ticket.getSeance().getStartDateTime().get(Calendar.DAY_OF_MONTH));
     assertEquals(Calendar.APRIL, ticket.getSeance().getStartDateTime().get(Calendar.MONTH));
     assertEquals(2014, ticket.getSeance().getStartDateTime().get(Calendar.YEAR));

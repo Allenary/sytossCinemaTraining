@@ -6,9 +6,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TestUtils {
 
+  Logger logger = LoggerFactory.getLogger(this.getClass());
+
   public void checkFiles(String fileName1, String fileName2) throws IOException {
+    logger.info("CheckFiles " + fileName1 + " " + fileName2);
     assertArrayEquals(getFileBytes(fileName1), getFileBytes(fileName2));
   }
 
