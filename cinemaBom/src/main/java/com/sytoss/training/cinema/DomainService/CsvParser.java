@@ -6,9 +6,9 @@ import java.util.List;
 
 public class CsvParser {
 
-  private String quote = "\"";
+  private static final String QUOTE = "\"";
 
-  private String separator = ",";
+  private static final String SEPARATOR = ",";
 
   private ISplitStategy strategy;
 
@@ -18,10 +18,10 @@ public class CsvParser {
 
   private int countQuotes(String row, int startPosition, int endPosition) {
     int count = 0;
-    int index = row.indexOf(quote, startPosition);
+    int index = row.indexOf(QUOTE, startPosition);
     while (index != -1 && index <= endPosition) {
       count++ ;
-      index = row.indexOf(quote, index + 1);
+      index = row.indexOf(QUOTE, index + 1);
     }
     return count;
   }
@@ -35,7 +35,7 @@ public class CsvParser {
   }
 
   private String deleteExternalQuotes(String param) throws ParseException {
-    if (param.startsWith(quote) && param.endsWith(quote)) {
+    if (param.startsWith(QUOTE) && param.endsWith(QUOTE)) {
       param = param.substring(1, param.length() - 1);
     } else {
       throw new ParseException("quotes is not first and/or last symbol of param", 0);
@@ -49,10 +49,10 @@ public class CsvParser {
     List<String> resultParams = new ArrayList<String>();
     for (int i = 0; i < tempParams.length; i++ ) {
       tempParam = tempParams[i];
-      if (tempParam.contains(quote)) {
+      if (tempParam.contains(QUOTE)) {
         while (isOddQuotesCount(tempParam) && i < tempParams.length - 1) {
           i++ ;
-          tempParam = tempParam + separator + tempParams[i];
+          tempParam = tempParam + SEPARATOR + tempParams[i];
         }
         if (isOddQuotesCount(tempParam)) {
           throw new ParseException("Odd count quotes", 0);
@@ -70,9 +70,9 @@ public class CsvParser {
     for (int i = 0; i < attributes.length - 1; i++ ) {
       tempString = attributes[i];
       if (countQuotes(tempString) > 0 || tempString.matches(".*[,А-Яа-я\"]+.*")) {
-        tempString = quote + tempString + quote;
+        tempString = QUOTE + tempString + QUOTE;
       }
-      csvRow += tempString + separator;
+      csvRow += tempString + SEPARATOR;
     }
     csvRow += attributes[attributes.length - 1];
     return csvRow;

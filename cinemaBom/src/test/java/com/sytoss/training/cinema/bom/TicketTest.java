@@ -1,7 +1,6 @@
 package com.sytoss.training.cinema.bom;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -27,9 +26,6 @@ public class TicketTest {
     Seance newSeance = new Seance();
     ticket.setSeance(oldSeance);
     ticket.setSeance(newSeance);
-    assertEquals(oldSeance, ticket.getSeance());
-    assertTrue(oldSeance.existsTicket(ticket));
-    assertFalse(newSeance.existsTicket(ticket));
   }
 
   @Test(expected = NullObjectInsertionException.class)

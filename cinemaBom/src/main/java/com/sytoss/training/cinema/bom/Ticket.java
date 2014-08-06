@@ -1,6 +1,7 @@
 package com.sytoss.training.cinema.bom;
 
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.ReassignObjectException;
 
 public class Ticket {
 
@@ -36,8 +37,8 @@ public class Ticket {
     if (seance == null) {
       throw new NullObjectInsertionException("Seance shouldn't be NULL.");
     }
-    if (this.seance != null) {
-      //      throw new ReassignObjectException("Ticket already assigned to another seance. Ticket could not be reassigned.");
+    if (this.seance != null && !this.seance.equals(seance)) {
+      throw new ReassignObjectException("Ticket already assigned to another seance. Ticket could not be reassigned.");
     }
     if ( !seance.existsTicket(this)) {
       seance.addTicket(this);

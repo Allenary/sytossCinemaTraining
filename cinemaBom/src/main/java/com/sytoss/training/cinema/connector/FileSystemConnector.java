@@ -37,8 +37,13 @@ public class FileSystemConnector {
       printWriter.println(row);
       logger.info("row added to output: " + row);
     }
-    printWriter.close();
-    fileWriter.close();
+
+    try {
+      printWriter.close();
+      fileWriter.close();
+    } catch (IOException e) {
+      logger.error("Writer could not be closed.");
+    }
   }
 
   public List<String> read(String fileName) throws IOException {

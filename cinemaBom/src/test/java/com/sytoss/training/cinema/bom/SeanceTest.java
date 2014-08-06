@@ -58,14 +58,11 @@ public class SeanceTest {
 
   @Test(expected = ReassignObjectException.class)
   public void shouldRaiseExceptionForAddTicketAssignedToAnotherSeance() {
-    Seance oldSeance = new Seance();
+    Seance oldSeance = new Seance(new Room("green"), new GregorianCalendar(2014, 10, 5, 12, 30));
     Ticket ticket = new Ticket(new Place(1));
     ticket.setSeance(oldSeance);
-    Seance newSeance = new Seance();
+    Seance newSeance = new Seance(new Room("red"), new GregorianCalendar(2014, 10, 5, 12, 30));
     newSeance.addTicket(ticket);
-    assertEquals(oldSeance, ticket.getSeance());
-    assertTrue(oldSeance.existsTicket(ticket));
-    assertFalse(newSeance.existsTicket(ticket));
   }
 
   @Test(expected = DuplicateInsertionException.class)

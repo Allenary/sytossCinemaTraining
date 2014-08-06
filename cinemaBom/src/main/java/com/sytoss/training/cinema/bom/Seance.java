@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.sytoss.training.cinema.exception.DuplicateInsertionException;
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.ReassignObjectException;
 import com.sytoss.training.cinema.exception.SeanceChangeStateException;
 
 public class Seance {
@@ -78,8 +79,8 @@ public class Seance {
       throw new NullObjectInsertionException("null ticket shouldn't be added");
     }
 
-    if (ticket.getSeance() != this && ticket.getSeance() != null) {
-      //      throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
+    if (ticket.getSeance() != null && !ticket.getSeance().equals(this)) {
+      throw new ReassignObjectException("Ticket already assigned to seance. Ticket could not be reassigned to another seance!");
     }
 
     if (tickets.contains(ticket)) {

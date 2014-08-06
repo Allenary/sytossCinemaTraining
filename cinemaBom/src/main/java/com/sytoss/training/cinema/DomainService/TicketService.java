@@ -29,15 +29,15 @@ public class TicketService {
     boolean isFileSkipped;
     for (String inputFile : fileNames) {
       isFileSkipped = false;
-      logger.warn("start with processing file: " + inputFile);
+      logger.info("start with processing file: " + inputFile);
       ticketsIn1File = new ArrayList<Ticket>();
       try {
         csvRows = new FileSystemConnector().read(inputFile);
-        logger.warn("Rows found: " + csvRows.size());
+        logger.debug("Rows found: " + csvRows.size());
         for (String row : csvRows) {
           try {
             ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
-            logger.warn("row '" + row + "' parsed");
+            logger.debug("row '" + row + "' parsed");
           } catch (Exception e) {
             logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data. Row: " + row);
             isFileSkipped = true;
@@ -46,15 +46,14 @@ public class TicketService {
       } catch (IOException e1) {
         isFileSkipped = true;
         logger.error(e1.getMessage());
-        e1.printStackTrace();
       }
       if ( !isFileSkipped && equalsCashOfficeID(ticketsIn1File)) {
         allTickets.addAll(ticketsIn1File);
-        logger.warn("file added to merge: " + inputFile);
+        logger.info("file added to merge: " + inputFile);
       }
 
     }
-    logger.warn("count tickets=" + allTickets.size());
+    logger.debug("count tickets=" + allTickets.size());
     return allTickets;
 
   }
@@ -67,7 +66,7 @@ public class TicketService {
       }
       new FileSystemConnector().write(csvStrings, fileNameDestination);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error(e.getMessage());
     }
   }
 
@@ -82,7 +81,6 @@ public class TicketService {
       }
 
     }
-
     return true;
   }
 
