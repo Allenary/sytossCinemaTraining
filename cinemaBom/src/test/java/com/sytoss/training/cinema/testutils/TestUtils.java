@@ -6,19 +6,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public final class TestUtils {
 
-public class TestUtils {
+  private TestUtils() {
 
-  Logger logger = LoggerFactory.getLogger(this.getClass());
+  }
 
-  public void checkFiles(String fileName1, String fileName2) throws IOException {
-    logger.info("CheckFiles " + fileName1 + " " + fileName2);
+  public static void checkFiles(String fileName1, String fileName2) throws IOException {
     assertArrayEquals(getFileBytes(fileName1), getFileBytes(fileName2));
   }
 
-  private byte[] getFileBytes(String fileName) throws IOException {
+  private static byte[] getFileBytes(String fileName) throws IOException {
     FileInputStream fis = new FileInputStream(fileName);
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     byte[] buff = new byte[1024];
@@ -32,13 +30,10 @@ public class TestUtils {
       bos.flush();
       return bos.toByteArray();
     } catch (IOException e) {
-      System.out.print("getFileBytes Error");
-      e.printStackTrace();
-
+      throw new IOException(e);
     } finally {
       fis.close();
       bos.close();
     }
-    return null;
   }
 }

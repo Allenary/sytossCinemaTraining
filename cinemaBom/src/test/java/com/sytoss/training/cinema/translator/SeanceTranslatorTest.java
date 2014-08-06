@@ -70,12 +70,15 @@ public class SeanceTranslatorTest {
     assertEquals(59.5, ticketElements.get(1).getAttribute("price").getDoubleValue(), 0);
   }
 
-  @Test(expected = SeanceNotFullException.class)
+  @Test
   public void shouldRaiseErrorWhenNoTicketis() {
     Seance seance = new Seance(new Room("blue"), new GregorianCalendar(2014, Calendar.APRIL, 21, 20, 30, 0));
     seance.setMovie(new Movie("Star Wars"));
 
-    new SeanceTranslator().toElement(seance);
+    Element seanceElement = new SeanceTranslator().toElement(seance);
+    assertEquals("blue", seanceElement.getChild("room").getText());
+    assertEquals("Star Wars", seanceElement.getChild("movie").getText());
+    assertEquals("2014-04-21T20:30:00Z", seanceElement.getAttribute("startDateTime").getValue());
   }
 
   @Test(expected = SeanceNotFullException.class)

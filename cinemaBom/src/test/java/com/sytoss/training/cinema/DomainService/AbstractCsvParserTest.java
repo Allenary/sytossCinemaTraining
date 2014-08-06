@@ -13,6 +13,7 @@ public abstract class AbstractCsvParserTest {
 
   public abstract ISplitStategy getStrategy();
 
+  @Test
   public void shouldParseValidRow() throws ParseException {
     String[] ticketAttributes = new CsvParser(getStrategy()).parse("cinema-name,room-name,movie-name,date,row,place,price,cashoffice_ID");
     assertEquals("cinema-name", ticketAttributes[0]);

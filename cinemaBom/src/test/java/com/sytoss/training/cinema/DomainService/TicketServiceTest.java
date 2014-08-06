@@ -20,7 +20,7 @@ public class TicketServiceTest {
 
     new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.csv")
       .toURI()).getAbsolutePath());
   }
@@ -32,7 +32,7 @@ public class TicketServiceTest {
 
     new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.csv")
       .toURI()).getAbsolutePath());
   }
@@ -47,7 +47,7 @@ public class TicketServiceTest {
 
     new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.csv")
       .toURI()).getAbsolutePath());
   }
@@ -62,7 +62,7 @@ public class TicketServiceTest {
 
     new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.csv")
       .toURI()).getAbsolutePath());
   }
@@ -77,7 +77,7 @@ public class TicketServiceTest {
 
     new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.csv")
       .toURI()).getAbsolutePath());
   }
@@ -92,7 +92,7 @@ public class TicketServiceTest {
 
     new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.csv")
       .toURI()).getAbsolutePath());
   }
@@ -106,7 +106,7 @@ public class TicketServiceTest {
     new TicketService()
       .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
 
@@ -121,7 +121,7 @@ public class TicketServiceTest {
     new TicketService()
       .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
   }
@@ -134,7 +134,7 @@ public class TicketServiceTest {
     new TicketService()
       .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
   }
@@ -147,7 +147,7 @@ public class TicketServiceTest {
     new TicketService()
       .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
   }
@@ -160,7 +160,7 @@ public class TicketServiceTest {
     new TicketService()
       .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
   }
@@ -174,7 +174,7 @@ public class TicketServiceTest {
     new TicketService()
       .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
   }

@@ -6,4 +6,8 @@ public class SeanceNotFullException extends CinemaException {
     super(message);
   }
 
+  public SeanceNotFullException(String message, Exception e) {
+    super(message + e.getStackTrace());
+  }
+
 }

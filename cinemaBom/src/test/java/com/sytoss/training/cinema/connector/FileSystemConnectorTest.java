@@ -21,9 +21,9 @@ public class FileSystemConnectorTest {
     new FileSystemConnector().write(
       Arrays.asList("Row1", "Row2", "Row3"),
       new File(getClass().getResource("/simpleTest2.csv").toURI()).getAbsolutePath());
-    new TestUtils().checkFiles(new File(getClass().getResource("/simpleTest.csv").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource("/simpleTest2.csv")
-      .toURI()).getAbsolutePath());
+    TestUtils.checkFiles(
+      new File(getClass().getResource("/simpleTest.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource("/simpleTest2.csv").toURI()).getAbsolutePath());
   }
 
   @Test
@@ -42,7 +42,7 @@ public class FileSystemConnectorTest {
     document.setRootElement(new Element("cinemas"));
 
     new FileSystemConnector().write(document, new File(getClass().getResource(folder + "/testResult.xml").toURI()).getAbsolutePath());
-    new TestUtils().checkFiles(new File(getClass().getResource(folder + "/standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testResult.xml")
       .toURI()).getAbsolutePath());
 
