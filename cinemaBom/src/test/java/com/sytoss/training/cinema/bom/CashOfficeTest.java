@@ -41,7 +41,7 @@ public class CashOfficeTest {
     cinema.setName("Kronverk");
     cinema.setAddress("kharkov");
     cashoffice.setCinema(cinema);
-    assertEquals(cinema, cashoffice.showCinema());
+    assertEquals(cinema, cashoffice.getCinema());
     assertTrue(cinema.existCashOffice(cashoffice));
   }
 
@@ -52,7 +52,7 @@ public class CashOfficeTest {
     Cinema secondCinema = new Cinema("Second");
     cashoffice.setCinema(firstCinema);
     cashoffice.setCinema(secondCinema);
-    assertEquals(secondCinema, cashoffice.showCinema());
+    assertEquals(secondCinema, cashoffice.getCinema());
     assertTrue(secondCinema.existCashOffice(cashoffice));
     assertFalse(firstCinema.existCashOffice(cashoffice));
   }
@@ -68,7 +68,7 @@ public class CashOfficeTest {
     Ticket ticket = new Ticket(new Place(1));
     cashOffice.addTicket(ticket);
     assertEquals(cashOffice, ticket.getCashOffice());
-    Iterator<Ticket> tickets = cashOffice.showTikets();
+    Iterator<Ticket> tickets = cashOffice.tiketsIterator();
     assertTrue(tickets.hasNext());
     tickets.next();
     assertFalse(tickets.hasNext());
@@ -89,7 +89,7 @@ public class CashOfficeTest {
 
   @Test
   public void shouldShowNoTicketsIfTicketsNotAdded() {
-    assertFalse(new CashOffice().showTikets().hasNext());
+    assertFalse(new CashOffice().tiketsIterator().hasNext());
   }
 
   @Test
@@ -97,7 +97,7 @@ public class CashOfficeTest {
     CashOffice cashOffice = new CashOffice();
     cashOffice.addTicket(new Ticket(new Place(1)));
     cashOffice.addTicket(new Ticket(new Place(2)));
-    Iterator<Ticket> tickets = cashOffice.showTikets();
+    Iterator<Ticket> tickets = cashOffice.tiketsIterator();
     assertTrue(tickets.hasNext());
     tickets.next();
     assertTrue(tickets.hasNext());
@@ -127,7 +127,7 @@ public class CashOfficeTest {
     cashOffice.saleTicket(ticket);
     assertEquals(TicketStatus.SOLD, ticket.getStatus());
     assertFalse(seance.getAvaliableTickets().hasNext());
-    Iterator<Ticket> tickets = cashOffice.showTikets();
+    Iterator<Ticket> tickets = cashOffice.tiketsIterator();
     assertTrue(tickets.hasNext());
     tickets.next();
     assertFalse(tickets.hasNext());
@@ -143,7 +143,7 @@ public class CashOfficeTest {
     cashOffice.saleTicket(ticket);
     assertEquals(TicketStatus.SOLD, ticket.getStatus());
     assertFalse(seance.getAvaliableTickets().hasNext());
-    Iterator<Ticket> tickets = cashOffice.showTikets();
+    Iterator<Ticket> tickets = cashOffice.tiketsIterator();
     assertTrue(tickets.hasNext());
     tickets.next();
     assertFalse(tickets.hasNext());
@@ -191,7 +191,7 @@ public class CashOfficeTest {
     cashOffice.reserveTicket(ticket);
     assertEquals(TicketStatus.RESERVED, ticket.getStatus());
     assertFalse(seance.getAvaliableTickets().hasNext());
-    Iterator<Ticket> tickets = cashOffice.showTikets();
+    Iterator<Ticket> tickets = cashOffice.tiketsIterator();
     assertTrue(tickets.hasNext());
     tickets.next();
     assertFalse(tickets.hasNext());
@@ -240,7 +240,7 @@ public class CashOfficeTest {
     avaliableTickets.next();
     assertFalse(avaliableTickets.hasNext());
 
-    Iterator<Ticket> tickets = cashOffice.showTikets();
+    Iterator<Ticket> tickets = cashOffice.tiketsIterator();
     assertTrue(tickets.hasNext());
     tickets.next();
     assertFalse(tickets.hasNext());
@@ -259,7 +259,7 @@ public class CashOfficeTest {
     Iterator<Ticket> avaliableTickets = seance.getAvaliableTickets();
     assertFalse(avaliableTickets.hasNext());
 
-    Iterator<Ticket> tickets = cashOffice.showTikets();
+    Iterator<Ticket> tickets = cashOffice.tiketsIterator();
     assertTrue(tickets.hasNext());
     tickets.next();
     assertFalse(tickets.hasNext());

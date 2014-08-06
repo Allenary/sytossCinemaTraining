@@ -89,7 +89,7 @@ public class TicketService {
   }
 
   private CashOffice getSameCashOfficeInCinema(Cinema cinema, CashOffice searchedCashOffice) {
-    Iterator<CashOffice> cashOffices = cinema.showCashOffices();
+    Iterator<CashOffice> cashOffices = cinema.cashOfficeIterator();
     CashOffice tempCashOffice;
     while (cashOffices.hasNext()) {
       tempCashOffice = cashOffices.next();
@@ -106,7 +106,7 @@ public class TicketService {
     int tempIndexCinema;
     CashOffice tempCashOffice;
     for (Ticket ticket : tickets) {
-      tempCinema = ticket.getCashOffice().showCinema();
+      tempCinema = ticket.getCashOffice().getCinema();
       tempIndexCinema = cinemas.indexOf(tempCinema);
       if (tempIndexCinema == -1) {
         cinemas.add(tempCinema);

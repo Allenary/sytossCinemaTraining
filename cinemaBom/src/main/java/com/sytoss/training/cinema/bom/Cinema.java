@@ -37,7 +37,7 @@ public class Cinema {
     this.name = name;
   }
 
-  public Iterator<CashOffice> showCashOffices() {
+  public Iterator<CashOffice> cashOfficeIterator() {
     return cashOffices.iterator();
   }
 
@@ -51,15 +51,15 @@ public class Cinema {
     movies.add(movie);
   }
 
-  public Iterator<Room> showAllRooms() {
+  public Iterator<Room> roomIterator() {
     return rooms.iterator();
   }
 
-  public Iterator<Movie> showPoster() {
+  public Iterator<Movie> movieIterator() {
     return movies.iterator();
   }
 
-  public String showAddress() {
+  public String getAddress() {
     return address;
   }
 
@@ -77,7 +77,7 @@ public class Cinema {
     this.name = name;
   }
 
-  public String showName() {
+  public String getName() {
     return name;
   }
 
@@ -145,7 +145,7 @@ public class Cinema {
     return movies.contains(movie);
   }
 
-  public Iterator<Seance> showSeances() {
+  public Iterator<Seance> seanceIterator() {
     return seances.iterator();
   }
 

@@ -25,7 +25,7 @@ public class CashOffice {
     tickets = new ArrayList<Ticket>();
   }
 
-  public Cinema showCinema() {
+  public Cinema getCinema() {
     return cinema;
   }
 
@@ -53,7 +53,7 @@ public class CashOffice {
     this.number = number;
   }
 
-  public Iterator<Ticket> showTikets() {
+  public Iterator<Ticket> tiketsIterator() {
     return tickets.iterator();
   }
 

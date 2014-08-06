@@ -29,7 +29,7 @@ public class CinemaTranslatorTest {
   @Test
   public void shouldTranslateFromDTO() {
     Cinema cinema = new CinemaTranslator().fromDTO("Park");
-    assertEquals("Park", cinema.showName());
+    assertEquals("Park", cinema.getName());
   }
 
   @Test

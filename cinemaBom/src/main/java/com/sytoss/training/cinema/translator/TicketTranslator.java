@@ -29,7 +29,7 @@ public class TicketTranslator {
       String room = new RoomTranslator().toDTO(ticket.getSeance().getRoom());
       String movie = new MovieTranslator().toDTO(ticket.getSeance().getMovie());
       String cashOffice = new CashOfficeTranslator().toDTO(ticket.getCashOffice());
-      String cinema = new CinemaTranslator().toDTO(ticket.getCashOffice().showCinema());
+      String cinema = new CinemaTranslator().toDTO(ticket.getCashOffice().getCinema());
 
       DecimalFormatSymbols decimalSymbols = new DecimalFormatSymbols();
       decimalSymbols.setDecimalSeparator('.');

@@ -17,7 +17,7 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     Seance seance = new Seance();
     cinema.addSeance(seance);
-    Iterator<Seance> seances = cinema.showSeances();
+    Iterator<Seance> seances = cinema.seanceIterator();
     assertTrue(seances.hasNext());
     seances.next();
     assertFalse(seances.hasNext());
@@ -66,8 +66,8 @@ public class CinemaTest {
     assertFalse(cinema.existCashOffice(cashoffice));
     cinema.addCashOffice(cashoffice);
     assertTrue(cinema.existCashOffice(cashoffice));
-    assertEquals(cinema, cashoffice.showCinema());
-    Iterator<CashOffice> allCashOffices = cinema.showCashOffices();
+    assertEquals(cinema, cashoffice.getCinema());
+    Iterator<CashOffice> allCashOffices = cinema.cashOfficeIterator();
     assertTrue(allCashOffices.hasNext());
     allCashOffices.next();
     assertFalse(allCashOffices.hasNext());
@@ -85,7 +85,7 @@ public class CinemaTest {
     CashOffice cashOffice = new CashOffice(3);
     cinema.addCashOffice(cashOffice);
     cinema.addCashOffice(cashOffice);
-    Iterator<CashOffice> allCashOffices = cinema.showCashOffices();
+    Iterator<CashOffice> allCashOffices = cinema.cashOfficeIterator();
     allCashOffices.next();
     assertEquals(false, allCashOffices.hasNext());
   }
@@ -99,7 +99,7 @@ public class CinemaTest {
     newCinema.addCashOffice(cashOffice);
     assertTrue(newCinema.existCashOffice(cashOffice));
     assertFalse(oldCinema.existCashOffice(cashOffice));
-    assertEquals(newCinema, cashOffice.showCinema());
+    assertEquals(newCinema, cashOffice.getCinema());
   }
 
   @Test
@@ -107,7 +107,7 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     Room room = new Room("red");
     cinema.addRoom(room);
-    Iterator<Room> rooms = cinema.showAllRooms();
+    Iterator<Room> rooms = cinema.roomIterator();
     assertTrue(rooms.hasNext());
     rooms.next();
     assertFalse(rooms.hasNext());
@@ -153,8 +153,8 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     cinema.setName("Kronverk");
     cinema.setAddress("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation");
-    assertEquals("Kronverk", cinema.showName());
-    assertEquals("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation", cinema.showAddress());
+    assertEquals("Kronverk", cinema.getName());
+    assertEquals("Krasnoproletarskaya st., 16/2, Ent. 5, Moscow, 127473, Russian Federation", cinema.getAddress());
   }
 
   //  address field cover
@@ -175,7 +175,7 @@ public class CinemaTest {
     Cinema cinema = new Cinema();
     movie.setName("Brave heart");
     cinema.addMovie(movie);
-    Iterator<Movie> movies = cinema.showPoster();
+    Iterator<Movie> movies = cinema.movieIterator();
     assertTrue(movies.hasNext());
     movies.next();
     assertFalse(movies.hasNext());

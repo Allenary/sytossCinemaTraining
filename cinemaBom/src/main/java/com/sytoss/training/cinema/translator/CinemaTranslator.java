@@ -14,13 +14,13 @@ public class CinemaTranslator {
   }
 
   public String toDTO(Cinema cinema) {
-    return cinema.showName();
+    return cinema.getName();
   }
 
   public Element toElement(Cinema cinema) {
     Element element = new Element("cinema");
-    element.setAttribute("name", cinema.showName());
-    Iterator<CashOffice> cashOffices = cinema.showCashOffices();
+    element.setAttribute("name", cinema.getName());
+    Iterator<CashOffice> cashOffices = cinema.cashOfficeIterator();
     while (cashOffices.hasNext()) {
       element.addContent(new CashOfficeTranslator().toElement(cashOffices.next()));
     }

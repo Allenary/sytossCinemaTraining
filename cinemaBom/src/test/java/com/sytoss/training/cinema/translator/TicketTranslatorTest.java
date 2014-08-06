@@ -70,7 +70,7 @@ public class TicketTranslatorTest {
     Ticket ticket = new TicketTranslator()
       .fromDTO(new String[] {"Kronverk", "blue", "Titanik", "12.04.2014 10:30", "2", "1", "59.99", "8"});
 
-    assertEquals("Kronverk", ticket.getCashOffice().showCinema().showName());
+    assertEquals("Kronverk", ticket.getCashOffice().getCinema().getName());
     assertEquals("blue", ticket.getSeance().getRoom().getName());
     assertEquals("Titanik", ticket.getSeance().getMovie().getName());
     assertEquals(2, ticket.getPlace().getRow().getNumber());
