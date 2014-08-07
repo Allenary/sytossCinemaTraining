@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.testutils.TestUtils;
@@ -48,4 +49,12 @@ public class FileSystemConnectorTest {
 
   }
 
+  @Test
+  public void shouldReadXMLFileJDOM() throws JDOMException, IOException, URISyntaxException {
+    String folder = "/shouldReadXMLFileJDOM";
+    Document document = new FileSystemConnector().readXMLFileJDOM(new File(getClass().getResource(folder + "/simpleXML.xml").toURI())
+      .getAbsolutePath());
+
+    assertEquals("cinemas", document.getRootElement().getName());
+  }
 }
