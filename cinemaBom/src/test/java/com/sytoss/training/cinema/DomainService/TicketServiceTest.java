@@ -3,9 +3,11 @@ package com.sytoss.training.cinema.domainservice;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jdom2.JDOMException;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.testutils.TestUtils;
@@ -177,6 +179,20 @@ public class TicketServiceTest {
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldMergeXMLsToXML() throws URISyntaxException, IOException, JDOMException, ParseException {
+    String folder = "/shouldMergeXMLsToXML";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
+      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
+
+    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
+
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource(folder + "/testRunResult.xml")
+      .toURI()).getAbsolutePath());
+
   }
 
 }

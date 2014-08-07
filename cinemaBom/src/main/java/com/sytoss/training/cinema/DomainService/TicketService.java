@@ -1,12 +1,14 @@
 package com.sytoss.training.cinema.domainservice;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,9 +125,7 @@ public class TicketService {
     return cinemas;
   }
 
-  public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) throws IOException {
-    List<Ticket> tickets = readFromFile(inputFileNames);
-    List<Cinema> cinemas = getCinemasFromTickets(tickets);
+  private void writeInXML(List<Cinema> cinemas, String fileNameDestination) throws IOException {
     List<Element> cinemaElements = new ArrayList<Element>();
     for (Cinema cinema : cinemas) {
       cinemaElements.add(new CinemaTranslator().toElement(cinema));
@@ -135,5 +135,24 @@ public class TicketService {
     Document document = new Document();
     document.setRootElement(rootElement);
     new FileSystemConnector().write(document, fileNameDestination);
+  }
+
+  public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) throws IOException {
+    List<Ticket> tickets = readFromFile(inputFileNames);
+    List<Cinema> cinemas = getCinemasFromTickets(tickets);
+    writeInXML(cinemas, fileNameDestination);
+  }
+
+  public void mergeXML(List<String> inputFiles, String absolutePath) throws JDOMException, IOException, ParseException {
+    List<Cinema> cinemas = new ArrayList<Cinema>();
+    FileSystemConnector fsc = new FileSystemConnector();
+    for (String inputFile : inputFiles) {
+      Document doc = fsc.readXMLFileJDOM(inputFile);
+      List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
+      for (Element cinemaElement : cinemaElements) {
+        cinemas.add(new CinemaTranslator().fromDTO(cinemaElement));
+      }
+    }
+    writeInXML(cinemas, absolutePath);
   }
 }
