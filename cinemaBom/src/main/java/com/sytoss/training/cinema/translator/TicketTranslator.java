@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 
+import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,5 +87,12 @@ public class TicketTranslator {
       throw new TicketNotFullException("Not full data in ticket.");
     }
     return element;
+  }
+
+  public Ticket fromDTO(Element element) throws DataConversionException {
+    Ticket ticket = new Ticket(
+      new Place(element.getAttribute("place").getIntValue(), new Row(element.getAttribute("row").getIntValue())),
+      element.getAttribute("price").getDoubleValue());
+    return ticket;
   }
 }

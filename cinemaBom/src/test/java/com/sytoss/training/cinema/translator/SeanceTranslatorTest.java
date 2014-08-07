@@ -1,10 +1,12 @@
 package com.sytoss.training.cinema.translator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.DataConversionException;
@@ -87,6 +89,32 @@ public class SeanceTranslatorTest {
     seance.addTicket(new Ticket(new Place(2, new Row(1)), 59.50));
 
     new SeanceTranslator().toElement(seance);
+
+  }
+
+  @Test
+  public void shouldTranslatorFromDTOElement() throws DataConversionException, ParseException {
+    Element seanceElement = new Element("seance");
+    seanceElement.setAttribute("startDateTime", "2014-08-20T10:30:00Z");
+    seanceElement.addContent(new Element("movie").setText("Star wars"));
+    seanceElement.addContent(new Element("room").setText("red"));
+    Element ticketsElement = new Element("tickets");
+    Element ticketElement = new Element("ticket");
+    ticketElement.setAttribute("row", "3");
+    ticketElement.setAttribute("place", "13");
+    ticketElement.setAttribute("price", "19.50");
+    seanceElement.addContent(ticketsElement.addContent(ticketElement));
+    Seance seance = new SeanceTranslator().fromDTO(seanceElement);
+
+    Iterator<Ticket> ticketsIterator = seance.getTickets();
+    Ticket ticket = ticketsIterator.next();
+    assertEquals(3, ticket.getPlace().getRow().getNumber());
+    assertEquals(13, ticket.getPlace().getNumber());
+    assertEquals(19.50, ticket.getPrice(), 0);
+    assertFalse(ticketsIterator.hasNext());
+    assertEquals("red", seance.getRoom().getName());
+    assertEquals("Star wars", seance.getMovie().getName());
+    assertEquals(new GregorianCalendar(2014, Calendar.AUGUST, 20, 10, 30), seance.getStartDateTime());
 
   }
 }

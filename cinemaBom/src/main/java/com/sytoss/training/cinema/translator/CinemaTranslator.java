@@ -1,11 +1,15 @@
 package com.sytoss.training.cinema.translator;
 
+import java.text.ParseException;
 import java.util.Iterator;
+import java.util.List;
 
+import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 import com.sytoss.training.cinema.bom.CashOffice;
 import com.sytoss.training.cinema.bom.Cinema;
+import com.sytoss.training.cinema.bom.Seance;
 
 public class CinemaTranslator {
 
@@ -27,4 +31,17 @@ public class CinemaTranslator {
     return element;
   }
 
+  public Cinema fromDTO(Element element) throws DataConversionException, ParseException {
+    Cinema cinema = new Cinema(element.getAttributeValue("name"));
+    List<Element> cashOfficeElements = element.getChildren("cashOffice");
+    for (Element cashOfficeElement : cashOfficeElements) {
+      CashOffice cashOffice = new CashOfficeTranslator().fromDTO(cashOfficeElement);
+      List<Seance> seances = cashOffice.getSeances();
+      cinema.addCashOffice(cashOffice);
+      for (Seance seance : seances) {
+        cinema.addSeance(seance);
+      }
+    }
+    return cinema;
+  }
 }

@@ -103,4 +103,23 @@ public class TicketTranslatorTest {
   public void shouldRaiseExceptionWhenTicketNotFull() {
     new TicketTranslator().toElement(new Ticket());
   }
+
+  @Test
+  public void shouldTranslateFromDTOElement() throws DataConversionException {
+    Element element = new Element("ticket");
+    element.setAttribute("row", "3");
+    element.setAttribute("place", "13");
+    element.setAttribute("price", "15.0");
+    Ticket ticket = new TicketTranslator().fromDTO(element);
+    assertEquals(3, ticket.getPlace().getRow().getNumber());
+    assertEquals(13, ticket.getPlace().getNumber());
+    assertEquals(15.0, ticket.getPrice(), 0);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void shouldRAiseExceptionWhenDataNotFull() throws DataConversionException {
+    Element element = new Element("ticket");
+    element.setAttribute("row", "8");
+    new TicketTranslator().fromDTO(element);
+  }
 }

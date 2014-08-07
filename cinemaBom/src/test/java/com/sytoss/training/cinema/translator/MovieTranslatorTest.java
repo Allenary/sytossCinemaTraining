@@ -28,4 +28,18 @@ public class MovieTranslatorTest {
     assertEquals("movie", testElement.getName());
     assertEquals("TOR", testElement.getText());
   }
+
+  @Test
+  public void shouldTranslateFromDTOElement() {
+    Element element = new Element("movie");
+    element.setText("Star wars");
+    Movie movie = new MovieTranslator().fromDTO(element);
+    assertEquals("Star wars", movie.getName());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseErrorWhenNameIsNull() {
+    Element element = new Element("movie");
+    new MovieTranslator().fromDTO(element);
+  }
 }

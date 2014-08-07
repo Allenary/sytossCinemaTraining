@@ -27,4 +27,19 @@ public class RoomTranslatorTest {
     assertEquals("room", roomElement.getName());
     assertEquals("Green", roomElement.getText());
   }
+
+  @Test
+  public void shouldTranslateFromDTOElement() {
+    Element element = new Element("room");
+    element.setText("red");
+    Room room = new RoomTranslator().fromDTO(element);
+    assertEquals("red", room.getName());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldRaiseExceptionWhenEmptyName() {
+    Element element = new Element("room");
+    element.setText("");
+    new RoomTranslator().fromDTO(element);
+  }
 }

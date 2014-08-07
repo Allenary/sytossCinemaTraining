@@ -19,4 +19,9 @@ public class RoomTranslator {
     element.setText(room.getName());
     return element;
   }
+
+  public Room fromDTO(Element element) {
+    Room room = new Room(element.getText());
+    return room;
+  }
 }

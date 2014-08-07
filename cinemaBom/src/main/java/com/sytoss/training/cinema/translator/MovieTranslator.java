@@ -19,4 +19,9 @@ public class MovieTranslator {
     element.setText(movie.getName());
     return element;
   }
+
+  public Movie fromDTO(Element element) {
+    Movie movie = new Movie(element.getText());
+    return movie;
+  }
 }
