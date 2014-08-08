@@ -195,4 +195,17 @@ public class TicketServiceTest {
 
   }
 
+  //  @Test
+  //  public void shouldMergeXMLsToXMLDifferentCinemas() throws URISyntaxException, IOException, JDOMException, ParseException {
+  //    String folder = "/shouldMergeXMLsToXML";
+  //    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
+  //      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
+  //
+  //    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
+  //
+  //    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+  //      .getResource(folder + "/testRunResult.xml")
+  //      .toURI()).getAbsolutePath());
+  //
+  //  }
 }
