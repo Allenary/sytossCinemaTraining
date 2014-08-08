@@ -9,7 +9,7 @@ import org.jdom2.JDOMException;
 
 import com.sytoss.training.cinema.domainservice.TicketService;
 
-public class CSVFileMerge {
+public class FileMerge {
 
   public static void main(String[] args) throws IOException, JDOMException, ParseException {
     if (args == null || args.length < 2) {
