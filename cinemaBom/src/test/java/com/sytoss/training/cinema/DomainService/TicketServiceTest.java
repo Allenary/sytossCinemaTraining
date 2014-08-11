@@ -182,8 +182,21 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMergeXMLsToXML() throws URISyntaxException, IOException, JDOMException, ParseException {
+  public void shouldMergeXMLsToXMLDifferentCinemas() throws URISyntaxException, IOException, JDOMException, ParseException {
     String folder = "/shouldMergeXMLsToXML";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath(), new File(
+      getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath());
+
+    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
+
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource(folder + "/testRunResult.xml")
+      .toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldMergeXMLsToXMLDifferentCOInOneCinema() throws URISyntaxException, IOException, JDOMException, ParseException {
+    String folder = "/shouldMergeXMLsToXMLDifferentCOInOneCinema";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
 
@@ -192,20 +205,31 @@ public class TicketServiceTest {
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
-
   }
 
-  //  @Test
-  //  public void shouldMergeXMLsToXMLDifferentCinemas() throws URISyntaxException, IOException, JDOMException, ParseException {
-  //    String folder = "/shouldMergeXMLsToXML";
-  //    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
-  //      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
-  //
-  //    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
-  //
-  //    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
-  //      .getResource(folder + "/testRunResult.xml")
-  //      .toURI()).getAbsolutePath());
-  //
-  //  }
+  @Test
+  public void shouldMergeXMLsToXMLDifferentSeanceInOneCinema() throws URISyntaxException, IOException, JDOMException, ParseException {
+    String folder = "/shouldMergeXMLsToXMLDifferentSeanceInOneCinema";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
+      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
+
+    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
+
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource(folder + "/testRunResult.xml")
+      .toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldMergeXMLsToXMLDSameSeanceInDiffFiles() throws URISyntaxException, IOException, JDOMException, ParseException {
+    String folder = "/shouldMergeXMLsToXMLDifferentSeanceInOneCinema";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
+      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
+
+    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
+
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource(folder + "/testRunResult.xml")
+      .toURI()).getAbsolutePath());
+  }
 }
