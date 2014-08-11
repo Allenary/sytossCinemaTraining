@@ -67,22 +67,9 @@ public class TicketTranslatorTest {
 
   @Test
   public void shouldTranslateFromDTOFull() throws ParseException {
-    Ticket ticket = new TicketTranslator()
-      .fromDTO(new String[] {"Kronverk", "blue", "Titanik", "12.04.2014 10:30", "2", "1", "59.99", "8"});
+    Ticket ticket = new TicketTranslator().fromDTO("59.99");
 
-    assertEquals("Kronverk", ticket.getCashOffice().getCinema().getName());
-    assertEquals("blue", ticket.getSeance().getRoom().getName());
-    assertEquals("Titanik", ticket.getSeance().getMovie().getName());
-    assertEquals(2, ticket.getPlace().getRow().getNumber());
-    assertEquals(1, ticket.getPlace().getNumber());
     assertEquals(59.99, ticket.getPrice(), 0);
-    assertEquals(8, ticket.getCashOffice().getNumber());
-
-    assertEquals(12, ticket.getSeance().getStartDateTime().get(Calendar.DAY_OF_MONTH));
-    assertEquals(Calendar.APRIL, ticket.getSeance().getStartDateTime().get(Calendar.MONTH));
-    assertEquals(2014, ticket.getSeance().getStartDateTime().get(Calendar.YEAR));
-    assertEquals(10, ticket.getSeance().getStartDateTime().get(Calendar.HOUR_OF_DAY));
-    assertEquals(30, ticket.getSeance().getStartDateTime().get(Calendar.MINUTE));
   }
 
   @Test

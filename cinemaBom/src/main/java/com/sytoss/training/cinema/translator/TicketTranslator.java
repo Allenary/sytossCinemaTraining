@@ -20,30 +20,31 @@ public class TicketTranslator {
 
   public String[] toDTO(Ticket ticket) throws ParseException {
     String[] dto = new String[8];
-    String place = new PlaceTranslator().toDTO(ticket.getPlace());
-    String row = new RowTranslator().toDTO(ticket.getPlace().getRow());
+    try {
+      String place = new PlaceTranslator().toDTO(ticket.getPlace());
+      String row = new RowTranslator().toDTO(ticket.getPlace().getRow());
 
-    String seance = new SeanceTranslator().toDTO(ticket.getSeance());
-    String room = new RoomTranslator().toDTO(ticket.getSeance().getRoom());
-    String movie = new MovieTranslator().toDTO(ticket.getSeance().getMovie());
-    String cashOffice = new CashOfficeTranslator().toDTO(ticket.getCashOffice());
-    String cinema = new CinemaTranslator().toDTO(ticket.getCashOffice().getCinema());
+      String seance = new SeanceTranslator().toDTO(ticket.getSeance());
+      String room = new RoomTranslator().toDTO(ticket.getSeance().getRoom());
+      String movie = new MovieTranslator().toDTO(ticket.getSeance().getMovie());
+      String cashOffice = new CashOfficeTranslator().toDTO(ticket.getCashOffice());
+      String cinema = new CinemaTranslator().toDTO(ticket.getCashOffice().getCinema());
 
-    DecimalFormatSymbols decimalSymbols = new DecimalFormatSymbols();
-    decimalSymbols.setDecimalSeparator('.');
-    String price = new DecimalFormat("0.00", decimalSymbols).format(ticket.getPrice());
+      DecimalFormatSymbols decimalSymbols = new DecimalFormatSymbols();
+      decimalSymbols.setDecimalSeparator('.');
+      String price = new DecimalFormat("0.00", decimalSymbols).format(ticket.getPrice());
 
-    dto[0] = cinema;
-    dto[1] = room;
-    dto[2] = movie;
-    dto[3] = seance;
-    dto[4] = row;
-    dto[5] = place;
-    dto[6] = price;
-    dto[7] = cashOffice;
-    //    } catch (Exception e) {
-    //      throw new ParseException("Ticket not full ", 0);
-    //    }
+      dto[0] = cinema;
+      dto[1] = room;
+      dto[2] = movie;
+      dto[3] = seance;
+      dto[4] = row;
+      dto[5] = place;
+      dto[6] = price;
+      dto[7] = cashOffice;
+    } catch (Exception e) {
+      throw new ParseException("Ticket not full ", 0);
+    }
     return dto;
   }
 

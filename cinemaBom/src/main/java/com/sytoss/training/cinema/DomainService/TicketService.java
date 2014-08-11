@@ -165,8 +165,9 @@ public class TicketService {
 
   public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) throws IOException {
     List<Ticket> tickets = readFromFile(inputFileNames);
-    List<Cinema> cinemas = getCinemasFromTickets(tickets);
-    writeInXML(cinemas, fileNameDestination);
+    //    List<Cinema> cinemas = getCinemasFromTickets(tickets);
+
+    writeInXML(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
   }
 
   public void mergeXML(List<String> inputFiles, String absolutePath) throws JDOMException, IOException, ParseException {
@@ -203,6 +204,9 @@ public class TicketService {
   }
 
   private Ticket getTicketFromCSV(String[] csvParams) throws ParseException {
+    if (csvParams.length != 8) {
+      throw new ParseException("row contains wrong param count. Expected count=8 ", 0);
+    }
     Cinema cinema = findOrCreateNewCinema(csvParams[0]);
     Movie movie = findOrCreateNewMovie(csvParams[2], cinema);
     Room room = findOrCreateNewRoom(csvParams[1], cinema);
