@@ -3,8 +3,10 @@ package com.sytoss.training.cinema.domainservice;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -13,15 +15,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sytoss.training.cinema.bom.CashOffice;
+import com.sytoss.training.cinema.bom.CashOfficeTest;
 import com.sytoss.training.cinema.bom.Cinema;
+import com.sytoss.training.cinema.bom.Movie;
+import com.sytoss.training.cinema.bom.Place;
+import com.sytoss.training.cinema.bom.Room;
+import com.sytoss.training.cinema.bom.Row;
+import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.connector.FileSystemConnector;
+import com.sytoss.training.cinema.translator.CashOfficeTranslator;
 import com.sytoss.training.cinema.translator.CinemaTranslator;
+import com.sytoss.training.cinema.translator.MovieTranslator;
+import com.sytoss.training.cinema.translator.PlaceTranslator;
+import com.sytoss.training.cinema.translator.RoomTranslator;
+import com.sytoss.training.cinema.translator.RowTranslator;
+import com.sytoss.training.cinema.translator.SeanceTranslator;
 import com.sytoss.training.cinema.translator.TicketTranslator;
 
 public class TicketService {
 
+  private Map<String, Cinema> mapCinemas;
+
   private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+  public TicketService() {
+    mapCinemas = new HashMap<String, Cinema>();
+  }
 
   private List<Ticket> readFromFile(List<String> fileNames) {
 
@@ -38,10 +58,13 @@ public class TicketService {
         logger.debug("Rows found: " + csvRows.size());
         for (String row : csvRows) {
           try {
-            ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
+            //ticketsIn1File.add(new TicketTranslator().fromDTO(new CsvParser(new SplitSplitStringStrategy()).parse(row)));
+            ticketsIn1File.add(getTicketFromCSV((new CsvParser(new SplitSplitStringStrategy()).parse(row))));
+
             logger.debug("row '" + row + "' parsed");
           } catch (Exception e) {
             logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data. Row: " + row);
+            e.printStackTrace();
             isFileSkipped = true;
           }
         }
@@ -69,6 +92,7 @@ public class TicketService {
       new FileSystemConnector().write(csvStrings, fileNameDestination);
     } catch (Exception e) {
       logger.error(e.getMessage());
+      e.printStackTrace();
     }
   }
 
@@ -117,7 +141,9 @@ public class TicketService {
         if (tempCashOffice == null) {
           cinemas.get(tempIndexCinema).addCashOffice(ticket.getCashOffice());
         } else {
-          tempCashOffice.addTicket(ticket);
+          if ( !tempCashOffice.exists(ticket)) {
+            tempCashOffice.addTicket(ticket);
+          }
         }
       }
 
@@ -153,6 +179,132 @@ public class TicketService {
         cinemas.add(new CinemaTranslator().fromDTO(cinemaElement));
       }
     }
-    writeInXML(cinemas, absolutePath);
+    List<Ticket> tickets = new ArrayList<Ticket>();
+    for (Cinema cinema : cinemas) {
+      Iterator<CashOffice> cashOffices = cinema.cashOfficeIterator();
+      while (cashOffices.hasNext()) {
+        Iterator<Ticket> ticketsIterator = cashOffices.next().tiketsIterator();
+        while (ticketsIterator.hasNext()) {
+          tickets.add(ticketsIterator.next());
+        }
+      }
+    }
+
+    writeInXML(getCinemasFromTickets(tickets), absolutePath);
+  }
+
+  private Cinema findOrCreateNewCinema(String cinemaName) {
+    Cinema cinema = mapCinemas.get(cinemaName);
+    if (cinema == null) {
+      cinema = new CinemaTranslator().fromDTO(cinemaName);
+      mapCinemas.put(cinemaName, cinema);
+    }
+    return cinema;
+  }
+
+  private Ticket getTicketFromCSV(String[] csvParams) throws ParseException {
+    Cinema cinema = findOrCreateNewCinema(csvParams[0]);
+    Movie movie = findOrCreateNewMovie(csvParams[2], cinema);
+    Room room = findOrCreateNewRoom(csvParams[1], cinema);
+    Seance seance = findOrCreateNewSeance(csvParams[3], cinema, room);
+    seance.setMovie(movie);
+    Row row = findOrCreateNewRow(csvParams[4], room);
+    Place place = findOrCreateNewPlace(csvParams[5], row);
+    Ticket ticket = new TicketTranslator().fromDTO(csvParams[6]);
+    ticket.setPlace(place);
+    ticket.setSeance(seance);
+    CashOffice cashOffice = findOrCreateNewCO(csvParams[7], cinema);
+    ticket.setCashOffice(cashOffice);
+
+    return ticket;
+  }
+
+  private CashOffice findOrCreateNewCO(String coID, Cinema cinema) {
+    CashOffice cashOffice;
+    Iterator<CashOffice> cashOffices = cinema.cashOfficeIterator();
+    while (cashOffices.hasNext()) {
+      cashOffice = cashOffices.next();
+      if (cashOffice.getNumber() == Integer.parseInt(coID)) {
+        return cashOffice;
+      }
+    }
+    cashOffice = new CashOfficeTranslator().fromDTO(coID);
+    cinema.addCashOffice(cashOffice);
+    return cashOffice;
+  }
+
+  private Place findOrCreateNewPlace(String placeNumber, Row row) {
+    Place place;
+    Iterator<Place> places = row.getAllPlaces();
+    while (places.hasNext()) {
+      place = places.next();
+      if (place.getNumber() == Integer.parseInt(placeNumber)) {
+        return place;
+      }
+    }
+    place = new PlaceTranslator().fromDTO(placeNumber);
+    row.addPlace(place);
+    return place;
+  }
+
+  private Row findOrCreateNewRow(String rowNumber, Room room) {
+    Row row;
+    Iterator<Row> rows = room.getAllRows();
+    while (rows.hasNext()) {
+      row = rows.next();
+      if (row.getNumber() == Integer.parseInt(rowNumber)) {
+        return row;
+      }
+    }
+    row = new RowTranslator().fromDTO(rowNumber);
+    room.addRow(row);
+    return row;
+  }
+
+  private Seance findOrCreateNewSeance(String startDateTime, Cinema cinema, Room room) throws ParseException {
+    Seance seance;
+    Seance seanceT = new SeanceTranslator().fromDTO(startDateTime);
+    Iterator<Seance> seances = cinema.seanceIterator();
+    while (seances.hasNext()) {
+      seance = seances.next();
+      if (room == seance.getRoom() && seanceT.getStartDateTime() == seance.getStartDateTime()) {
+        return seance;
+      }
+    }
+    seanceT.setRoom(room);
+    cinema.addSeance(seanceT);
+    return seanceT;
+  }
+
+  private Room findOrCreateNewRoom(String roomName, Cinema cinema) {
+    Iterator<Room> rooms = cinema.roomIterator();
+    Room room;
+    logger.info("searched room: " + roomName);
+    while (rooms.hasNext()) {
+      room = rooms.next();
+      logger.info("current room: " + room.getName());
+      if (room.getName().equals(roomName)) {
+        logger.info("Finded room " + roomName);
+        return room;
+      }
+    }
+    room = new RoomTranslator().fromDTO(roomName);
+    cinema.addRoom(room);
+    logger.info("added room" + room.getName());
+    return room;
+  }
+
+  private Movie findOrCreateNewMovie(String movieName, Cinema cinema) {
+    Iterator<Movie> movies = cinema.movieIterator();
+    Movie movie;
+    while (movies.hasNext()) {
+      movie = movies.next();
+      if (movie.getName() == movieName) {
+        return movie;
+      }
+    }
+    movie = new MovieTranslator().fromDTO(movieName);
+    cinema.addMovie(movie);
+    return movie;
   }
 }

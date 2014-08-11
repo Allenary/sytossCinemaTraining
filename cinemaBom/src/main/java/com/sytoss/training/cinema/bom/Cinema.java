@@ -121,7 +121,7 @@ public class Cinema {
       throw new NullObjectInsertionException();
     }
 
-    if (rooms.contains(room)) {
+    if (existRoom(room)) {
       throw new DuplicateInsertionException();
     }
     rooms.add(room);

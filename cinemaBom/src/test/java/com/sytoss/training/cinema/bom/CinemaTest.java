@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import com.sytoss.training.cinema.exception.DuplicateInsertionException;
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.WrongDataInputException;
 
 public class CinemaTest {
 
@@ -235,5 +236,14 @@ public class CinemaTest {
     assertEquals(firstFutureSeance, nextSeances.next());
     assertEquals(secondFutureSeance, nextSeances.next());
     assertFalse(nextSeances.hasNext());
+  }
+
+  @Test(expected = WrongDataInputException.class)
+  public void shouldRaiseExceptionCinemaHasntMovieWhichAddedSeanceHas() {
+    Seance seance = new Seance();
+    seance.setMovie(new Movie("Titanic"));
+    Cinema cinema = new Cinema();
+    cinema.addSeance(seance);
+
   }
 }
