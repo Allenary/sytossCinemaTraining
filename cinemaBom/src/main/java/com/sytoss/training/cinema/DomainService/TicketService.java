@@ -43,7 +43,7 @@ public class TicketService {
     mapCinemas = new HashMap<String, Cinema>();
   }
 
-  private List<Ticket> readFromCSVFiles(List<String> fileNames) {
+  public List<Ticket> readFromCSVFiles(List<String> fileNames) {
 
     List<String> csvRows = new ArrayList<String>();
     List<Ticket> allTickets = new ArrayList<Ticket>();
@@ -322,7 +322,7 @@ public class TicketService {
     Movie movie;
     while (movies.hasNext()) {
       movie = movies.next();
-      if (movie.getName() == movieName) {
+      if (movie.getName().equals(movieName)) {
         return movie;
       }
     }

@@ -1,5 +1,8 @@
 package com.sytoss.training.cinema.domainservice;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -10,6 +13,9 @@ import java.util.List;
 import org.jdom2.JDOMException;
 import org.junit.Test;
 
+import com.sytoss.training.cinema.bom.CashOffice;
+import com.sytoss.training.cinema.bom.Cinema;
+import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.testutils.TestUtils;
 
 public class TicketServiceTest {
@@ -218,5 +224,39 @@ public class TicketServiceTest {
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
+  }
+
+  @Test
+  public void shouldCreateSingleBOMObjectForTicketsWithSameData() throws URISyntaxException {
+    String folder = "/shouldCreateSingleBOMObjectForTicketsWithSameData";
+    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
+
+    List<Ticket> tickets = new TicketService().readFromCSVFiles(inputFiles);
+
+    assertEquals(3, tickets.size());
+    Cinema cinema = tickets.get(0).getCashOffice().getCinema();
+    assertEquals(cinema, tickets.get(2).getCashOffice().getCinema());
+    assertEquals(cinema, tickets.get(1).getCashOffice().getCinema());
+
+    CashOffice cashOffice = tickets.get(0).getCashOffice();
+
+    assertEquals(cashOffice, tickets.get(1).getCashOffice());
+    assertEquals(cashOffice, tickets.get(2).getCashOffice());
+    assertTrue(cinema.existCashOffice(cashOffice));
+
+    assertTrue(cinema.existSeance(tickets.get(0).getSeance()));
+    assertEquals(tickets.get(0).getSeance(), tickets.get(1).getSeance());
+    assertTrue(cinema.existSeance(tickets.get(2).getSeance()));
+
+    assertEquals(tickets.get(0).getSeance().getRoom(), tickets.get(2).getSeance().getRoom());
+    assertTrue(cinema.existRoom(tickets.get(0).getSeance().getRoom()));
+
+    assertEquals(tickets.get(0).getSeance().getMovie(), tickets.get(2).getSeance().getMovie());
+    assertTrue(cinema.existMovie(tickets.get(0).getSeance().getMovie()));
+
+    assertEquals(tickets.get(0).getPlace().getRow(), tickets.get(2).getPlace().getRow());
+    assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(0).getPlace().getRow()));
+    assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(1).getPlace().getRow()));
+
   }
 }
