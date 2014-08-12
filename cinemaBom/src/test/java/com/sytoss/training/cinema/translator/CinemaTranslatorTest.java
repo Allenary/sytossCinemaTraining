@@ -1,13 +1,10 @@
 package com.sytoss.training.cinema.translator;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Element;
@@ -103,32 +100,7 @@ public class CinemaTranslatorTest {
   @Test
   public void shouldTranslatorFromDTOElement() throws DataConversionException, ParseException {
     Element cinemaElement = new Element("cinema").setAttribute("name", "IMAX");
-    Element cashOfficeElement = new Element("cashOffice").setAttribute("id", "2");
-    Element seanceElement = new Element("seance");
-    seanceElement.setAttribute("startDateTime", "2014-08-20T10:30:00Z");
-    seanceElement.addContent(new Element("movie").setText("Star wars"));
-    seanceElement.addContent(new Element("room").setText("red"));
-    Element ticketsElement = new Element("tickets");
-    Element ticketElement = new Element("ticket");
-    ticketElement.setAttribute("row", "3");
-    ticketElement.setAttribute("place", "13");
-    ticketElement.setAttribute("price", "19.50");
-    seanceElement.addContent(ticketsElement.addContent(ticketElement));
-    cashOfficeElement.addContent(seanceElement);
-    cinemaElement.addContent(cashOfficeElement);
-
     Cinema cinema = new CinemaTranslator().fromDTO(cinemaElement);
-
-    assertEquals(3, cinema.getSeances().next().getTickets().next().getPlace().getRow().getNumber());
-    assertEquals(13, cinema.getSeances().next().getTickets().next().getPlace().getNumber());
-    assertEquals(19.50, cinema.getSeances().next().getTickets().next().getPrice(), 0);
-    assertEquals("red", cinema.getSeances().next().getRoom().getName());
-    assertEquals("Star wars", cinema.getSeances().next().getMovie().getName());
-    assertEquals(new GregorianCalendar(2014, Calendar.AUGUST, 20, 10, 30), cinema.getSeances().next().getStartDateTime());
-    Iterator<CashOffice> cashOfficeIterator = cinema.cashOfficeIterator();
-    assertTrue(cashOfficeIterator.hasNext());
-    cashOfficeIterator.next();
-    assertFalse(cashOfficeIterator.hasNext());
     assertEquals("IMAX", cinema.getName());
   }
 }

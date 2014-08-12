@@ -37,19 +37,14 @@ public class SeanceTranslator {
     } catch (Exception e) {
       throw new SeanceNotFullException("no room or movie or date", e);
     }
-    //    Element ticketsElement = new Element("tickets");
-    // Iterator<Ticket> seanceTickets = seance.getTickets();
-    //    while (seanceTickets.hasNext()) {
-    //      ticketsElement.addContent(new TicketTranslator().toElement(seanceTickets.next()));
-    //    }
-    //  seanceElement.addContent(ticketsElement);
     return seanceElement;
   }
 
   public Seance fromDTO(Element element) throws ParseException, DataConversionException {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(new SimpleDateFormat(XML_DATE_FORMAT).parse(element.getAttributeValue("startDateTime")));
-    Seance seance = new Seance(new RoomTranslator().fromDTO(element.getChild("room")), calendar);
+    Seance seance = new Seance();
+    seance.setStartDateTime(calendar);
     return seance;
   }
 }

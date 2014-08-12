@@ -82,27 +82,8 @@ public class CashOfficeTranslatorTest {
   @Test
   public void shouldTranslatorFromDTOElement() throws DataConversionException, ParseException {
     Element cashOfficeElement = new Element("cashOffice").setAttribute("id", "2");
-    Element seanceElement = new Element("seance");
-    seanceElement.setAttribute("startDateTime", "2014-08-20T10:30:00Z");
-    seanceElement.addContent(new Element("movie").setText("Star wars"));
-    seanceElement.addContent(new Element("room").setText("red"));
-    Element ticketsElement = new Element("tickets");
-    Element ticketElement = new Element("ticket");
-    ticketElement.setAttribute("row", "3");
-    ticketElement.setAttribute("place", "13");
-    ticketElement.setAttribute("price", "19.50");
-    seanceElement.addContent(ticketsElement.addContent(ticketElement));
-    cashOfficeElement.addContent(seanceElement);
-
     CashOffice cashOffice = new CashOfficeTranslator().fromDTO(cashOfficeElement);
 
-    assertEquals(3, cashOffice.getSeances().get(0).getTickets().next().getPlace().getRow().getNumber());
-    assertEquals(13, cashOffice.getSeances().get(0).getTickets().next().getPlace().getNumber());
-    assertEquals(19.50, cashOffice.getSeances().get(0).getTickets().next().getPrice(), 0);
-    assertEquals("red", cashOffice.getSeances().get(0).getRoom().getName());
-    assertEquals("Star wars", cashOffice.getSeances().get(0).getMovie().getName());
-    assertEquals(new GregorianCalendar(2014, Calendar.AUGUST, 20, 10, 30), cashOffice.getSeances().get(0).getStartDateTime());
     assertEquals(2, cashOffice.getNumber());
-    assertEquals(1, cashOffice.getSeances().size());
   }
 }

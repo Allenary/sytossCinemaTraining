@@ -1,6 +1,8 @@
 package com.sytoss.training.cinema.bom;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Iterator;
@@ -9,7 +11,6 @@ import org.junit.Test;
 
 import com.sytoss.training.cinema.exception.DuplicateInsertionException;
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
-import com.sytoss.training.cinema.exception.WrongDataInputException;
 
 public class CinemaTest {
 
@@ -238,12 +239,4 @@ public class CinemaTest {
     assertFalse(nextSeances.hasNext());
   }
 
-  @Test(expected = WrongDataInputException.class)
-  public void shouldRaiseExceptionCinemaHasntMovieWhichAddedSeanceHas() {
-    Seance seance = new Seance();
-    seance.setMovie(new Movie("Titanic"));
-    Cinema cinema = new Cinema();
-    cinema.addSeance(seance);
-
-  }
 }

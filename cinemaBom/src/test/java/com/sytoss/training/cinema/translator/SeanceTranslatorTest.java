@@ -1,13 +1,10 @@
 package com.sytoss.training.cinema.translator;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Element;
@@ -52,24 +49,13 @@ public class SeanceTranslatorTest {
   public void shouldTranslateToElement() throws DataConversionException {
     Seance seance = new Seance(new Room("blue"), new GregorianCalendar(2014, Calendar.APRIL, 21, 20, 30, 0));
     seance.setMovie(new Movie("Star Wars"));
-    seance.addTicket(new Ticket(new Place(2, new Row(1)), 59.50));
-    seance.addTicket(new Ticket(new Place(3, new Row(1)), 59.50));
 
     Element seanceElement = new SeanceTranslator().toElement(seance);
 
     assertEquals("blue", seanceElement.getChild("room").getText());
     assertEquals("Star Wars", seanceElement.getChild("movie").getText());
     assertEquals("2014-04-21T20:30:00Z", seanceElement.getAttribute("startDateTime").getValue());
-    List<Element> ticketElements = seanceElement.getChild("tickets").getChildren();
-    assertEquals(2, ticketElements.size());
 
-    assertEquals(2, ticketElements.get(0).getAttribute("place").getIntValue());
-    assertEquals(1, ticketElements.get(0).getAttribute("row").getIntValue());
-    assertEquals(59.5, ticketElements.get(0).getAttribute("price").getDoubleValue(), 0);
-
-    assertEquals(3, ticketElements.get(1).getAttribute("place").getIntValue());
-    assertEquals(1, ticketElements.get(1).getAttribute("row").getIntValue());
-    assertEquals(59.5, ticketElements.get(1).getAttribute("price").getDoubleValue(), 0);
   }
 
   @Test
@@ -96,25 +82,8 @@ public class SeanceTranslatorTest {
   public void shouldTranslatorFromDTOElement() throws DataConversionException, ParseException {
     Element seanceElement = new Element("seance");
     seanceElement.setAttribute("startDateTime", "2014-08-20T10:30:00Z");
-    seanceElement.addContent(new Element("movie").setText("Star wars"));
-    seanceElement.addContent(new Element("room").setText("red"));
-    Element ticketsElement = new Element("tickets");
-    Element ticketElement = new Element("ticket");
-    ticketElement.setAttribute("row", "3");
-    ticketElement.setAttribute("place", "13");
-    ticketElement.setAttribute("price", "19.50");
-    seanceElement.addContent(ticketsElement.addContent(ticketElement));
     Seance seance = new SeanceTranslator().fromDTO(seanceElement);
 
-    Iterator<Ticket> ticketsIterator = seance.getTickets();
-    Ticket ticket = ticketsIterator.next();
-    assertEquals(3, ticket.getPlace().getRow().getNumber());
-    assertEquals(13, ticket.getPlace().getNumber());
-    assertEquals(19.50, ticket.getPrice(), 0);
-    assertFalse(ticketsIterator.hasNext());
-    assertEquals("red", seance.getRoom().getName());
-    assertEquals("Star wars", seance.getMovie().getName());
     assertEquals(new GregorianCalendar(2014, Calendar.AUGUST, 20, 10, 30), seance.getStartDateTime());
-
   }
 }
