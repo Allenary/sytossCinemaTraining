@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cinemas>
+  <cinema name="Парк">
+    <cashOffice id="1">
+      <seance startDateTime="2014-08-21T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="12" price="46.99" />
+        </tickets>
+      </seance>
+      <seance startDateTime="2014-08-21T10:20:00Z">
+        <movie>Атлантида</movie>
+        <room>синий</room>
+        <tickets>
+          <ticket row="1" place="14" price="46.99" />
+        </tickets>
+      </seance>
+    </cashOffice>
+  </cinema>
+  <cinema name="Kronverk">
+    <cashOffice id="1">
+      <seance startDateTime="2014-08-22T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="2" place="2" price="49.99" />
+          <ticket row="1" place="3" price="59.99" />
+        </tickets>
+      </seance>
+      <seance startDateTime="2014-08-23T10:30:00Z">
+        <movie>TOR</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="5" place="6" price="34.99" />
+        </tickets>
+      </seance>
+    </cashOffice>
+    <cashOffice id="2">
+      <seance startDateTime="2014-08-21T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="12" price="46.99" />
+        </tickets>
+      </seance>
+    </cashOffice>
+  </cinema>
+  <cinema name="IMAX">
+    <cashOffice id="1">
+      <seance startDateTime="2014-08-21T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="13" price="45.99" />
+          <ticket row="1" place="12" price="46.99" />
+          <ticket row="1" place="11" price="46.99" />
+        </tickets>
+      </seance>
+    </cashOffice>
+    <cashOffice id="2">
+      <seance startDateTime="2014-08-21T10:30:00Z">
+        <movie>Titanik</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="13" price="45.99" />
+          <ticket row="1" place="12" price="46.99" />
+          <ticket row="1" place="11" price="46.99" />
+        </tickets>
+      </seance>
+    </cashOffice>
+  </cinema>
+</cinemas>

@@ -133,9 +133,9 @@ public class CashOffice {
       if (tempIndex == -1) {
         seances.add(tempSeance);
       } else {
-        if ( !seances.get(tempIndex).existsTicket(ticket)) {
-          seances.get(tempIndex).addTicket(ticket);
-        }
+        //        if ( !seances.get(tempIndex).existsTicket(ticket)) {
+        //          seances.get(tempIndex).addTicket(ticket);
+        //        }
       }
     }
     return seances;

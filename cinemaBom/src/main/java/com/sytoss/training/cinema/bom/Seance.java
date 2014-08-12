@@ -161,6 +161,16 @@ public class Seance {
     }
   }
 
+  public List<Ticket> getTicketsByCOid(int coID) {
+    List<Ticket> coTickets = new ArrayList<Ticket>();
+    for (Ticket ticket : tickets) {
+      if (ticket.getCashOffice().getNumber() == coID) {
+        coTickets.add(ticket);
+      }
+    }
+    return coTickets;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (other == null)

@@ -164,8 +164,8 @@ public class TicketService {
   }
 
   public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) throws IOException {
-    List<Ticket> tickets = readFromFile(inputFileNames);
-    //    List<Cinema> cinemas = getCinemasFromTickets(tickets);
+    readFromFile(inputFileNames);
+    // List<Cinema> cinemas = getCinemasFromTickets(tickets);
 
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
   }
@@ -271,7 +271,7 @@ public class TicketService {
     Iterator<Seance> seances = cinema.seanceIterator();
     while (seances.hasNext()) {
       seance = seances.next();
-      if (room == seance.getRoom() && seanceT.getStartDateTime() == seance.getStartDateTime()) {
+      if (room.equals(seance.getRoom()) && seanceT.getStartDateTime().equals(seance.getStartDateTime())) {
         return seance;
       }
     }

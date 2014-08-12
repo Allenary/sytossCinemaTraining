@@ -40,13 +40,12 @@ public class SeanceTranslator {
     } catch (Exception e) {
       throw new SeanceNotFullException("no room or movie or date", e);
     }
-    Element ticketsElement = new Element("tickets");
-    Iterator<Ticket> seanceTickets = seance.getTickets();
-    while (seanceTickets.hasNext()) {
-      ticketsElement.addContent(new TicketTranslator().toElement(seanceTickets.next()));
-    }
-
-    seanceElement.addContent(ticketsElement);
+    //    Element ticketsElement = new Element("tickets");
+    // Iterator<Ticket> seanceTickets = seance.getTickets();
+    //    while (seanceTickets.hasNext()) {
+    //      ticketsElement.addContent(new TicketTranslator().toElement(seanceTickets.next()));
+    //    }
+    //  seanceElement.addContent(ticketsElement);
     return seanceElement;
   }
 

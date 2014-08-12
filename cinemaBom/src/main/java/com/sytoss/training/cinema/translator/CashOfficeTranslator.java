@@ -25,7 +25,14 @@ public class CashOfficeTranslator {
     Element cashOfficeElement = new Element("cashOffice");
     List<Seance> seances = cashOffice.getSeances();
     for (Seance seance : seances) {
-      cashOfficeElement.addContent(new SeanceTranslator().toElement(seance));
+      Element seanceElement = new SeanceTranslator().toElement(seance);
+      Element ticketsElement = new Element("tickets");
+      List<Ticket> tickets = seance.getTicketsByCOid(cashOffice.getNumber());
+      for (Ticket ticket : tickets) {
+        ticketsElement.addContent(new TicketTranslator().toElement(ticket));
+      }
+      seanceElement.addContent(ticketsElement);
+      cashOfficeElement.addContent(seanceElement);
     }
     cashOfficeElement.setAttribute("id", Integer.toString(cashOffice.getNumber()));
     return cashOfficeElement;

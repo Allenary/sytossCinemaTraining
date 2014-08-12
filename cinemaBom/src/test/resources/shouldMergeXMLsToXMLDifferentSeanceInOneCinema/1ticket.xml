@@ -9,6 +9,13 @@
           <ticket row="1" place="12" price="46.99" />
         </tickets>
       </seance>
+      <seance startDateTime="2014-08-21T15:00:00Z">
+        <movie>Star wars</movie>
+        <room>red</room>
+        <tickets>
+          <ticket row="1" place="12" price="46.99" />
+        </tickets>
+      </seance>
     </cashOffice>
   </cinema>
 </cinemas>
