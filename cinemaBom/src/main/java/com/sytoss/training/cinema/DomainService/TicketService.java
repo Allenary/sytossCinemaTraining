@@ -130,7 +130,7 @@ public class TicketService {
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
   }
 
-  public void mergeXML(List<String> inputFiles, String absolutePath) throws JDOMException, IOException, ParseException {
+  private void readFromXMLFiles(List<String> inputFiles) throws JDOMException, IOException, ParseException {
     FileSystemConnector fsc = new FileSystemConnector();
     for (String inputFile : inputFiles) {
       Document doc = fsc.readXMLFileJDOM(inputFile);
@@ -153,7 +153,10 @@ public class TicketService {
         }
       }
     }
+  }
 
+  public void mergeXML(List<String> inputFiles, String absolutePath) throws JDOMException, IOException, ParseException {
+    readFromXMLFiles(inputFiles);
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
   }
 
@@ -303,18 +306,14 @@ public class TicketService {
   private Room findOrCreateNewRoom(String roomName, Cinema cinema) {
     Iterator<Room> rooms = cinema.roomIterator();
     Room room;
-    logger.info("searched room: " + roomName);
     while (rooms.hasNext()) {
       room = rooms.next();
-      logger.info("current room: " + room.getName());
       if (room.getName().equals(roomName)) {
-        logger.info("Finded room " + roomName);
         return room;
       }
     }
     room = new RoomTranslator().fromDTO(roomName);
     cinema.addRoom(room);
-    logger.info("added room" + room.getName());
     return room;
   }
 
