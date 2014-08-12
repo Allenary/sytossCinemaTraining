@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cinemas>
   <cinema name="IMAX">
-    <cashOffice id="2">
+    <cashOffice id="1">
       <seance startDateTime="2014-08-21T10:30:00Z">
         <movie>Titanik</movie>
         <room>red</room>
@@ -9,17 +9,9 @@
           <ticket row="1" place="13" price="45.99" />
           <ticket row="1" place="12" price="46.99" />
           <ticket row="1" place="11" price="46.99" />
+          <ticket row="1" place="15" price="46.99" />
         </tickets>
       </seance>
     </cashOffice>
   </cinema>
-    <cashOffice id="1">
-      <seance startDateTime="2014-08-21T10:30:00Z">
-        <movie>Titanik</movie>
-        <room>red</room>
-        <tickets>
-          <ticket row="1" place="12" price="46.99" />
-        </tickets>
-      </seance>
-    </cashOffice>
 </cinemas>

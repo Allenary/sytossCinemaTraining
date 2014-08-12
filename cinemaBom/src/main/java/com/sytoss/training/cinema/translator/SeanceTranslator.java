@@ -3,14 +3,11 @@ package com.sytoss.training.cinema.translator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
 import com.sytoss.training.cinema.bom.Seance;
-import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.exception.SeanceNotFullException;
 
 public class SeanceTranslator {
@@ -53,11 +50,6 @@ public class SeanceTranslator {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(new SimpleDateFormat(XML_DATE_FORMAT).parse(element.getAttributeValue("startDateTime")));
     Seance seance = new Seance(new RoomTranslator().fromDTO(element.getChild("room")), calendar);
-    seance.setMovie(new MovieTranslator().fromDTO(element.getChild("movie")));
-    List<Element> ticketElements = element.getChild("tickets").getChildren("ticket");
-    for (Element ticketElement : ticketElements) {
-      seance.addTicket(new TicketTranslator().fromDTO(ticketElement));
-    }
     return seance;
   }
 }

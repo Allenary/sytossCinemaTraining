@@ -222,7 +222,7 @@ public class TicketServiceTest {
 
   @Test
   public void shouldMergeXMLsToXMLDSameSeanceInDiffFiles() throws URISyntaxException, IOException, JDOMException, ParseException {
-    String folder = "/shouldMergeXMLsToXMLDifferentSeanceInOneCinema";
+    String folder = "/shouldMergeXMLsToXMLDSameSeanceInDiffFiles";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cinemas>
   <cinema name="IMAX">
-    <cashOffice id="2">
+    <cashOffice id="1">
       <seance startDateTime="2014-08-21T10:30:00Z">
         <movie>Titanik</movie>
         <room>red</room>

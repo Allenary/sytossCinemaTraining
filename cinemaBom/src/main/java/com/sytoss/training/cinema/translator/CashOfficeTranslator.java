@@ -1,7 +1,6 @@
 package com.sytoss.training.cinema.translator;
 
 import java.text.ParseException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.DataConversionException;
@@ -40,15 +39,6 @@ public class CashOfficeTranslator {
 
   public CashOffice fromDTO(Element cashOfficeElement) throws DataConversionException, ParseException {
     CashOffice cashOffice = new CashOffice(cashOfficeElement.getAttribute("id").getIntValue());
-    List<Element> seanceElements = cashOfficeElement.getChildren("seance");
-    for (Element seanceElement : seanceElements) {
-      Seance seance = new SeanceTranslator().fromDTO(seanceElement);
-      Iterator<Ticket> ticketsIterator = seance.getTickets();
-      while (ticketsIterator.hasNext()) {
-        Ticket ticket = ticketsIterator.next();
-        cashOffice.addTicket(ticket);
-      }
-    }
     return cashOffice;
   }
 

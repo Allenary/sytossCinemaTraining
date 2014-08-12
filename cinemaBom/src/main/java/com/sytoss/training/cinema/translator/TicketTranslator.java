@@ -6,8 +6,6 @@ import java.text.ParseException;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Element;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.sytoss.training.cinema.bom.Place;
 import com.sytoss.training.cinema.bom.Row;
@@ -15,8 +13,6 @@ import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.exception.TicketNotFullException;
 
 public class TicketTranslator {
-
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   public String[] toDTO(Ticket ticket) throws ParseException {
     String[] dto = new String[8];
@@ -47,33 +43,6 @@ public class TicketTranslator {
     }
     return dto;
   }
-
-  /*public Ticket fromDTO(String[] ticketDTO) throws ParseException {
-    Ticket ticket = new Ticket();
-    if (ticketDTO.length != 8) {
-      String errorMessage = "could not convert DTO to Ticket. Reason: wrong count of params. Expected:8, Actual: " + ticketDTO.length;
-      logger.error(errorMessage);
-      throw new ParseException(errorMessage, 0);
-    }
-
-    Row row = new RowTranslator().fromDTO(ticketDTO[4]);
-    Place place = new PlaceTranslator().fromDTO(ticketDTO[5]);
-    place.setRow(row);
-    ticket.setPlace(place);
-
-    Seance seance = new SeanceTranslator().fromDTO(ticketDTO[3]);
-    seance.setMovie(new MovieTranslator().fromDTO(ticketDTO[2]));
-    seance.setRoom(new RoomTranslator().fromDTO(ticketDTO[1]));
-    ticket.setSeance(seance);
-
-    CashOffice cashOffice = new CashOfficeTranslator().fromDTO(ticketDTO[7]);
-    cashOffice.setCinema(new CinemaTranslator().fromDTO(ticketDTO[0]));
-    ticket.setCashOffice(cashOffice);
-
-    ticket.setPrice(Double.parseDouble(ticketDTO[6]));
-
-    return ticket;
-  }*/
 
   public Ticket fromDTO(String ticketDTO) {
     Ticket ticket = new Ticket();
