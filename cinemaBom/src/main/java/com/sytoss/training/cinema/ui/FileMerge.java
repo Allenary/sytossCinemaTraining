@@ -1,17 +1,13 @@
 package com.sytoss.training.cinema.ui;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jdom2.JDOMException;
 
 import com.sytoss.training.cinema.domainservice.TicketService;
 
 public class FileMerge {
 
-  public static void main(String[] args) throws IOException, JDOMException, ParseException {
+  public static void main(String[] args) {
     if (args == null || args.length < 2) {
       printHelp();
       throw new IllegalArgumentException("Minimum 2 file pathes needed");

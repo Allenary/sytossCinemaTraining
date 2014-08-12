@@ -11,7 +11,6 @@ import java.util.Map;
 import org.jdom2.DataConversionException;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +112,7 @@ public class TicketService {
     writeInCSV(readFromCSVFiles(inputFileNames), outputFileName);
   }
 
-  private void writeInXML(List<Cinema> cinemas, String fileNameDestination) throws IOException {
+  private void writeInXML(List<Cinema> cinemas, String fileNameDestination) {
     List<Element> cinemaElements = new ArrayList<Element>();
     for (Cinema cinema : cinemas) {
       cinemaElements.add(new CinemaTranslator().toElement(cinema));
@@ -122,40 +121,48 @@ public class TicketService {
     rootElement.addContent(cinemaElements);
     Document document = new Document();
     document.setRootElement(rootElement);
-    new FileSystemConnector().write(document, fileNameDestination);
+    try {
+      new FileSystemConnector().write(document, fileNameDestination);
+    } catch (IOException e) {
+      logger.error("Error occured during writing to file " + fileNameDestination + e.getStackTrace().toString());
+    }
   }
 
-  public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) throws IOException {
+  public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) {
     readFromCSVFiles(inputFileNames);
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
   }
 
-  private void readFromXMLFiles(List<String> inputFiles) throws JDOMException, IOException, ParseException {
+  private void readFromXMLFiles(List<String> inputFiles) {
     FileSystemConnector fsc = new FileSystemConnector();
     for (String inputFile : inputFiles) {
-      Document doc = fsc.readXMLFileJDOM(inputFile);
-      List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
-      for (Element cinemaElement : cinemaElements) {
-        Cinema cinema = findOrCreateNewCinema(cinemaElement);
-        List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
-        for (Element coElement : cashOfficeElements) {
-          CashOffice cashOffice = findOrCreateNewCO(coElement, cinema);
-          List<Element> seanceElements = coElement.getChildren("seance");
-          for (Element seanceElement : seanceElements) {
-            Seance seance = findOrCreateNewSeance(seanceElement, cinema);
-            List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
-            for (Element ticketElement : ticketElements) {
-              Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
-              ticket.setSeance(seance);
-              ticket.setCashOffice(cashOffice);
+      try {
+        Document doc = fsc.readXMLFileJDOM(inputFile);
+        List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
+        for (Element cinemaElement : cinemaElements) {
+          Cinema cinema = findOrCreateNewCinema(cinemaElement);
+          List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
+          for (Element coElement : cashOfficeElements) {
+            CashOffice cashOffice = findOrCreateNewCO(coElement, cinema);
+            List<Element> seanceElements = coElement.getChildren("seance");
+            for (Element seanceElement : seanceElements) {
+              Seance seance = findOrCreateNewSeance(seanceElement, cinema);
+              List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
+              for (Element ticketElement : ticketElements) {
+                Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
+                ticket.setSeance(seance);
+                ticket.setCashOffice(cashOffice);
+              }
             }
           }
         }
+      } catch (Exception e) {
+        logger.error("Error occured during reading file: " + inputFile + e.getStackTrace().toString());
       }
     }
   }
 
-  public void mergeXML(List<String> inputFiles, String absolutePath) throws JDOMException, IOException, ParseException {
+  public void mergeXML(List<String> inputFiles, String absolutePath) {
     readFromXMLFiles(inputFiles);
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
   }

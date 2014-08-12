@@ -6,11 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jdom2.JDOMException;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.bom.CashOffice;
@@ -175,7 +173,7 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMergeXMLsToXMLDifferentCinemas() throws URISyntaxException, IOException, JDOMException, ParseException {
+  public void shouldMergeXMLsToXMLDifferentCinemas() throws URISyntaxException, IOException {
     String folder = "/shouldMergeXMLsToXML";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath());
@@ -188,7 +186,7 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMergeXMLsToXMLDifferentCOInOneCinema() throws URISyntaxException, IOException, JDOMException, ParseException {
+  public void shouldMergeXMLsToXMLDifferentCOInOneCinema() throws URISyntaxException, IOException {
     String folder = "/shouldMergeXMLsToXMLDifferentCOInOneCinema";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
@@ -201,7 +199,7 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMergeXMLsToXMLDifferentSeanceInOneCinema() throws URISyntaxException, IOException, JDOMException, ParseException {
+  public void shouldMergeXMLsToXMLDifferentSeanceInOneCinema() throws URISyntaxException, IOException {
     String folder = "/shouldMergeXMLsToXMLDifferentSeanceInOneCinema";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
@@ -214,7 +212,7 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMergeXMLsToXMLDSameSeanceInDiffFiles() throws URISyntaxException, IOException, JDOMException, ParseException {
+  public void shouldMergeXMLsToXMLDSameSeanceInDiffFiles() throws URISyntaxException, IOException {
     String folder = "/shouldMergeXMLsToXMLDSameSeanceInDiffFiles";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
