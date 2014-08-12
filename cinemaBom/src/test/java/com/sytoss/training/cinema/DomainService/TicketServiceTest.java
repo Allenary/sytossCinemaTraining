@@ -15,8 +15,8 @@ import com.sytoss.training.cinema.testutils.TestUtils;
 public class TicketServiceTest {
 
   @Test
-  public void shouldMerge2files() throws IOException, URISyntaxException {
-    String folder = "/shouldMerge2files";
+  public void shouldMerge2CSVToCSV() throws IOException, URISyntaxException {
+    String folder = "/shouldMerge2CSVToCSV";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
 
@@ -28,8 +28,8 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMerge1file() throws IOException, URISyntaxException {
-    String folder = "/shouldMerge1file";
+  public void shouldMerge1CSVToCSV() throws IOException, URISyntaxException {
+    String folder = "/shouldMerge1CSVToCSV";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath());
 
     new TicketService().mergeCSV(inputFiles, new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath());
@@ -101,7 +101,7 @@ public class TicketServiceTest {
 
   @Test
   public void shouldMergeCSVTOXMLDifferentSeancesIn1CO() throws IOException, URISyntaxException {
-    String folder = "/shouldMerge2files";
+    String folder = "/shouldMergeCSVTOXMLDifferentSeancesIn1CO";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
 
@@ -145,19 +145,6 @@ public class TicketServiceTest {
   public void shouldMergeCSVTOXMLDifferentCinema() throws IOException, URISyntaxException {
     String folder = "/shouldMergeCSVTOXMLDifferentCinema";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
-
-    new TicketService()
-      .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
-
-    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource(folder + "/testRunResult.xml")
-      .toURI()).getAbsolutePath());
-  }
-
-  @Test
-  public void shouldMergeCSVTOXMLDifferentAllItems() throws IOException, URISyntaxException {
-    String folder = "/shouldMergeCSVTOXMLDifferentAllItems";
-    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath());
 
     new TicketService()
       .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
