@@ -260,16 +260,4 @@ public class TicketServiceTest {
 
   }
 
-  @Test
-  public void shouldParseXML() throws XmlPullParserException, IOException, ParseException {
-    //new TicketService().parseXML("<cinema name = \"IMAX\"></cinema>");
-    //new TicketService().parseXML("<room>blue</room>");
-    new TicketService().parseXML("<seance startDateTime=\"2014-08-20T10:30:00Z\">"
-      + "<movie>Titanik</movie>"
-      + "<room>red</room>"
-      + "<tickets>"
-      + " <ticket row=\"1\" place=\"2\" price=\"45.99\" />"
-      + "</tickets>"
-      + "</seance>");
-  }
 }

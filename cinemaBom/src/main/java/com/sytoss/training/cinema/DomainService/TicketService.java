@@ -14,6 +14,7 @@ import java.util.Map;
 import org.jdom2.DataConversionException;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xmlpull.v1.XmlPullParser;
@@ -140,51 +141,53 @@ public class TicketService {
   }
 
   private void readFromXMLFilesJDOM(List<String> inputFiles) {
-    FileSystemConnector fsc = new FileSystemConnector();
+
     for (String inputFile : inputFiles) {
       try {
-        Document doc = fsc.readXMLFileJDOM(inputFile);
-        List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
-        for (Element cinemaElement : cinemaElements) {
-          Cinema cinema = findOrCreateNewCinema(cinemaElement);
-          List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
-          for (Element coElement : cashOfficeElements) {
-            CashOffice cashOffice = findOrCreateNewCO(coElement, cinema);
-            List<Element> seanceElements = coElement.getChildren("seance");
-            for (Element seanceElement : seanceElements) {
-              Seance seance = findOrCreateNewSeance(seanceElement, cinema);
-              List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
-              for (Element ticketElement : ticketElements) {
-                Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
-                ticket.setSeance(seance);
-                ticket.setCashOffice(cashOffice);
-              }
-            }
-          }
-        }
+        readFromXMLFileJDOM(inputFile);
       } catch (Exception e) {
         logger.error("Error occured during reading file: " + inputFile + e.getStackTrace().toString());
       }
     }
   }
 
-  public void mergeXML(List<String> inputFiles, String absolutePath) {
-    // readFromXMLFilesJDOM(inputFiles);
-    for (String fileName : inputFiles) {
-      try {
-        parseXML(fileName);
-      } catch (XmlPullParserException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (ParseException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+  private void readFromXMLFileJDOM(String inputFile) throws JDOMException, IOException, ParseException {
+    FileSystemConnector fsc = new FileSystemConnector();
+    Document doc = fsc.readXMLFileJDOM(inputFile);
+    List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
+    for (Element cinemaElement : cinemaElements) {
+      Cinema cinema = findOrCreateNewCinema(cinemaElement);
+      List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
+      for (Element coElement : cashOfficeElements) {
+        CashOffice cashOffice = findOrCreateNewCO(coElement, cinema);
+        List<Element> seanceElements = coElement.getChildren("seance");
+        for (Element seanceElement : seanceElements) {
+          Seance seance = findOrCreateNewSeance(seanceElement, cinema);
+          List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
+          for (Element ticketElement : ticketElements) {
+            Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
+            ticket.setSeance(seance);
+            ticket.setCashOffice(cashOffice);
+          }
+        }
       }
     }
+  }
+
+  public void mergeXML(List<String> inputFiles, String absolutePath) {
+    //    readFromXMLFilesJDOM(inputFiles);
+    readFromXMLFilesSTAX(inputFiles);
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
+  }
+
+  private void readFromXMLFilesSTAX(List<String> fileNames) {
+    for (String fileName : fileNames) {
+      try {
+        parseXML(fileName);
+      } catch (Exception e) {
+        logger.error("Error during reading file " + fileName, e);
+      }
+    }
   }
 
   private Cinema findOrCreateNewCinema(Element cinemaElement) throws DataConversionException, ParseException {
@@ -362,14 +365,7 @@ public class TicketService {
     return movie;
   }
 
-  private void readFromXMLFileStax(String inputFileName) throws XmlPullParserException, IOException {
-    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-    XmlPullParser xpp = factory.newPullParser();
-    InputStream inStream = new FileInputStream(inputFileName);
-
-  }
-
-  public void parseXML(String inputFileName) throws XmlPullParserException, IOException, ParseException {
+  private void parseXML(String inputFileName) throws XmlPullParserException, IOException, ParseException {
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser xpp = factory.newPullParser();
     InputStream inStream = new FileInputStream(inputFileName);
