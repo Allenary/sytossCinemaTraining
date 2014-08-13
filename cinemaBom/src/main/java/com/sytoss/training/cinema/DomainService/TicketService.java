@@ -3,7 +3,6 @@ package com.sytoss.training.cinema.domainservice;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,7 +140,6 @@ public class TicketService {
   }
 
   private void readFromXMLFilesJDOM(List<String> inputFiles) {
-
     for (String inputFile : inputFiles) {
       try {
         readFromXMLFileJDOM(inputFile);
@@ -215,6 +213,7 @@ public class TicketService {
     }
     Cinema cinema = findOrCreateNewCinema(csvParams[0]);
     Movie movie = findOrCreateNewMovie(csvParams[2], cinema);
+    //    Movie movie = cinema.findOrCreateNewMovie(csvParams[2]);
     Room room = findOrCreateNewRoom(csvParams[1], cinema);
     Seance seance = findOrCreateNewSeance(csvParams[3], cinema, room);
     seance.setMovie(movie);
@@ -366,20 +365,16 @@ public class TicketService {
   }
 
   private void parseXML(String inputFileName) throws XmlPullParserException, IOException, ParseException {
-    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-    XmlPullParser xpp = factory.newPullParser();
-    InputStream inStream = new FileInputStream(inputFileName);
-
-    xpp.setInput(inStream, null);
+    XmlPullParser xpp = new FileSystemConnector().readXMLFileSTAX(inputFileName);
     int eventType = xpp.getEventType();
 
-    Cinema cinema = new Cinema();
-    CashOffice cashOffice = new CashOffice();
-    Seance seance = new Seance();
-    String seanceStartDateTime = "";
-    Room room = new Room(" ");
-    String text = "";
-    Movie movie = new Movie(" ");
+    Cinema cinema = null;
+    CashOffice cashOffice = null;
+    Seance seance = null;
+    String seanceStartDateTime = null;
+    Room room = null;
+    String text = null;
+    Movie movie = null;
     while (eventType != XmlPullParser.END_DOCUMENT) {
       String tagName = xpp.getName();
       switch (eventType) {
@@ -414,7 +409,8 @@ public class TicketService {
             seance.setMovie(movie);
           }
           if (tagName == "movie") {
-            movie = findOrCreateNewMovie(text, cinema);
+            //            movie = findOrCreateNewMovie(text, cinema);
+            movie = cinema.findOrCreateNewMovie(text);
           }
           break;
 

@@ -2,9 +2,12 @@ package com.sytoss.training.cinema.connector;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,9 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 public class FileSystemConnector {
 
@@ -68,7 +74,16 @@ public class FileSystemConnector {
     xmlOutputter.output(document, new FileWriter(fileNameDestination));
   }
 
-  public Document readXMLFileJDOM(String absolutePath) throws JDOMException, IOException {
-    return new SAXBuilder().build(new File(absolutePath));
+  public Document readXMLFileJDOM(String fileName) throws JDOMException, IOException {
+    return new SAXBuilder().build(new File(fileName));
+  }
+
+  public XmlPullParser readXMLFileSTAX(String fileName) throws XmlPullParserException, FileNotFoundException {
+    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+    XmlPullParser xpp = factory.newPullParser();
+    InputStream inStream = new FileInputStream(fileName);
+
+    xpp.setInput(inStream, null);
+    return xpp;
   }
 }

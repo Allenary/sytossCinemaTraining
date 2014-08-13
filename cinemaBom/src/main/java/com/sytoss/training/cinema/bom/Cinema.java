@@ -161,6 +161,28 @@ public class Cinema {
     return nextSeances.iterator();
   }
 
+  public Movie findOrCreateNewMovie(String movieName) {
+    for (Movie movie : movies) {
+      if (movie.getName() == name) {
+        return movie;
+      }
+    }
+    Movie movie = new Movie(movieName);
+    addMovie(movie);
+    return movie;
+  }
+
+  public Room findOrCrateNewRoom(String roomName) {
+    for (Room room : rooms) {
+      if (room.getName().equals(roomName)) {
+        return room;
+      }
+    }
+    Room room = new Room(roomName);
+    addRoom(room);
+    return room;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (other == null)
