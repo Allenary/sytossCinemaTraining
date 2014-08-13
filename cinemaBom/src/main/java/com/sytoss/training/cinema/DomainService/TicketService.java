@@ -386,7 +386,6 @@ public class TicketService {
     Movie movie = new Movie(" ");
     while (eventType != XmlPullParser.END_DOCUMENT) {
       String tagName = xpp.getName();
-      System.out.println("current tag=" + tagName);
       switch (eventType) {
         case XmlPullParser.START_TAG:
           switch (tagName) {
@@ -398,7 +397,6 @@ public class TicketService {
               break;
             case "seance":
               seanceStartDateTime = xpp.getAttributeValue(null, "startDateTime");
-              //              seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
               break;
             case "ticket":
               Row row = findOrCreateNewRow(xpp.getAttributeValue(null, "row"), room);
@@ -412,22 +410,15 @@ public class TicketService {
           break;
         case XmlPullParser.TEXT:
           text = xpp.getText();
-          System.out.println("text=" + xpp.getText());
           break;
         case XmlPullParser.END_TAG:
           if (tagName == "room") {
             room = findOrCreateNewRoom(text, cinema);
             seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
             seance.setMovie(movie);
-            System.out.println("room name = " + room.getName());
           }
           if (tagName == "movie") {
-            /* Movie */movie = findOrCreateNewMovie(text, cinema);
-            //            seance.setMovie(movie);
-          }
-          if (tagName == "seance") {
-            //            seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
-            //            seance.setMovie(movie);
+            movie = findOrCreateNewMovie(text, cinema);
           }
           break;
 
