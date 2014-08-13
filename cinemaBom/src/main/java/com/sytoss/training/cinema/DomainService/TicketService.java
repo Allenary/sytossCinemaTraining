@@ -1,6 +1,9 @@
 package com.sytoss.training.cinema.domainservice;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +16,9 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.sytoss.training.cinema.bom.CashOffice;
 import com.sytoss.training.cinema.bom.Cinema;
@@ -133,7 +139,7 @@ public class TicketService {
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
   }
 
-  private void readFromXMLFiles(List<String> inputFiles) {
+  private void readFromXMLFilesJDOM(List<String> inputFiles) {
     FileSystemConnector fsc = new FileSystemConnector();
     for (String inputFile : inputFiles) {
       try {
@@ -163,7 +169,21 @@ public class TicketService {
   }
 
   public void mergeXML(List<String> inputFiles, String absolutePath) {
-    readFromXMLFiles(inputFiles);
+    // readFromXMLFilesJDOM(inputFiles);
+    for (String fileName : inputFiles) {
+      try {
+        parseXML(fileName);
+      } catch (XmlPullParserException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (ParseException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
   }
 
@@ -281,18 +301,7 @@ public class TicketService {
   }
 
   private Seance findOrCreateNewSeance(String startDateTime, Cinema cinema, Room room) throws ParseException {
-    Seance seance;
-    Seance seanceT = new SeanceTranslator().fromDTO(startDateTime);
-    Iterator<Seance> seances = cinema.seanceIterator();
-    while (seances.hasNext()) {
-      seance = seances.next();
-      if (room.equals(seance.getRoom()) && seanceT.getStartDateTime().equals(seance.getStartDateTime())) {
-        return seance;
-      }
-    }
-    seanceT.setRoom(room);
-    cinema.addSeance(seanceT);
-    return seanceT;
+    return findOrCreateNewSeance(startDateTime, cinema, room, SeanceTranslator.CSV_DATE_FORMAT);
   }
 
   private Room findOrCreateNewRoom(Element roomElement, Cinema cinema) {
@@ -324,6 +333,21 @@ public class TicketService {
     return room;
   }
 
+  private Seance findOrCreateNewSeance(String startDateTime, Cinema cinema, Room room, String dateFormat) throws ParseException {
+    Seance seance;
+    Seance seanceT = new SeanceTranslator(dateFormat).fromDTO(startDateTime);
+    Iterator<Seance> seances = cinema.seanceIterator();
+    while (seances.hasNext()) {
+      seance = seances.next();
+      if (room.equals(seance.getRoom()) && seanceT.getStartDateTime().equals(seance.getStartDateTime())) {
+        return seance;
+      }
+    }
+    seanceT.setRoom(room);
+    cinema.addSeance(seanceT);
+    return seanceT;
+  }
+
   private Movie findOrCreateNewMovie(String movieName, Cinema cinema) {
     Iterator<Movie> movies = cinema.movieIterator();
     Movie movie;
@@ -336,5 +360,79 @@ public class TicketService {
     movie = new MovieTranslator().fromDTO(movieName);
     cinema.addMovie(movie);
     return movie;
+  }
+
+  private void readFromXMLFileStax(String inputFileName) throws XmlPullParserException, IOException {
+    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+    XmlPullParser xpp = factory.newPullParser();
+    InputStream inStream = new FileInputStream(inputFileName);
+
+  }
+
+  public void parseXML(String inputFileName) throws XmlPullParserException, IOException, ParseException {
+    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+    XmlPullParser xpp = factory.newPullParser();
+    InputStream inStream = new FileInputStream(inputFileName);
+
+    xpp.setInput(inStream, null);
+    int eventType = xpp.getEventType();
+
+    Cinema cinema = new Cinema();
+    CashOffice cashOffice = new CashOffice();
+    Seance seance = new Seance();
+    String seanceStartDateTime = "";
+    Room room = new Room(" ");
+    String text = "";
+    Movie movie = new Movie(" ");
+    while (eventType != XmlPullParser.END_DOCUMENT) {
+      String tagName = xpp.getName();
+      System.out.println("current tag=" + tagName);
+      switch (eventType) {
+        case XmlPullParser.START_TAG:
+          switch (tagName) {
+            case "cinema":
+              cinema = findOrCreateNewCinema(xpp.getAttributeValue(null, "name"));
+              break;
+            case "cashOffice":
+              cashOffice = findOrCreateNewCO(xpp.getAttributeValue(null, "id"), cinema);
+              break;
+            case "seance":
+              seanceStartDateTime = xpp.getAttributeValue(null, "startDateTime");
+              //              seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
+              break;
+            case "ticket":
+              Row row = findOrCreateNewRow(xpp.getAttributeValue(null, "row"), room);
+              Place place = findOrCreateNewPlace(xpp.getAttributeValue(null, "place"), row);
+              Ticket ticket = new TicketTranslator().fromDTO(xpp.getAttributeValue(null, "price"));
+              ticket.setPlace(place);
+              ticket.setCashOffice(cashOffice);
+              ticket.setSeance(seance);
+              break;
+          }
+          break;
+        case XmlPullParser.TEXT:
+          text = xpp.getText();
+          System.out.println("text=" + xpp.getText());
+          break;
+        case XmlPullParser.END_TAG:
+          if (tagName == "room") {
+            room = findOrCreateNewRoom(text, cinema);
+            seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
+            seance.setMovie(movie);
+            System.out.println("room name = " + room.getName());
+          }
+          if (tagName == "movie") {
+            /* Movie */movie = findOrCreateNewMovie(text, cinema);
+            //            seance.setMovie(movie);
+          }
+          if (tagName == "seance") {
+            //            seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
+            //            seance.setMovie(movie);
+          }
+          break;
+
+      }
+      eventType = xpp.next();
+    }
   }
 }

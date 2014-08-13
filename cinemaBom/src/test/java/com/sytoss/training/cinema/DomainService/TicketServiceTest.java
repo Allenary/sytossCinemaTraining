@@ -6,10 +6,12 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+import org.xmlpull.v1.XmlPullParserException;
 
 import com.sytoss.training.cinema.bom.CashOffice;
 import com.sytoss.training.cinema.bom.Cinema;
@@ -256,5 +258,18 @@ public class TicketServiceTest {
     assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(0).getPlace().getRow()));
     assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(1).getPlace().getRow()));
 
+  }
+
+  @Test
+  public void shouldParseXML() throws XmlPullParserException, IOException, ParseException {
+    //new TicketService().parseXML("<cinema name = \"IMAX\"></cinema>");
+    //new TicketService().parseXML("<room>blue</room>");
+    new TicketService().parseXML("<seance startDateTime=\"2014-08-20T10:30:00Z\">"
+      + "<movie>Titanik</movie>"
+      + "<room>red</room>"
+      + "<tickets>"
+      + " <ticket row=\"1\" place=\"2\" price=\"45.99\" />"
+      + "</tickets>"
+      + "</seance>");
   }
 }
