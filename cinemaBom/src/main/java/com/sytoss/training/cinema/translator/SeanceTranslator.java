@@ -12,9 +12,19 @@ import com.sytoss.training.cinema.exception.SeanceNotFullException;
 
 public class SeanceTranslator {
 
-  private static final String CSV_DATE_FORMAT = "dd.MM.yyyy HH:mm";
+  public static final String CSV_DATE_FORMAT = "dd.MM.yyyy HH:mm";
 
-  private static final String XML_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+  public static final String XML_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
+  private String currentDateFormat;
+
+  public SeanceTranslator(String dateFormat) {
+    currentDateFormat = dateFormat;
+  }
+
+  public SeanceTranslator() {
+    this(CSV_DATE_FORMAT);
+  }
 
   public String toDTO(Seance seance) {
     return new SimpleDateFormat(CSV_DATE_FORMAT).format(seance.getStartDateTime().getTime());
@@ -22,7 +32,7 @@ public class SeanceTranslator {
 
   public Seance fromDTO(String seanceDTO) throws ParseException {
     Calendar calendar = Calendar.getInstance();
-    calendar.setTime(new SimpleDateFormat(CSV_DATE_FORMAT).parse(seanceDTO));
+    calendar.setTime(new SimpleDateFormat(currentDateFormat).parse(seanceDTO));
     Seance seance = new Seance();
     seance.setStartDateTime(calendar);
     return seance;
