@@ -27,7 +27,7 @@ public class SeanceTranslator {
   }
 
   public String toDTO(Seance seance) {
-    return new SimpleDateFormat(CSV_DATE_FORMAT).format(seance.getStartDateTime().getTime());
+    return new SimpleDateFormat(currentDateFormat).format(seance.getStartDateTime().getTime());
   }
 
   public Seance fromDTO(String seanceDTO) throws ParseException {

@@ -1,14 +1,17 @@
 package com.sytoss.training.cinema.domainservice;
 
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLStreamException;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Document;
@@ -18,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.sytoss.training.cinema.bom.CashOffice;
 import com.sytoss.training.cinema.bom.Cinema;
@@ -176,6 +178,21 @@ public class TicketService {
     //    readFromXMLFilesJDOM(inputFiles);
     readFromXMLFilesSTAX(inputFiles);
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
+    //    try {
+    //      new FileSystemConnector().writeJDOM(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
+    //    } catch (FileNotFoundException e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    } catch (UnsupportedEncodingException e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    } catch (XMLStreamException e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    } catch (FactoryConfigurationError e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    }
   }
 
   private void readFromXMLFilesSTAX(List<String> fileNames) {
