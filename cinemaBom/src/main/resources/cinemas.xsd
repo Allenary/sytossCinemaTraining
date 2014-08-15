@@ -1,0 +1,48 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="cinemas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="cinema" maxOccurs="unbounded" minOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="cashOffice" maxOccurs="unbounded" minOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="seance" maxOccurs="unbounded" minOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="movie" maxOccurs="1" minOccurs="1"/>
+                          <xs:element type="xs:string" name="room" maxOccurs="1" minOccurs="1"/>
+                          <xs:element name="tickets" maxOccurs="1" minOccurs="1">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="ticket" maxOccurs="unbounded" minOccurs="1">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute type="xs:integer" name="row" use="required"/>
+                                        <xs:attribute type="xs:integer" name="place" use="required"/>
+                                        <xs:attribute type="xs:decimal" name="price" use="required"/>
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute type="xs:dateTime" name="startDateTime" use="required"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:byte" name="id" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="name" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+ </xs:schema>

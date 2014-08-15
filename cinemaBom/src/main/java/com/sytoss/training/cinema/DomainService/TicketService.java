@@ -1,5 +1,6 @@
 package com.sytoss.training.cinema.domainservice;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -7,6 +8,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Document;
@@ -45,7 +53,7 @@ public class TicketService {
 
   public TicketService() {
     mapCinemas = new HashMap<String, Cinema>();
-    xmlWriter = new StaxXmlWriter();
+    xmlWriter = new JdomXmlWriter();
   }
 
   public List<Ticket> readFromCSVFiles(List<String> fileNames) {
@@ -138,26 +146,45 @@ public class TicketService {
   }
 
   private void readFromXMLFileJDOM(String inputFile) throws JDOMException, IOException, ParseException {
-    FileSystemConnector fsc = new FileSystemConnector();
-    Document doc = fsc.readXMLFileJDOM(inputFile);
-    List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
-    for (Element cinemaElement : cinemaElements) {
-      Cinema cinema = findOrCreateNewCinema(cinemaElement);
-      List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
-      for (Element coElement : cashOfficeElements) {
-        CashOffice cashOffice = findOrCreateNewCO(coElement, cinema);
-        List<Element> seanceElements = coElement.getChildren("seance");
-        for (Element seanceElement : seanceElements) {
-          Seance seance = findOrCreateNewSeance(seanceElement, cinema);
-          List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
-          for (Element ticketElement : ticketElements) {
-            Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
-            ticket.setSeance(seance);
-            ticket.setCashOffice(cashOffice);
+    if (isValidXML(inputFile)) {
+      FileSystemConnector fsc = new FileSystemConnector();
+      Document doc = fsc.readXMLFileJDOM(inputFile);
+      List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
+      for (Element cinemaElement : cinemaElements) {
+        Cinema cinema = findOrCreateNewCinema(cinemaElement);
+        List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
+        for (Element coElement : cashOfficeElements) {
+          CashOffice cashOffice = findOrCreateNewCO(coElement, cinema);
+          List<Element> seanceElements = coElement.getChildren("seance");
+          for (Element seanceElement : seanceElements) {
+            Seance seance = findOrCreateNewSeance(seanceElement, cinema);
+            List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
+            for (Element ticketElement : ticketElements) {
+              Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
+              ticket.setSeance(seance);
+              ticket.setCashOffice(cashOffice);
+            }
           }
         }
       }
     }
+  }
+
+  public boolean isValidXML(String fileName) {
+    try {
+      File xsdFile = new File(getClass().getResource("/cinemas.xsd").toURI());
+      Source xmlFile = new StreamSource(new File(fileName));
+      SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      Schema schema;
+      schema = schemaFactory.newSchema(xsdFile);
+      Validator validator = schema.newValidator();
+      validator.validate(xmlFile);
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+
   }
 
   public void mergeXML(List<String> inputFiles, String fileNameDestination) {
