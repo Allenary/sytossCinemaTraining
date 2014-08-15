@@ -1,17 +1,12 @@
 package com.sytoss.training.cinema.domainservice;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLStreamException;
 
 import org.jdom2.DataConversionException;
 import org.jdom2.Document;
@@ -50,7 +45,7 @@ public class TicketService {
 
   public TicketService() {
     mapCinemas = new HashMap<String, Cinema>();
-    xmlWriter = new JdomXmlWriter();
+    xmlWriter = new StaxXmlWriter();
   }
 
   public List<Ticket> readFromCSVFiles(List<String> fileNames) {
@@ -173,21 +168,6 @@ public class TicketService {
     } catch (IOException e) {
       logger.error("Error occured during writing to file " + fileNameDestination, e);
     }
-    //    try {
-    //      new FileSystemConnector().writeSTAX(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
-    //    } catch (FileNotFoundException e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    } catch (UnsupportedEncodingException e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    } catch (XMLStreamException e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    } catch (FactoryConfigurationError e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    }
   }
 
   private void readFromXMLFilesSTAX(List<String> fileNames) {
