@@ -42,12 +42,15 @@ import com.sytoss.training.cinema.translator.TicketTranslator;
 
 public class TicketService {
 
+  private IXmlWriter xmlWriter;
+
   private Map<String, Cinema> mapCinemas;
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   public TicketService() {
     mapCinemas = new HashMap<String, Cinema>();
+    xmlWriter = new JdomXmlWriter();
   }
 
   public List<Ticket> readFromCSVFiles(List<String> fileNames) {
@@ -120,25 +123,13 @@ public class TicketService {
     writeInCSV(readFromCSVFiles(inputFileNames), outputFileName);
   }
 
-  private void writeInXML(List<Cinema> cinemas, String fileNameDestination) {
-    List<Element> cinemaElements = new ArrayList<Element>();
-    for (Cinema cinema : cinemas) {
-      cinemaElements.add(new CinemaTranslator().toElement(cinema));
-    }
-    Element rootElement = new Element("cinemas");
-    rootElement.addContent(cinemaElements);
-    Document document = new Document();
-    document.setRootElement(rootElement);
-    try {
-      new FileSystemConnector().writeJDOM(document, fileNameDestination);
-    } catch (IOException e) {
-      logger.error("Error occured during writing to file " + fileNameDestination + e.getStackTrace().toString());
-    }
-  }
-
   public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) {
     readFromCSVFiles(inputFileNames);
-    writeInXML(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
+    try {
+      xmlWriter.write(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
+    } catch (IOException e) {
+      logger.error("Error occured during writing to file " + fileNameDestination, e);
+    }
   }
 
   private void readFromXMLFilesJDOM(List<String> inputFiles) {
@@ -174,25 +165,29 @@ public class TicketService {
     }
   }
 
-  public void mergeXML(List<String> inputFiles, String absolutePath) {
+  public void mergeXML(List<String> inputFiles, String fileNameDestination) {
     readFromXMLFilesJDOM(inputFiles);
     // readFromXMLFilesSTAX(inputFiles);
-    writeInXML(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
     try {
-      new FileSystemConnector().writeSTAX(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (UnsupportedEncodingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (XMLStreamException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (FactoryConfigurationError e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      xmlWriter.write(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
+    } catch (IOException e) {
+      logger.error("Error occured during writing to file " + fileNameDestination, e);
     }
+    //    try {
+    //      new FileSystemConnector().writeSTAX(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
+    //    } catch (FileNotFoundException e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    } catch (UnsupportedEncodingException e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    } catch (XMLStreamException e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    } catch (FactoryConfigurationError e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    }
   }
 
   private void readFromXMLFilesSTAX(List<String> fileNames) {
