@@ -42,7 +42,7 @@ public class FileSystemConnectorTest {
     Document document = new Document();
     document.setRootElement(new Element("cinemas"));
 
-    new FileSystemConnector().write(document, new File(getClass().getResource(folder + "/testResult.xml").toURI()).getAbsolutePath());
+    new FileSystemConnector().writeJDOM(document, new File(getClass().getResource(folder + "/testResult.xml").toURI()).getAbsolutePath());
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testResult.xml")
       .toURI()).getAbsolutePath());

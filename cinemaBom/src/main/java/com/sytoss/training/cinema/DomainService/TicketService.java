@@ -130,7 +130,7 @@ public class TicketService {
     Document document = new Document();
     document.setRootElement(rootElement);
     try {
-      new FileSystemConnector().write(document, fileNameDestination);
+      new FileSystemConnector().writeJDOM(document, fileNameDestination);
     } catch (IOException e) {
       logger.error("Error occured during writing to file " + fileNameDestination + e.getStackTrace().toString());
     }
@@ -175,24 +175,24 @@ public class TicketService {
   }
 
   public void mergeXML(List<String> inputFiles, String absolutePath) {
-    //    readFromXMLFilesJDOM(inputFiles);
-    readFromXMLFilesSTAX(inputFiles);
+    readFromXMLFilesJDOM(inputFiles);
+    // readFromXMLFilesSTAX(inputFiles);
     writeInXML(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
-    //    try {
-    //      new FileSystemConnector().writeJDOM(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
-    //    } catch (FileNotFoundException e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    } catch (UnsupportedEncodingException e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    } catch (XMLStreamException e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    } catch (FactoryConfigurationError e) {
-    //      // TODO Auto-generated catch block
-    //      e.printStackTrace();
-    //    }
+    try {
+      new FileSystemConnector().writeSTAX(new ArrayList<Cinema>(mapCinemas.values()), absolutePath);
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (XMLStreamException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (FactoryConfigurationError e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   private void readFromXMLFilesSTAX(List<String> fileNames) {

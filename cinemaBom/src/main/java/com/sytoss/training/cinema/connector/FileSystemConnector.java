@@ -91,8 +91,8 @@ public class FileSystemConnector {
 
   }
 
-  public void write(Document document, String fileNameDestination) throws IOException {
-    XMLOutputter xmlOutputter = new XMLOutputter();
+  public void writeJDOM(Document document, String fileNameDestination) throws IOException {
+    XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
     xmlOutputter.output(document, new FileWriter(fileNameDestination));
   }
 
@@ -109,7 +109,7 @@ public class FileSystemConnector {
     return xpp;
   }
 
-  public void writeJDOM(List<Cinema> cinemas, String outputFileName)
+  public void writeSTAX(List<Cinema> cinemas, String outputFileName)
       throws FileNotFoundException,
       UnsupportedEncodingException,
       XMLStreamException,
