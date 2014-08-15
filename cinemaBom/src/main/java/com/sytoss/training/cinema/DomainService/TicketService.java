@@ -1,6 +1,5 @@
 package com.sytoss.training.cinema.domainservice;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -9,21 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-
-import org.jdom2.DataConversionException;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 import com.sytoss.training.cinema.bom.CashOffice;
 import com.sytoss.training.cinema.bom.Cinema;
@@ -47,6 +33,8 @@ public class TicketService {
 
   private IXmlWriter xmlWriter;
 
+  private IXmlReader xmlReader;
+
   private Map<String, Cinema> mapCinemas;
 
   private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -54,6 +42,7 @@ public class TicketService {
   public TicketService() {
     mapCinemas = new HashMap<String, Cinema>();
     xmlWriter = new JdomXmlWriter();
+    xmlReader = new StaxReader();
   }
 
   public List<Ticket> readFromCSVFiles(List<String> fileNames) {
@@ -135,86 +124,13 @@ public class TicketService {
     }
   }
 
-  private void readFromXMLFilesJDOM(List<String> inputFiles) {
-    for (String inputFile : inputFiles) {
-      try {
-        readFromXMLFileJDOM(inputFile);
-      } catch (Exception e) {
-        logger.error("Error occured during reading file: " + inputFile + e.getStackTrace().toString());
-      }
-    }
-  }
-
-  private void readFromXMLFileJDOM(String inputFile) throws JDOMException, IOException, ParseException {
-    if (isValidXML(inputFile)) {
-      FileSystemConnector fsc = new FileSystemConnector();
-      Document doc = fsc.readXMLFileJDOM(inputFile);
-      List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
-      for (Element cinemaElement : cinemaElements) {
-        Cinema cinema = findOrCreateNewCinema(cinemaElement);
-        List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
-        for (Element coElement : cashOfficeElements) {
-          CashOffice cashOffice = findOrCreateNewCO(coElement, cinema);
-          List<Element> seanceElements = coElement.getChildren("seance");
-          for (Element seanceElement : seanceElements) {
-            Seance seance = findOrCreateNewSeance(seanceElement, cinema);
-            List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
-            for (Element ticketElement : ticketElements) {
-              Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
-              ticket.setSeance(seance);
-              ticket.setCashOffice(cashOffice);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  public boolean isValidXML(String fileName) {
-    try {
-      File xsdFile = new File(getClass().getResource("/cinemas.xsd").toURI());
-      Source xmlFile = new StreamSource(new File(fileName));
-      SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-      Schema schema;
-      schema = schemaFactory.newSchema(xsdFile);
-      Validator validator = schema.newValidator();
-      validator.validate(xmlFile);
-      return true;
-    } catch (Exception e) {
-      e.printStackTrace();
-      return false;
-    }
-
-  }
-
   public void mergeXML(List<String> inputFiles, String fileNameDestination) {
-    readFromXMLFilesJDOM(inputFiles);
-    // readFromXMLFilesSTAX(inputFiles);
+    mapCinemas.putAll(xmlReader.read(inputFiles));
     try {
       xmlWriter.write(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
     } catch (IOException e) {
       logger.error("Error occured during writing to file " + fileNameDestination, e);
     }
-  }
-
-  private void readFromXMLFilesSTAX(List<String> fileNames) {
-    for (String fileName : fileNames) {
-      try {
-        parseXML(fileName);
-      } catch (Exception e) {
-        logger.error("Error during reading file " + fileName, e);
-      }
-    }
-  }
-
-  private Cinema findOrCreateNewCinema(Element cinemaElement) throws DataConversionException, ParseException {
-    String cinemaName = cinemaElement.getAttribute("name").getValue();
-    Cinema cinema = mapCinemas.get(cinemaName);
-    if (cinema == null) {
-      cinema = new CinemaTranslator().fromDTO(cinemaElement);
-      mapCinemas.put(cinemaName, cinema);
-    }
-    return cinema;
   }
 
   private Cinema findOrCreateNewCinema(String cinemaName) {
@@ -232,7 +148,6 @@ public class TicketService {
     }
     Cinema cinema = findOrCreateNewCinema(csvParams[0]);
     Movie movie = findOrCreateNewMovie(csvParams[2], cinema);
-    //    Movie movie = cinema.findOrCreateNewMovie(csvParams[2]);
     Room room = findOrCreateNewRoom(csvParams[1], cinema);
     Seance seance = findOrCreateNewSeance(csvParams[3], cinema, room);
     seance.setMovie(movie);
@@ -245,21 +160,6 @@ public class TicketService {
     ticket.setCashOffice(cashOffice);
 
     return ticket;
-  }
-
-  private CashOffice findOrCreateNewCO(Element coElement, Cinema cinema) throws DataConversionException, ParseException {
-    int number = coElement.getAttribute("id").getIntValue();
-    CashOffice cashOffice;
-    Iterator<CashOffice> cashOffices = cinema.cashOfficeIterator();
-    while (cashOffices.hasNext()) {
-      cashOffice = cashOffices.next();
-      if (cashOffice.getNumber() == number) {
-        return cashOffice;
-      }
-    }
-    cashOffice = new CashOfficeTranslator().fromDTO(coElement);
-    cinema.addCashOffice(cashOffice);
-    return cashOffice;
   }
 
   private CashOffice findOrCreateNewCO(String coID, Cinema cinema) {
@@ -304,40 +204,8 @@ public class TicketService {
     return row;
   }
 
-  private Seance findOrCreateNewSeance(Element seanceElement, Cinema cinema) throws DataConversionException, ParseException {
-    Seance seance;
-    Seance seanceT = new SeanceTranslator().fromDTO(seanceElement);
-    Room room = findOrCreateNewRoom(seanceElement.getChild("room"), cinema);
-    Iterator<Seance> seances = cinema.seanceIterator();
-    while (seances.hasNext()) {
-      seance = seances.next();
-      if (room.equals(seance.getRoom()) && seanceT.getStartDateTime().equals(seance.getStartDateTime())) {
-        return seance;
-      }
-    }
-    seanceT.setRoom(room);
-    seanceT.setMovie(new MovieTranslator().fromDTO(seanceElement.getChild("movie")));
-    cinema.addSeance(seanceT);
-    return seanceT;
-  }
-
   private Seance findOrCreateNewSeance(String startDateTime, Cinema cinema, Room room) throws ParseException {
     return findOrCreateNewSeance(startDateTime, cinema, room, SeanceTranslator.CSV_DATE_FORMAT);
-  }
-
-  private Room findOrCreateNewRoom(Element roomElement, Cinema cinema) {
-    Room room;
-    String roomName = roomElement.getText();
-    Iterator<Room> rooms = cinema.roomIterator();
-    while (rooms.hasNext()) {
-      room = rooms.next();
-      if (room.getName().equals(roomName)) {
-        return room;
-      }
-    }
-    room = new RoomTranslator().fromDTO(roomElement);
-    cinema.addRoom(room);
-    return room;
   }
 
   private Room findOrCreateNewRoom(String roomName, Cinema cinema) {
@@ -383,58 +251,4 @@ public class TicketService {
     return movie;
   }
 
-  private void parseXML(String inputFileName) throws XmlPullParserException, IOException, ParseException {
-    XmlPullParser xpp = new FileSystemConnector().readXMLFileSTAX(inputFileName);
-    int eventType = xpp.getEventType();
-
-    Cinema cinema = null;
-    CashOffice cashOffice = null;
-    Seance seance = null;
-    String seanceStartDateTime = null;
-    Room room = null;
-    String text = null;
-    Movie movie = null;
-    while (eventType != XmlPullParser.END_DOCUMENT) {
-      String tagName = xpp.getName();
-      switch (eventType) {
-        case XmlPullParser.START_TAG:
-          switch (tagName) {
-            case "cinema":
-              cinema = findOrCreateNewCinema(xpp.getAttributeValue(null, "name"));
-              break;
-            case "cashOffice":
-              cashOffice = findOrCreateNewCO(xpp.getAttributeValue(null, "id"), cinema);
-              break;
-            case "seance":
-              seanceStartDateTime = xpp.getAttributeValue(null, "startDateTime");
-              break;
-            case "ticket":
-              Row row = findOrCreateNewRow(xpp.getAttributeValue(null, "row"), room);
-              Place place = findOrCreateNewPlace(xpp.getAttributeValue(null, "place"), row);
-              Ticket ticket = new TicketTranslator().fromDTO(xpp.getAttributeValue(null, "price"));
-              ticket.setPlace(place);
-              ticket.setCashOffice(cashOffice);
-              ticket.setSeance(seance);
-              break;
-          }
-          break;
-        case XmlPullParser.TEXT:
-          text = xpp.getText();
-          break;
-        case XmlPullParser.END_TAG:
-          if (tagName == "room") {
-            room = findOrCreateNewRoom(text, cinema);
-            seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
-            seance.setMovie(movie);
-          }
-          if (tagName == "movie") {
-            //            movie = findOrCreateNewMovie(text, cinema);
-            movie = cinema.findOrCreateNewMovie(text);
-          }
-          break;
-
-      }
-      eventType = xpp.next();
-    }
-  }
 }
