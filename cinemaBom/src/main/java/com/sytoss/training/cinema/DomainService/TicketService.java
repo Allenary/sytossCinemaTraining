@@ -29,9 +29,13 @@ public class TicketService {
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   public TicketService() {
+    this(new StaxReader(), new JdomXmlWriter());
+  }
+
+  public TicketService(IXmlReader reader, IXmlWriter writer) {
+    xmlReader = reader;
+    xmlWriter = writer;
     mapCinemas = new HashMap<String, Cinema>();
-    xmlWriter = new JdomXmlWriter();
-    xmlReader = new StaxReader();
     csvReader = new CsvReader();
   }
 

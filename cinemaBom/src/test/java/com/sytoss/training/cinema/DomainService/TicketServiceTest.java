@@ -173,58 +173,6 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMergeXMLsToXMLDifferentCinemas() throws URISyntaxException, IOException {
-    String folder = "/shouldMergeXMLsToXML";
-    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath(), new File(
-      getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath());
-
-    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
-
-    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource(folder + "/testRunResult.xml")
-      .toURI()).getAbsolutePath());
-  }
-
-  @Test
-  public void shouldMergeXMLsToXMLDifferentCOInOneCinema() throws URISyntaxException, IOException {
-    String folder = "/shouldMergeXMLsToXMLDifferentCOInOneCinema";
-    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
-      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
-
-    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
-
-    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource(folder + "/testRunResult.xml")
-      .toURI()).getAbsolutePath());
-  }
-
-  @Test
-  public void shouldMergeXMLsToXMLDifferentSeanceInOneCinema() throws URISyntaxException, IOException {
-    String folder = "/shouldMergeXMLsToXMLDifferentSeanceInOneCinema";
-    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
-      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
-
-    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
-
-    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource(folder + "/testRunResult.xml")
-      .toURI()).getAbsolutePath());
-  }
-
-  @Test
-  public void shouldMergeXMLsToXMLDSameSeanceInDiffFiles() throws URISyntaxException, IOException {
-    String folder = "/shouldMergeXMLsToXMLDSameSeanceInDiffFiles";
-    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
-      getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
-
-    new TicketService().mergeXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
-
-    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
-      .getResource(folder + "/testRunResult.xml")
-      .toURI()).getAbsolutePath());
-  }
-
-  @Test
   public void shouldCreateSingleBOMObjectForTicketsWithSameData() throws URISyntaxException, IOException {
     String folder = "/shouldCreateSingleBOMObjectForTicketsWithSameData";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
