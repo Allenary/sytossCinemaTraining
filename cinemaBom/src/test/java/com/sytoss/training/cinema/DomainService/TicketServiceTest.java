@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.bom.CashOffice;
@@ -256,6 +257,23 @@ public class TicketServiceTest {
     assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(0).getPlace().getRow()));
     assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(1).getPlace().getRow()));
 
+  }
+
+  @Ignore
+  @Test
+  public void shouldNotMergeCSVWithDifferentCOToXML() throws URISyntaxException, IOException {
+    String folder = "/shouldNotMergeFileWithDifferentCashOffice";
+    List<String> inputFiles = Arrays.asList(
+      new File(getClass().getResource(folder + "/validTicket.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/emptyCashOffice.csv").toURI()).getAbsolutePath(),
+      new File(getClass().getResource(folder + "/anotherCashOffice.csv").toURI()).getAbsolutePath());
+
+    new TicketService()
+      .mergeCSVToXML(inputFiles, new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
+
+    TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
+      .getResource(folder + "/testRunResult.xml")
+      .toURI()).getAbsolutePath());
   }
 
 }
