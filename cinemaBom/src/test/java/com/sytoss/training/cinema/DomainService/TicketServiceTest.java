@@ -230,7 +230,7 @@ public class TicketServiceTest {
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
 
     TicketService service = new TicketService();
-    service.readFromCSVFiles(inputFiles);
+    service.ReadCSV(inputFiles);
     List<Ticket> tickets = service.getTicketsFromMap();
 
     assertEquals(3, tickets.size());

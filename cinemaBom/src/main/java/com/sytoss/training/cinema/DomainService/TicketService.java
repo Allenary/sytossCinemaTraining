@@ -48,8 +48,12 @@ public class TicketService {
     }
   }
 
-  public void mergeCSV(List<String> inputFileNames, String outputFileName) {
+  public void ReadCSV(List<String> inputFileNames) {
     mapCinemas.putAll(csvReader.read(inputFileNames));
+  }
+
+  public void mergeCSV(List<String> inputFileNames, String outputFileName) {
+    ReadCSV(inputFileNames);
     writeInCSV(getTicketsFromMap(), outputFileName);
   }
 
