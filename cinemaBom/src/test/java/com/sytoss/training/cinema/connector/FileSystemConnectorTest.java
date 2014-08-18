@@ -37,7 +37,16 @@ public class FileSystemConnectorTest {
   }
 
   @Test
-  public void shouldsWriteInXML() throws IOException, URISyntaxException {
+  public void shouldReadXMLFileJDOM() throws JDOMException, IOException, URISyntaxException {
+    String folder = "/shouldReadXMLFileJDOM";
+    Document document = new FileSystemConnector().readXMLFileJDOM(new File(getClass().getResource(folder + "/simpleXML.xml").toURI())
+      .getAbsolutePath());
+
+    assertEquals("cinemas", document.getRootElement().getName());
+  }
+
+  @Test
+  public void shouldWriteInXML() throws IOException, URISyntaxException {
     String folder = "/FileSystemConnectorTest";
     Document document = new Document();
     document.setRootElement(new Element("cinemas"));
@@ -49,12 +58,4 @@ public class FileSystemConnectorTest {
 
   }
 
-  @Test
-  public void shouldReadXMLFileJDOM() throws JDOMException, IOException, URISyntaxException {
-    String folder = "/shouldReadXMLFileJDOM";
-    Document document = new FileSystemConnector().readXMLFileJDOM(new File(getClass().getResource(folder + "/simpleXML.xml").toURI())
-      .getAbsolutePath());
-
-    assertEquals("cinemas", document.getRootElement().getName());
-  }
 }

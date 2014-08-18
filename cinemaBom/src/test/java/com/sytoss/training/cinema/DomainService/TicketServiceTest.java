@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.bom.CashOffice;
@@ -259,7 +258,6 @@ public class TicketServiceTest {
 
   }
 
-  @Ignore
   @Test
   public void shouldNotMergeCSVWithDifferentCOToXML() throws URISyntaxException, IOException {
     String folder = "/shouldNotMergeFileWithDifferentCashOffice";
