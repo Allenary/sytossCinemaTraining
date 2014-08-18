@@ -225,11 +225,13 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldCreateSingleBOMObjectForTicketsWithSameData() throws URISyntaxException {
+  public void shouldCreateSingleBOMObjectForTicketsWithSameData() throws URISyntaxException, IOException {
     String folder = "/shouldCreateSingleBOMObjectForTicketsWithSameData";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
 
-    List<Ticket> tickets = new TicketService().readFromCSVFiles(inputFiles);
+    TicketService service = new TicketService();
+    service.readFromCSVFiles(inputFiles);
+    List<Ticket> tickets = service.getTicketsFromMap();
 
     assertEquals(3, tickets.size());
     Cinema cinema = tickets.get(0).getCashOffice().getCinema();
