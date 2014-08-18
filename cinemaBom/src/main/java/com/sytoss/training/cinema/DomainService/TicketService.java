@@ -45,43 +45,54 @@ public class TicketService {
     xmlReader = new StaxReader();
   }
 
-  public List<Ticket> readFromCSVFiles(List<String> fileNames) {
+  public void readFromCSVFiles(List<String> fileNames) throws IOException {
 
     List<String> csvRows = new ArrayList<String>();
-    List<Ticket> allTickets = new ArrayList<Ticket>();
-    List<Ticket> ticketsIn1File;
-    boolean isFileSkipped;
     for (String inputFile : fileNames) {
-      isFileSkipped = false;
       logger.info("start with processing file: " + inputFile);
-      ticketsIn1File = new ArrayList<Ticket>();
       try {
         csvRows = new FileSystemConnector().read(inputFile);
-        logger.debug("Rows found: " + csvRows.size());
-        for (String row : csvRows) {
-          try {
-            ticketsIn1File.add(getTicketFromCSV((new CsvParser(new SplitSplitStringStrategy()).parse(row))));
-
-            logger.debug("row '" + row + "' parsed");
-          } catch (Exception e) {
-            logger.warn("file " + inputFile + " was skipped. Reason: Corrupted data. Row: " + row);
-            e.printStackTrace();
-            isFileSkipped = true;
+        List<String[]> parsedCsvRows;
+        parsedCsvRows = parseRows(csvRows);
+        if (isValidCSV(parsedCsvRows)) {
+          for (String[] parsedRow : parsedCsvRows) {
+            try {
+              addTicketToMap(parsedRow);
+            } catch (NumberFormatException e) {
+              logger.warn("Error occured during row parsing", e);
+            }
           }
         }
-      } catch (IOException e1) {
-        isFileSkipped = true;
-        logger.error(e1.getMessage());
+      } catch (ParseException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
       }
-      if ( !isFileSkipped && equalsCashOfficeID(ticketsIn1File)) {
-        allTickets.addAll(ticketsIn1File);
-        logger.info("file added to merge: " + inputFile);
-      }
-
     }
-    logger.debug("count tickets=" + allTickets.size());
-    return allTickets;
+  }
 
+  private List<String[]> parseRows(List<String> csvRows) throws ParseException {
+    List<String[]> result = new ArrayList<String[]>();
+    for (String row : csvRows) {
+      result.add(new CsvParser(new SplitSplitStringStrategy()).parse(row));
+    }
+    return result;
+  }
+
+  private boolean isValidCSV(List<String[]> parsedCsvRows) {
+    if (parsedCsvRows.get(0).length != 8) {
+      return false;
+    }
+    String firstCoId = parsedCsvRows.get(0)[7];
+    for (String[] parsedRow : parsedCsvRows) {
+      if (parsedRow.length != 8) {
+        return false;
+      }
+
+      if ( !parsedRow[7].equals(firstCoId)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private void writeInCSV(List<Ticket> tickets, String fileNameDestination) {
@@ -97,27 +108,19 @@ public class TicketService {
     }
   }
 
-  private boolean equalsCashOfficeID(List<Ticket> tickets) {
-    if (tickets.size() == 0) {
-      return false;
-    }
-    int firstRowCashOfficeID = tickets.get(0).getCashOffice().getNumber();
-    for (Ticket ticket : tickets) {
-      if (ticket.getCashOffice() == null || ticket.getCashOffice().getNumber() != firstRowCashOfficeID) {
-        return false;
-      }
-
-    }
-    return true;
-  }
-
   public void mergeCSV(List<String> inputFileNames, String outputFileName) {
-    writeInCSV(readFromCSVFiles(inputFileNames), outputFileName);
+    try {
+      readFromCSVFiles(inputFileNames);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    writeInCSV(getTicketsFromMap(), outputFileName);
   }
 
   public void mergeCSVToXML(List<String> inputFileNames, String fileNameDestination) {
-    readFromCSVFiles(inputFileNames);
     try {
+      readFromCSVFiles(inputFileNames);
       xmlWriter.write(new ArrayList<Cinema>(mapCinemas.values()), fileNameDestination);
     } catch (IOException e) {
       logger.error("Error occured during writing to file " + fileNameDestination, e);
@@ -142,10 +145,7 @@ public class TicketService {
     return cinema;
   }
 
-  private Ticket getTicketFromCSV(String[] csvParams) throws ParseException {
-    if (csvParams.length != 8) {
-      throw new ParseException("row contains wrong param count. Expected count=8 ", 0);
-    }
+  private void addTicketToMap(String[] csvParams) throws ParseException {
     Cinema cinema = findOrCreateNewCinema(csvParams[0]);
     Movie movie = findOrCreateNewMovie(csvParams[2], cinema);
     Room room = findOrCreateNewRoom(csvParams[1], cinema);
@@ -159,7 +159,19 @@ public class TicketService {
     CashOffice cashOffice = findOrCreateNewCO(csvParams[7], cinema);
     ticket.setCashOffice(cashOffice);
 
-    return ticket;
+  }
+
+  public List<Ticket> getTicketsFromMap() {
+    List<Ticket> tickets = new ArrayList<Ticket>();
+    for (Cinema cinema : mapCinemas.values()) {
+      for (Iterator<CashOffice> coIterator = cinema.cashOfficeIterator(); coIterator.hasNext();) {
+        CashOffice cashOffice = coIterator.next();
+        for (Iterator<Ticket> ticketIterator = cashOffice.tiketsIterator(); ticketIterator.hasNext();) {
+          tickets.add(ticketIterator.next());
+        }
+      }
+    }
+    return tickets;
   }
 
   private CashOffice findOrCreateNewCO(String coID, Cinema cinema) {
