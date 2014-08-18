@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -146,5 +147,7 @@ public abstract class AbstractReader implements IXmlReader {
     row.addPlace(place);
     return place;
   }
+
+  public abstract Map<String, Cinema> read(List<String> inputFileNames);
 
 }

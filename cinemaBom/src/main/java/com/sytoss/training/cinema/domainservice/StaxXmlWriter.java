@@ -23,7 +23,6 @@ import com.sytoss.training.cinema.translator.SeanceTranslator;
 
 public class StaxXmlWriter implements IXmlWriter {
 
-  @Override
   public void write(List<Cinema> cinemas, String outputFileName) throws IOException {
     try {
       OutputStream outputStream = new FileOutputStream(new File(outputFileName));

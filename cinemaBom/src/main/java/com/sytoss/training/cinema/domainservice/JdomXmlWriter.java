@@ -13,7 +13,6 @@ import com.sytoss.training.cinema.translator.CinemaTranslator;
 
 public class JdomXmlWriter implements IXmlWriter {
 
-  @Override
   public void write(List<Cinema> cinemas, String outputFileName) throws IOException {
     List<Element> cinemaElements = new ArrayList<Element>();
     for (Cinema cinema : cinemas) {

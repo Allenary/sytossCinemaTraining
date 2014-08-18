@@ -53,24 +53,22 @@ public class StaxReader extends AbstractReader {
       String tagName = xpp.getName();
       switch (eventType) {
         case XmlPullParser.START_TAG:
-          switch (tagName) {
-            case "cinema":
-              cinema = findOrCreateNewCinema(xpp.getAttributeValue(null, "name"));
-              break;
-            case "cashOffice":
-              cashOffice = findOrCreateNewCO(xpp.getAttributeValue(null, "id"), cinema);
-              break;
-            case "seance":
-              seanceStartDateTime = xpp.getAttributeValue(null, "startDateTime");
-              break;
-            case "ticket":
-              Row row = findOrCreateNewRow(xpp.getAttributeValue(null, "row"), room);
-              Place place = findOrCreateNewPlace(xpp.getAttributeValue(null, "place"), row);
-              Ticket ticket = new TicketTranslator().fromDTO(xpp.getAttributeValue(null, "price"));
-              ticket.setPlace(place);
-              ticket.setCashOffice(cashOffice);
-              ticket.setSeance(seance);
-              break;
+          if (tagName == "cinema") {
+            cinema = findOrCreateNewCinema(xpp.getAttributeValue(null, "name"));
+          }
+          if (tagName == "cashOffice") {
+            cashOffice = findOrCreateNewCO(xpp.getAttributeValue(null, "id"), cinema);
+          }
+          if (tagName == "seance") {
+            seanceStartDateTime = xpp.getAttributeValue(null, "startDateTime");
+          }
+          if (tagName == "ticket") {
+            Row row = findOrCreateNewRow(xpp.getAttributeValue(null, "row"), room);
+            Place place = findOrCreateNewPlace(xpp.getAttributeValue(null, "place"), row);
+            Ticket ticket = new TicketTranslator().fromDTO(xpp.getAttributeValue(null, "price"));
+            ticket.setPlace(place);
+            ticket.setCashOffice(cashOffice);
+            ticket.setSeance(seance);
           }
           break;
         case XmlPullParser.TEXT:
@@ -83,7 +81,7 @@ public class StaxReader extends AbstractReader {
             seance.setMovie(movie);
           }
           if (tagName == "movie") {
-            //            movie = findOrCreateNewMovie(text, cinema);
+            //        movie = findOrCreateNewMovie(text, cinema);
             movie = cinema.findOrCreateNewMovie(text);
           }
           break;
