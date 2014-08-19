@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.sytoss.training.cinema.bom.Cinema;
 
-public interface IXmlWriter {
+public interface IWriter {
 
   void write(List<Cinema> cinemas, String outputFileName) throws IOException;
 }

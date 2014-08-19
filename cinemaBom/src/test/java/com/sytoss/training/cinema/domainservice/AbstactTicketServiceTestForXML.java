@@ -8,16 +8,16 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.sytoss.training.cinema.domainservice.IXmlReader;
-import com.sytoss.training.cinema.domainservice.IXmlWriter;
+import com.sytoss.training.cinema.domainservice.IReader;
+import com.sytoss.training.cinema.domainservice.IWriter;
 import com.sytoss.training.cinema.domainservice.TicketService;
 import com.sytoss.training.cinema.testutils.TestUtils;
 
 public abstract class AbstactTicketServiceTestForXML {
 
-  public abstract IXmlReader getReader();
+  public abstract IReader getReader();
 
-  public abstract IXmlWriter getWriter();
+  public abstract IWriter getWriter();
 
   @Test
   public void shouldMergeXMLsToXMLDifferentCinemas() throws URISyntaxException, IOException {

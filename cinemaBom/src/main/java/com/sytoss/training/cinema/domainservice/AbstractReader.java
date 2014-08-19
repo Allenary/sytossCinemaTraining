@@ -29,7 +29,7 @@ import com.sytoss.training.cinema.translator.RoomTranslator;
 import com.sytoss.training.cinema.translator.RowTranslator;
 import com.sytoss.training.cinema.translator.SeanceTranslator;
 
-public abstract class AbstractReader implements IXmlReader {
+public abstract class AbstractReader implements IReader {
 
   protected Map<String, Cinema> mapCinemas;
 
@@ -48,7 +48,6 @@ public abstract class AbstractReader implements IXmlReader {
       validator.validate(xmlFile);
       return true;
     } catch (Exception e) {
-      e.printStackTrace();
       return false;
     }
 

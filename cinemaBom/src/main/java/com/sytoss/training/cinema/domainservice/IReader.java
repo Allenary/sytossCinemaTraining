@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.sytoss.training.cinema.bom.Cinema;
 
-public interface IXmlReader {
+public interface IReader {
 
   Map<String, Cinema> read(List<String> inputFileNames);
 }

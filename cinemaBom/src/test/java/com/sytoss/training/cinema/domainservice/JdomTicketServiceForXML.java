@@ -3,12 +3,12 @@ package com.sytoss.training.cinema.domainservice;
 public class JdomTicketServiceForXML extends AbstactTicketServiceTestForXML {
 
   @Override
-  public IXmlReader getReader() {
+  public IReader getReader() {
     return new JdomReader();
   }
 
   @Override
-  public IXmlWriter getWriter() {
+  public IWriter getWriter() {
     return new JdomXmlWriter();
   }
 

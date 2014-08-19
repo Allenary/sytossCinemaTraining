@@ -18,11 +18,11 @@ import com.sytoss.training.cinema.translator.TicketTranslator;
 
 public class TicketService {
 
-  private IXmlWriter xmlWriter;
+  private IWriter xmlWriter;
 
-  private IXmlReader xmlReader;
+  private IReader xmlReader;
 
-  private IXmlReader csvReader;
+  private IReader csvReader;
 
   private Map<String, Cinema> mapCinemas;
 
@@ -32,7 +32,7 @@ public class TicketService {
     this(new StaxReader(), new JdomXmlWriter());
   }
 
-  public TicketService(IXmlReader reader, IXmlWriter writer) {
+  public TicketService(IReader reader, IWriter writer) {
     xmlReader = reader;
     xmlWriter = writer;
     mapCinemas = new HashMap<String, Cinema>();
@@ -47,8 +47,7 @@ public class TicketService {
       }
       new FileSystemConnector().write(csvStrings, fileNameDestination);
     } catch (Exception e) {
-      logger.error(e.getMessage());
-      e.printStackTrace();
+      logger.error("error during writing to file " + fileNameDestination, e);
     }
   }
 

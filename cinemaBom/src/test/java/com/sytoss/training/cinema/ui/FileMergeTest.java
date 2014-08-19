@@ -12,12 +12,12 @@ public class FileMergeTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void ShouldRaiseExceptionWhenListIsBlank() {
-    new FileMerge().main(null);
+    FileMerge.main(null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void ShouldRaiseExceptionWhenListContainsOnly1Param() {
-    new FileMerge().main(new String[] {"filename"});
+    FileMerge.main(new String[] {"filename"});
   }
 
   @Test
@@ -28,7 +28,7 @@ public class FileMergeTest {
       new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath(),
       new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath()};
 
-    new FileMerge().main(fileNames);
+    FileMerge.main(fileNames);
 
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.csv").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.csv")
@@ -43,7 +43,7 @@ public class FileMergeTest {
       new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath(),
       new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath()};
 
-    new FileMerge().main(fileNames);
+    FileMerge.main(fileNames);
 
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
@@ -58,7 +58,7 @@ public class FileMergeTest {
       new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath(),
       "notCSVORXML.txt"};
 
-    new FileMerge().main(fileNames);
+    FileMerge.main(fileNames);
 
   }
 
@@ -70,7 +70,7 @@ public class FileMergeTest {
       new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(),
       new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath()};
 
-    new FileMerge().main(fileNames);
+    FileMerge.main(fileNames);
 
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
@@ -85,7 +85,7 @@ public class FileMergeTest {
       new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(),
       new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath()};
 
-    new FileMerge().main(fileNames);
+    FileMerge.main(fileNames);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -96,6 +96,6 @@ public class FileMergeTest {
       new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath(),
       new File(getClass().getResource(folder + "/testRunResult.csv").toURI()).getAbsolutePath()};
 
-    new FileMerge().main(fileNames);
+    FileMerge.main(fileNames);
   }
 }

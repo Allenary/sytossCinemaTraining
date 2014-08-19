@@ -11,7 +11,7 @@ import com.sytoss.training.cinema.bom.Cinema;
 import com.sytoss.training.cinema.connector.FileSystemConnector;
 import com.sytoss.training.cinema.translator.CinemaTranslator;
 
-public class JdomXmlWriter implements IXmlWriter {
+public class JdomXmlWriter implements IWriter {
 
   public void write(List<Cinema> cinemas, String outputFileName) throws IOException {
     List<Element> cinemaElements = new ArrayList<Element>();

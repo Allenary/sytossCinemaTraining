@@ -21,7 +21,8 @@ import com.sytoss.training.cinema.translator.RoomTranslator;
 import com.sytoss.training.cinema.translator.RowTranslator;
 import com.sytoss.training.cinema.translator.SeanceTranslator;
 
-public class StaxXmlWriter implements IXmlWriter {
+@SuppressWarnings("restriction")
+public class StaxXmlWriter implements IWriter {
 
   public void write(List<Cinema> cinemas, String outputFileName) throws IOException {
     try {
