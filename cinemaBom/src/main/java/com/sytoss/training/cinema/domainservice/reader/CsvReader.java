@@ -18,7 +18,6 @@ import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.connector.FileSystemConnector;
 import com.sytoss.training.cinema.domainservice.csvparcer.CsvParser;
-import com.sytoss.training.cinema.domainservice.csvparcer.SplitSplitStringStrategy;
 import com.sytoss.training.cinema.translator.SeanceTranslator;
 import com.sytoss.training.cinema.translator.TicketTranslator;
 
@@ -55,7 +54,7 @@ public class CsvReader extends AbstractReader {
   private List<String[]> parseRows(List<String> csvRows) throws ParseException {
     List<String[]> result = new ArrayList<String[]>();
     for (String row : csvRows) {
-      result.add(new CsvParser(new SplitSplitStringStrategy()).parse(row));
+      result.add(new CsvParser().parse(row));
     }
     return result;
   }

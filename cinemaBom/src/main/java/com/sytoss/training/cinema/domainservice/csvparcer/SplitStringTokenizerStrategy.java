@@ -2,7 +2,7 @@ package com.sytoss.training.cinema.domainservice.csvparcer;
 
 import java.util.StringTokenizer;
 
-public class SplitStringTokenizerStrategy implements ISplitStategy {
+public class SplitStringTokenizerStrategy implements ISplitStrategy {
 
   public String[] splitByCommas(String rowToParse) {
     StringTokenizer tokenizer = new StringTokenizer(rowToParse, ",");

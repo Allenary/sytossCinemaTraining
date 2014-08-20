@@ -7,11 +7,11 @@ import java.text.ParseException;
 import org.junit.Test;
 
 import com.sytoss.training.cinema.domainservice.csvparcer.CsvParser;
-import com.sytoss.training.cinema.domainservice.csvparcer.ISplitStategy;
+import com.sytoss.training.cinema.domainservice.csvparcer.ISplitStrategy;
 
 public abstract class AbstractCsvParserTest {
 
-  public abstract ISplitStategy getStrategy();
+  public abstract ISplitStrategy getStrategy();
 
   @Test
   public void shouldParseValidRow() throws ParseException {

@@ -10,10 +10,14 @@ public class CsvParser {
 
   private static final String SEPARATOR = ",";
 
-  private ISplitStategy strategy;
+  private ISplitStrategy strategy;
 
-  public CsvParser(ISplitStategy splitStategy) {
-    strategy = splitStategy;
+  public CsvParser(ISplitStrategy splitStrategy) {
+    strategy = splitStrategy;
+  }
+
+  public CsvParser() {
+    this(new SplitSplitStringStrategy());
   }
 
   private int countQuotes(String row, int startPosition, int endPosition) {

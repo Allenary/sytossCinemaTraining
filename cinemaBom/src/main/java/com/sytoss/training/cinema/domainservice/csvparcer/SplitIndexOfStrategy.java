@@ -3,7 +3,7 @@ package com.sytoss.training.cinema.domainservice.csvparcer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplitIndexOfStrategy implements ISplitStategy {
+public class SplitIndexOfStrategy implements ISplitStrategy {
 
   public String[] splitByCommas(String rowToParse) {
     List<String> output = new ArrayList<String>();

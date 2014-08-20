@@ -1,6 +1,6 @@
 package com.sytoss.training.cinema.domainservice.csvparcer;
 
-public interface ISplitStategy {
+public interface ISplitStrategy {
 
   String[] splitByCommas(String rowToParse);
 }
