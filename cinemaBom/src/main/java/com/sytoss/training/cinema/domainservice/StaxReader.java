@@ -29,10 +29,14 @@ public class StaxReader extends AbstractReader {
   @Override
   public Map<String, Cinema> read(List<String> inputFileNames) {
     for (String fileName : inputFileNames) {
-      try {
-        parseXML(fileName);
-      } catch (Exception e) {
-        logger.error("Error during reading file " + fileName, e);
+      if (isValidXML(fileName)) {
+        try {
+          parseXML(fileName);
+        } catch (Exception e) {
+          logger.error("Error during reading file " + fileName, e);
+        }
+      } else {
+        logger.warn("file " + fileName + "do not correspond xsd");
       }
     }
     return mapCinemas;

@@ -25,7 +25,7 @@ public abstract class AbstactTicketServiceTestForXML {
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath());
 
-    new TicketService(getReader(), getWriter()).mergeXML(
+    new TicketService(getReader(), getWriter()).merge(
       inputFiles,
       new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
@@ -40,7 +40,7 @@ public abstract class AbstactTicketServiceTestForXML {
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
 
-    new TicketService(getReader(), getWriter()).mergeXML(
+    new TicketService(getReader(), getWriter()).merge(
       inputFiles,
       new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
@@ -55,7 +55,7 @@ public abstract class AbstactTicketServiceTestForXML {
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
 
-    new TicketService(getReader(), getWriter()).mergeXML(
+    new TicketService(getReader(), getWriter()).merge(
       inputFiles,
       new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 
@@ -70,7 +70,7 @@ public abstract class AbstactTicketServiceTestForXML {
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.xml").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.xml").toURI()).getAbsolutePath());
 
-    new TicketService(getReader(), getWriter()).mergeXML(
+    new TicketService(getReader(), getWriter()).merge(
       inputFiles,
       new File(getClass().getResource(folder + "/testRunResult.xml").toURI()).getAbsolutePath());
 

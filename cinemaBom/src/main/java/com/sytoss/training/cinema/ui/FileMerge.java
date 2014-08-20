@@ -3,6 +3,10 @@ package com.sytoss.training.cinema.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sytoss.training.cinema.domainservice.CsvReader;
+import com.sytoss.training.cinema.domainservice.CsvWriter;
+import com.sytoss.training.cinema.domainservice.JdomXmlWriter;
+import com.sytoss.training.cinema.domainservice.StaxReader;
 import com.sytoss.training.cinema.domainservice.TicketService;
 
 public class FileMerge {
@@ -21,16 +25,16 @@ public class FileMerge {
     FileFormat outputFileFormat = checkFileFormat(outputFileName);
     if (inputFileFormat == FileFormat.CSV) {
       if (outputFileFormat == FileFormat.CSV) {
-        new TicketService().mergeCSV(inputFileNames, outputFileName);
+        new TicketService(new CsvReader(), new CsvWriter()).merge(inputFileNames, outputFileName);
       } else if (outputFileFormat == FileFormat.XML) {
-        new TicketService().mergeCSVToXML(inputFileNames, outputFileName);
+        new TicketService(new CsvReader(), new JdomXmlWriter()).merge(inputFileNames, outputFileName);
       } else {
         printHelp();
         throw new IllegalArgumentException("Output file has unsupported format");
       }
     } else if (inputFileFormat == FileFormat.XML) {
       if (outputFileFormat == FileFormat.XML) {
-        new TicketService().mergeXML(inputFileNames, outputFileName);
+        new TicketService(new StaxReader(), new JdomXmlWriter()).merge(inputFileNames, outputFileName);
       } else {
         printHelp();
         throw new IllegalArgumentException("XML have to merge in XML");
