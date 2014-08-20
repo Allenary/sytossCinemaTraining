@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
@@ -22,9 +22,10 @@ import com.sytoss.training.cinema.translator.RowTranslator;
 import com.sytoss.training.cinema.translator.SeanceTranslator;
 
 @SuppressWarnings("restriction")
-public class StaxXmlWriter implements IWriter {
+public class StaxXmlWriter extends AbstractXmlWriter {
 
-  public void write(Map<String, Cinema> cinemas, String outputFileName) throws IOException {
+  public void write(List<Ticket> tickets, String outputFileName) throws IOException {
+    List<Cinema> cinemas = getCinemasFromTickets(tickets);
     try {
       OutputStream outputStream = new FileOutputStream(new File(outputFileName));
       XMLStreamWriter out = XMLOutputFactory.newInstance().createXMLStreamWriter(new OutputStreamWriter(outputStream, "utf-8"));
@@ -32,7 +33,7 @@ public class StaxXmlWriter implements IWriter {
       out.writeCharacters("\r\n");
       out.writeStartElement("cinemas");
 
-      for (Cinema cinema : cinemas.values()) {
+      for (Cinema cinema : cinemas) {
         out.writeCharacters("\r\n  ");
         out.writeStartElement("cinema");
         out.writeAttribute("name", cinema.getName());

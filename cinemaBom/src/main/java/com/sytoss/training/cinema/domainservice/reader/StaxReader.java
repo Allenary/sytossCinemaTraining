@@ -3,7 +3,6 @@ package com.sytoss.training.cinema.domainservice.reader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class StaxReader extends AbstractXmlReader {
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Override
-  public Map<String, Cinema> read(List<String> inputFileNames) {
+  public List<Ticket> read(List<String> inputFileNames) {
     for (String fileName : inputFileNames) {
       if (isValidXML(fileName)) {
         try {
@@ -39,7 +38,7 @@ public class StaxReader extends AbstractXmlReader {
         logger.warn("file " + fileName + "do not correspond xsd");
       }
     }
-    return mapCinemas;
+    return tickets;
   }
 
   private void parseXML(String inputFileName) throws XmlPullParserException, IOException, ParseException {
@@ -73,6 +72,7 @@ public class StaxReader extends AbstractXmlReader {
             ticket.setPlace(place);
             ticket.setCashOffice(cashOffice);
             ticket.setSeance(seance);
+            tickets.add(ticket);
           }
           break;
         case XmlPullParser.TEXT:

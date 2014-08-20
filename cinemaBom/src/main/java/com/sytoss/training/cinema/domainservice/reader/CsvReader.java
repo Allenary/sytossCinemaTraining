@@ -3,7 +3,6 @@ package com.sytoss.training.cinema.domainservice.reader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class CsvReader extends AbstractReader {
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Override
-  public Map<String, Cinema> read(List<String> inputFileNames) {
+  public List<Ticket> read(List<String> inputFileNames) {
     List<String> csvRows = new ArrayList<String>();
     for (String inputFile : inputFileNames) {
       logger.info("start with processing file: " + inputFile);
@@ -44,11 +43,10 @@ public class CsvReader extends AbstractReader {
           }
         }
       } catch (Exception e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        logger.error("Error during reading file " + inputFile, e);
       }
     }
-    return mapCinemas;
+    return tickets;
   }
 
   private List<String[]> parseRows(List<String> csvRows) throws ParseException {
@@ -90,7 +88,7 @@ public class CsvReader extends AbstractReader {
     ticket.setSeance(seance);
     CashOffice cashOffice = findOrCreateNewCO(csvParams[7], cinema);
     ticket.setCashOffice(cashOffice);
-
+    tickets.add(ticket);
   }
 
 }

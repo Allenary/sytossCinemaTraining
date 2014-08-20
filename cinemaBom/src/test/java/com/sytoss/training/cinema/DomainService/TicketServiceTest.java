@@ -1,25 +1,13 @@
 package com.sytoss.training.cinema.domainservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
-import com.sytoss.training.cinema.bom.CashOffice;
-import com.sytoss.training.cinema.bom.Cinema;
-import com.sytoss.training.cinema.bom.Movie;
-import com.sytoss.training.cinema.bom.Room;
-import com.sytoss.training.cinema.bom.Row;
-import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.domainservice.reader.CsvReader;
 import com.sytoss.training.cinema.domainservice.writer.CsvWriter;
 import com.sytoss.training.cinema.domainservice.writer.JdomXmlWriter;
@@ -196,47 +184,6 @@ public class TicketServiceTest {
     TestUtils.checkFiles(new File(getClass().getResource(folder + "/Standard.xml").toURI()).getAbsolutePath(), new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
-  }
-
-  @Test
-  public void shouldCreateSingleBOMObjectForTicketsWithSameData() throws URISyntaxException, IOException {
-    String folder = "/shouldCreateSingleBOMObjectForTicketsWithSameData";
-    List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath());
-
-    Map<String, Cinema> cinemas = new CsvReader().read(inputFiles);
-
-    assertEquals(1, cinemas.values().size());
-
-    Cinema cinema = cinemas.values().iterator().next();
-    Iterator<CashOffice> coIterator = cinema.cashOfficeIterator();
-    assertTrue(coIterator.hasNext());
-    coIterator.next();
-    assertFalse(coIterator.hasNext());
-
-    Iterator<Room> roomIterator = cinema.roomIterator();
-    assertTrue(roomIterator.hasNext());
-    Room room = roomIterator.next();
-    assertFalse(roomIterator.hasNext());
-
-    Iterator<Row> rowIterator = room.getAllRows();
-    assertTrue(rowIterator.hasNext());
-    rowIterator.next();
-    assertTrue(rowIterator.hasNext());
-    rowIterator.next();
-    assertFalse(rowIterator.hasNext());
-
-    Iterator<Movie> movieIterator = cinema.movieIterator();
-    assertTrue(movieIterator.hasNext());
-    movieIterator.next();
-    assertFalse(movieIterator.hasNext());
-
-    Iterator<Seance> seanceIterator = cinema.seanceIterator();
-    assertTrue(seanceIterator.hasNext());
-    seanceIterator.next();
-    assertTrue(seanceIterator.hasNext());
-    seanceIterator.next();
-    assertFalse(seanceIterator.hasNext());
-
   }
 
   @Test

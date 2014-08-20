@@ -1,11 +1,10 @@
 package com.sytoss.training.cinema.domainservice.reader;
 
 import java.util.List;
-import java.util.Map;
 
-import com.sytoss.training.cinema.bom.Cinema;
+import com.sytoss.training.cinema.bom.Ticket;
 
 public interface IReader {
 
-  Map<String, Cinema> read(List<String> inputFileNames);
+  List<Ticket> read(List<String> inputFileNames);
 }

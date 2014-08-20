@@ -3,7 +3,6 @@ package com.sytoss.training.cinema.domainservice.reader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -26,7 +25,7 @@ public class JdomReader extends AbstractXmlReader {
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Override
-  public Map<String, Cinema> read(List<String> inputFileNames) {
+  public List<Ticket> read(List<String> inputFileNames) {
     for (String inputFile : inputFileNames) {
       if (isValidXML(inputFile)) {
         try {
@@ -38,7 +37,7 @@ public class JdomReader extends AbstractXmlReader {
         logger.warn("file " + inputFile + "do not correspond xsd");
       }
     }
-    return mapCinemas;
+    return tickets;
   }
 
   private void readFromXMLFileJDOM(String inputFile) throws JDOMException, IOException, ParseException {
@@ -66,6 +65,7 @@ public class JdomReader extends AbstractXmlReader {
             Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
             ticket.setSeance(seance);
             ticket.setCashOffice(cashOffice);
+            tickets.add(ticket);
           }
         }
       }

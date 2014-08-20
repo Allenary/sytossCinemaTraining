@@ -1,6 +1,7 @@
 package com.sytoss.training.cinema.domainservice.reader;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,7 @@ import com.sytoss.training.cinema.bom.Place;
 import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Row;
 import com.sytoss.training.cinema.bom.Seance;
+import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.translator.CashOfficeTranslator;
 import com.sytoss.training.cinema.translator.CinemaTranslator;
 import com.sytoss.training.cinema.translator.MovieTranslator;
@@ -23,9 +25,12 @@ import com.sytoss.training.cinema.translator.SeanceTranslator;
 
 public abstract class AbstractReader implements IReader {
 
+  protected List<Ticket> tickets = new ArrayList<Ticket>();
+
   protected Map<String, Cinema> mapCinemas;
 
   public AbstractReader() {
+
     mapCinemas = new HashMap<String, Cinema>();
   }
 
@@ -124,6 +129,6 @@ public abstract class AbstractReader implements IReader {
     return place;
   }
 
-  public abstract Map<String, Cinema> read(List<String> inputFileNames);
+  public abstract List<Ticket> read(List<String> inputFileNames);
 
 }
