@@ -46,7 +46,15 @@
 			<artifactId>xpp3</artifactId>
 			<version>1.1.4c</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.3.2</version>
+			<scope>system</scope>
+			<systemPath>C:\Users\school\Ninak+katen\hsqldb\lib\hsqldb.jar</systemPath>
+		</dependency>
+
 
 	</dependencies>
 </project>

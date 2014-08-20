@@ -20,6 +20,9 @@ import com.sytoss.training.cinema.bom.Movie;
 import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Row;
 import com.sytoss.training.cinema.bom.Seance;
+import com.sytoss.training.cinema.domainservice.reader.CsvReader;
+import com.sytoss.training.cinema.domainservice.writer.CsvWriter;
+import com.sytoss.training.cinema.domainservice.writer.JdomXmlWriter;
 import com.sytoss.training.cinema.testutils.TestUtils;
 
 public class TicketServiceTest {

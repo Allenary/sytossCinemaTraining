@@ -6,8 +6,8 @@ import java.text.ParseException;
 
 import org.junit.Test;
 
-import com.sytoss.training.cinema.domainservice.CsvParser;
-import com.sytoss.training.cinema.domainservice.ISplitStategy;
+import com.sytoss.training.cinema.domainservice.csvparcer.CsvParser;
+import com.sytoss.training.cinema.domainservice.csvparcer.ISplitStategy;
 
 public abstract class AbstractCsvParserTest {
 

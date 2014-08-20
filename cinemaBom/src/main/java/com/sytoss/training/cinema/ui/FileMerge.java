@@ -3,11 +3,11 @@ package com.sytoss.training.cinema.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sytoss.training.cinema.domainservice.CsvReader;
-import com.sytoss.training.cinema.domainservice.CsvWriter;
-import com.sytoss.training.cinema.domainservice.JdomXmlWriter;
-import com.sytoss.training.cinema.domainservice.StaxReader;
 import com.sytoss.training.cinema.domainservice.TicketService;
+import com.sytoss.training.cinema.domainservice.reader.CsvReader;
+import com.sytoss.training.cinema.domainservice.reader.StaxReader;
+import com.sytoss.training.cinema.domainservice.writer.CsvWriter;
+import com.sytoss.training.cinema.domainservice.writer.JdomXmlWriter;
 
 public class FileMerge {
 
