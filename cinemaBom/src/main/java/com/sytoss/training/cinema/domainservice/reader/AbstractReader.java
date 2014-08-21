@@ -37,7 +37,7 @@ public abstract class AbstractReader implements IReader {
 
   public abstract List<Ticket> read(List<String> inputFileNames);
 
-  protected void registerInCash(Ticket ticket) {
+  protected Ticket registerInCash(Ticket ticket) {
     Cinema cinema = ticket.getCashOffice().getCinema();
     int index = cinemas.indexOf(cinema);
     if (index == -1) {
@@ -46,8 +46,10 @@ public abstract class AbstractReader implements IReader {
       Cinema foundedCinema = cinemas.get(index);
       ticket.setSeance(foundedCinema.registerSeance(ticket.getSeance()));
       ticket.setCashOffice(foundedCinema.registerCashOffice(ticket.getCashOffice()));
-      ticket.setPlace(ticket.getPlace().getRow().getRoom().registerRow(ticket.getPlace().getRow()).registerPlace(ticket.getPlace()));
+      ticket.getPlace().getRow().getRoom().registerRow(ticket.getPlace().getRow());
+      ticket.setPlace(ticket.getPlace().getRow().registerPlace(ticket.getPlace()));
     }
+    return ticket;
   }
 
   protected Cinema findOrCreateNewCinema(String cinemaName) {

@@ -7,8 +7,13 @@ import java.text.ParseException;
 import org.jdom2.DataConversionException;
 import org.jdom2.Element;
 
+import com.sytoss.training.cinema.bom.CashOffice;
+import com.sytoss.training.cinema.bom.Cinema;
+import com.sytoss.training.cinema.bom.Movie;
 import com.sytoss.training.cinema.bom.Place;
+import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Row;
+import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.exception.TicketNotFullException;
 
@@ -47,6 +52,37 @@ public class TicketTranslator {
   public Ticket fromDTO(String ticketDTO) {
     Ticket ticket = new Ticket();
     ticket.setPrice(Double.parseDouble(ticketDTO));
+    return ticket;
+  }
+
+  public Ticket fromDTO(String[] ticketDTO) throws ParseException {
+    Ticket ticket = new Ticket();
+
+    Row row = new RowTranslator().fromDTO(ticketDTO[4]);
+    Place place = new PlaceTranslator().fromDTO(ticketDTO[5]);
+    Room room = new RoomTranslator().fromDTO(ticketDTO[1]);
+    Cinema cinema = new CinemaTranslator().fromDTO(ticketDTO[0]);
+    Seance seance = new SeanceTranslator().fromDTO(ticketDTO[3]);
+    Movie movie = new MovieTranslator().fromDTO(ticketDTO[2]);
+
+    place.setRow(row);
+    room.addRow(row);
+    ticket.setPlace(place);
+
+    seance.setMovie(movie);
+    seance.setRoom(room);
+    ticket.setSeance(seance);
+
+    CashOffice cashOffice = new CashOfficeTranslator().fromDTO(ticketDTO[7]);
+    cashOffice.setCinema(cinema);
+    ticket.setCashOffice(cashOffice);
+
+    cinema.addMovie(movie);
+    cinema.addRoom(room);
+    cinema.addSeance(seance);
+
+    ticket.setPrice(Double.parseDouble(ticketDTO[6]));
+
     return ticket;
   }
 

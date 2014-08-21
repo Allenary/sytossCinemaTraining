@@ -7,17 +7,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sytoss.training.cinema.bom.CashOffice;
-import com.sytoss.training.cinema.bom.Cinema;
-import com.sytoss.training.cinema.bom.Movie;
-import com.sytoss.training.cinema.bom.Place;
-import com.sytoss.training.cinema.bom.Room;
-import com.sytoss.training.cinema.bom.Row;
-import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.connector.FileSystemConnector;
 import com.sytoss.training.cinema.domainservice.csvparcer.CsvParser;
-import com.sytoss.training.cinema.translator.SeanceTranslator;
 import com.sytoss.training.cinema.translator.TicketTranslator;
 
 public class CsvReader extends AbstractReader {
@@ -75,19 +67,21 @@ public class CsvReader extends AbstractReader {
   }
 
   private void addTicketToMap(String[] csvParams) throws ParseException {
-
-    Cinema cinema = findOrCreateNewCinema(csvParams[0]);
-    Movie movie = findOrCreateNewMovie(csvParams[2], cinema);
-    Room room = findOrCreateNewRoom(csvParams[1], cinema);
-    Seance seance = findOrCreateNewSeance(csvParams[3], cinema, room, SeanceTranslator.CSV_DATE_FORMAT);
-    seance.setMovie(movie);
-    Row row = findOrCreateNewRow(csvParams[4], room);
-    Place place = findOrCreateNewPlace(csvParams[5], row);
-    Ticket ticket = new TicketTranslator().fromDTO(csvParams[6]);
-    ticket.setPlace(place);
-    ticket.setSeance(seance);
-    CashOffice cashOffice = findOrCreateNewCO(csvParams[7], cinema);
-    ticket.setCashOffice(cashOffice);
+    //
+    //    Cinema cinema = findOrCreateNewCinema(csvParams[0]);
+    //    Movie movie = findOrCreateNewMovie(csvParams[2], cinema);
+    //    Room room = findOrCreateNewRoom(csvParams[1], cinema);
+    //    Seance seance = findOrCreateNewSeance(csvParams[3], cinema, room, SeanceTranslator.CSV_DATE_FORMAT);
+    //    seance.setMovie(movie);
+    //    Row row = findOrCreateNewRow(csvParams[4], room);
+    //    Place place = findOrCreateNewPlace(csvParams[5], row);
+    //    Ticket ticket = new TicketTranslator().fromDTO(csvParams[6]);
+    //    ticket.setPlace(place);
+    //    ticket.setSeance(seance);
+    //    CashOffice cashOffice = findOrCreateNewCO(csvParams[7], cinema);
+    //    ticket.setCashOffice(cashOffice);
+    Ticket ticket = new TicketTranslator().fromDTO(csvParams);
+    ticket = registerInCash(ticket);
     tickets.add(ticket);
   }
 
