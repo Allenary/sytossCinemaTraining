@@ -34,9 +34,9 @@ public class Room {
       throw new NullObjectInsertionException();
     }
 
-    //    if (row.getRoom() != null && row.getRoom().equals(this)) {
-    //      throw new ReassignObjectException("This row already assigned to another room");
-    //    }
+    if (row.getRoom() != null && row.getRoom().equals(this)) {
+      throw new ReassignObjectException("This row already assigned to another room");
+    }
 
     //    if (exists(row)) {
     //      throw new ReassignObjectException();
@@ -78,6 +78,7 @@ public class Room {
       addRow(row);
       return row;
     } else {
+
       Row foundedRow = rows.get(index);
       Iterator<Place> places = row.getAllPlaces();
       while (places.hasNext()) {
