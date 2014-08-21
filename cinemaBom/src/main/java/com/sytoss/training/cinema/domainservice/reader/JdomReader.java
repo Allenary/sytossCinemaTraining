@@ -17,6 +17,7 @@ import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.connector.FileSystemConnector;
+import com.sytoss.training.cinema.translator.CinemaTranslator;
 import com.sytoss.training.cinema.translator.SeanceTranslator;
 import com.sytoss.training.cinema.translator.TicketTranslator;
 
@@ -45,30 +46,33 @@ public class JdomReader extends AbstractXmlReader {
     Document doc = fsc.readXMLFileJDOM(inputFile);
     List<Element> cinemaElements = doc.getRootElement().getChildren("cinema");
     for (Element cinemaElement : cinemaElements) {
-      Cinema cinema = findOrCreateNewCinema(cinemaElement.getAttributeValue("name"));
-      List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
-      for (Element coElement : cashOfficeElements) {
-        CashOffice cashOffice = findOrCreateNewCO(coElement.getAttributeValue("id"), cinema);
-        List<Element> seanceElements = coElement.getChildren("seance");
-        for (Element seanceElement : seanceElements) {
-          Room room = findOrCreateNewRoom(seanceElement.getChild("room").getText(), cinema);
-          Movie movie = findOrCreateNewMovie(seanceElement.getChild("movie").getText(), cinema);
+      Cinema cinema = new CinemaTranslator().fromDTO(cinemaElement);
+      tickets.addAll(registerInCash(cinema));
 
-          Seance seance = findOrCreateNewSeance(
-            seanceElement.getAttributeValue("startDateTime"),
-            cinema,
-            room,
-            SeanceTranslator.XML_DATE_FORMAT);
-          seance.setMovie(movie);
-          List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
-          for (Element ticketElement : ticketElements) {
-            Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
-            ticket.setSeance(seance);
-            ticket.setCashOffice(cashOffice);
-            tickets.add(ticket);
-          }
-        }
-      }
+      //      Cinema cinema = findOrCreateNewCinema(cinemaElement.getAttributeValue("name"));
+      //      List<Element> cashOfficeElements = cinemaElement.getChildren("cashOffice");
+      //      for (Element coElement : cashOfficeElements) {
+      //        CashOffice cashOffice = findOrCreateNewCO(coElement.getAttributeValue("id"), cinema);
+      //        List<Element> seanceElements = coElement.getChildren("seance");
+      //        for (Element seanceElement : seanceElements) {
+      //          Room room = findOrCreateNewRoom(seanceElement.getChild("room").getText(), cinema);
+      //          Movie movie = findOrCreateNewMovie(seanceElement.getChild("movie").getText(), cinema);
+      //
+      //          Seance seance = findOrCreateNewSeance(
+      //            seanceElement.getAttributeValue("startDateTime"),
+      //            cinema,
+      //            room,
+      //            SeanceTranslator.XML_DATE_FORMAT);
+      //          seance.setMovie(movie);
+      //          List<Element> ticketElements = seanceElement.getChild("tickets").getChildren("ticket");
+      //          for (Element ticketElement : ticketElements) {
+      //            Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
+      //            ticket.setSeance(seance);
+      //            ticket.setCashOffice(cashOffice);
+      //            tickets.add(ticket);
+      //          }
+      //        }
+      //      }
     }
   }
 }

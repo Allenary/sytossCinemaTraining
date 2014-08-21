@@ -37,9 +37,9 @@ public class Place {
     if (row == null) {
       throw new NullObjectInsertionException("Null row cannot be added");
     }
-    if (this.row != null) {
-      throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
-    }
+    //    if (this.row != null) {
+    //      throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
+    //    }
 
     if ( !row.exists(this)) {
       row.addPlace(this);

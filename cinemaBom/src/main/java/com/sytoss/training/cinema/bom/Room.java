@@ -38,9 +38,9 @@ public class Room {
       throw new ReassignObjectException("This row already assigned to another room");
     }
 
-    if (exists(row)) {
-      throw new ReassignObjectException();
-    }
+    //    if (exists(row)) {
+    //      throw new ReassignObjectException();
+    //    }
     rows.add(row);
     row.setRoom(this);
   }
@@ -77,8 +77,15 @@ public class Room {
     if (index == -1) {
       addRow(row);
       return row;
-    } else
-      return rows.get(index);
+    } else {
+
+      Row foundedRow = rows.get(index);
+      Iterator<Place> places = row.getAllPlaces();
+      while (places.hasNext()) {
+        foundedRow.registerPlace(places.next());
+      }
+      return foundedRow;
+    }
   }
 
 }

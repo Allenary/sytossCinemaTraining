@@ -99,9 +99,10 @@ public class TicketTranslator {
   }
 
   public Ticket fromDTO(Element element) throws DataConversionException {
-    Ticket ticket = new Ticket(
-      new Place(element.getAttribute("place").getIntValue(), new Row(element.getAttribute("row").getIntValue())),
-      element.getAttribute("price").getDoubleValue());
+    double price = element.getAttribute("price").getDoubleValue();
+    Row row = new Row(element.getAttribute("row").getIntValue());
+    Place place = new Place(element.getAttribute("place").getIntValue(), row);
+    Ticket ticket = new Ticket(place, price);
     return ticket;
   }
 }

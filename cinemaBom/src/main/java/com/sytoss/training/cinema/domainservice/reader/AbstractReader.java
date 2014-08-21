@@ -47,9 +47,20 @@ public abstract class AbstractReader implements IReader {
       ticket.setSeance(foundedCinema.registerSeance(ticket.getSeance()));
       ticket.setCashOffice(foundedCinema.registerCashOffice(ticket.getCashOffice()));
       ticket.getPlace().getRow().getRoom().registerRow(ticket.getPlace().getRow());
-      ticket.setPlace(ticket.getPlace().getRow().registerPlace(ticket.getPlace()));
     }
     return ticket;
+  }
+
+  protected List<Ticket> registerInCash(Cinema cinema) {
+    List<Ticket> result = new ArrayList<Ticket>();
+    Iterator<CashOffice> cashOfficeIterator = cinema.cashOfficeIterator();
+    while (cashOfficeIterator.hasNext()) {
+      Iterator<Ticket> ticketsIterator = cashOfficeIterator.next().tiketsIterator();
+      while (ticketsIterator.hasNext()) {
+        result.add(registerInCash(ticketsIterator.next()));
+      }
+    }
+    return result;
   }
 
   protected Cinema findOrCreateNewCinema(String cinemaName) {

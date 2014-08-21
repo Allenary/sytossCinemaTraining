@@ -48,9 +48,9 @@ public class Row {
     if (exists(place)) {
       throw new DuplicateInsertionException("Place with number " + place.getNumber() + " already exists.");
     }
-    if (place.getRow() != null) {
-      throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
-    }
+    //    if (place.getRow() != null) {
+    //      throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
+    //    }
 
     places.add(place);
     place.setRow(this);

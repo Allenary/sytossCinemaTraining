@@ -55,6 +55,8 @@ public class SeanceTranslator {
     calendar.setTime(new SimpleDateFormat(XML_DATE_FORMAT).parse(element.getAttributeValue("startDateTime")));
     Seance seance = new Seance();
     seance.setStartDateTime(calendar);
+    seance.setRoom(new RoomTranslator().fromDTO(element.getChild("room")));
+    seance.setMovie(new MovieTranslator().fromDTO(element.getChild("movie")));
     return seance;
   }
 }
