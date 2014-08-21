@@ -18,6 +18,12 @@ import com.sytoss.training.cinema.bom.Row;
 import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 import com.sytoss.training.cinema.connector.FileSystemConnector;
+import com.sytoss.training.cinema.translator.CashOfficeTranslator;
+import com.sytoss.training.cinema.translator.CinemaTranslator;
+import com.sytoss.training.cinema.translator.MovieTranslator;
+import com.sytoss.training.cinema.translator.PlaceTranslator;
+import com.sytoss.training.cinema.translator.RoomTranslator;
+import com.sytoss.training.cinema.translator.RowTranslator;
 import com.sytoss.training.cinema.translator.SeanceTranslator;
 import com.sytoss.training.cinema.translator.TicketTranslator;
 
@@ -52,27 +58,38 @@ public class StaxReader extends AbstractXmlReader {
     Room room = null;
     String text = null;
     Movie movie = null;
+
     while (eventType != XmlPullParser.END_DOCUMENT) {
       String tagName = xpp.getName();
       switch (eventType) {
         case XmlPullParser.START_TAG:
           if (tagName == "cinema") {
-            cinema = findOrCreateNewCinema(xpp.getAttributeValue(null, "name"));
+            cinema = new CinemaTranslator().fromDTO((xpp.getAttributeValue(null, "name")));
           }
           if (tagName == "cashOffice") {
-            cashOffice = findOrCreateNewCO(xpp.getAttributeValue(null, "id"), cinema);
+            cashOffice = new CashOfficeTranslator().fromDTO((xpp.getAttributeValue(null, "id")));
           }
           if (tagName == "seance") {
             seanceStartDateTime = xpp.getAttributeValue(null, "startDateTime");
           }
           if (tagName == "ticket") {
-            Row row = findOrCreateNewRow(xpp.getAttributeValue(null, "row"), room);
-            Place place = findOrCreateNewPlace(xpp.getAttributeValue(null, "place"), row);
+            Row row = new RowTranslator().fromDTO(xpp.getAttributeValue(null, "row"));
+            Place place = new PlaceTranslator().fromDTO(xpp.getAttributeValue(null, "place"));
             Ticket ticket = new TicketTranslator().fromDTO(xpp.getAttributeValue(null, "price"));
+
+            place.setRow(row);
+            room.addRow(row);
             ticket.setPlace(place);
-            ticket.setCashOffice(cashOffice);
+
+            seance.setMovie(movie);
+            seance.setRoom(room);
             ticket.setSeance(seance);
-            tickets.add(ticket);
+
+            cinema.registerCashOffice(cashOffice);
+            ticket.setCashOffice(cashOffice);
+
+            cinema.registerSeance(seance);
+            tickets.add(registerInCash(ticket));
           }
           break;
         case XmlPullParser.TEXT:
@@ -80,13 +97,12 @@ public class StaxReader extends AbstractXmlReader {
           break;
         case XmlPullParser.END_TAG:
           if (tagName == "room") {
-            room = findOrCreateNewRoom(text, cinema);
-            seance = findOrCreateNewSeance(seanceStartDateTime, cinema, room, SeanceTranslator.XML_DATE_FORMAT);
+            room = new RoomTranslator().fromDTO(text);
+            seance = new SeanceTranslator(SeanceTranslator.XML_DATE_FORMAT).fromDTO(seanceStartDateTime);
             seance.setMovie(movie);
           }
           if (tagName == "movie") {
-            movie = findOrCreateNewMovie(text, cinema);
-            //            movie = cinema.findOrCreateNewMovie(text);
+            movie = new MovieTranslator().fromDTO(text);
           }
           break;
 
