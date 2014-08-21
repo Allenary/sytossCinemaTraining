@@ -179,17 +179,12 @@ public class Seance {
       return true;
     if (this.getRoom() == null)
       return false;
-    if (this.getMovie() == null)
-      return false;
     if ( !(other instanceof Seance))
       return false;
     Seance otherSeance = (Seance) other;
     if (otherSeance.getRoom() == null)
       return false;
-    if (otherSeance.getMovie() == null)
-      return false;
-    return (this.startDateTime.equals(otherSeance.getStartDateTime()) && this.room.equals(otherSeance.getRoom()) && this.movie
-      .equals(otherSeance.getMovie()));
+    return (this.startDateTime.equals(otherSeance.getStartDateTime()) && (this.room.equals(otherSeance.getRoom())));
 
   }
 }
