@@ -192,6 +192,7 @@ public class Cinema {
   public Seance registerSeance(Seance seance) {
     int index = seances.indexOf(seance);
     if (index == -1) {
+      System.out.println("founded new Seance");
       seance.setMovie(registerMovie(seance.getMovie()));
       seance.setRoom(registerRoom(seance.getRoom()));
       addSeance(seance);

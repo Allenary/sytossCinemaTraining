@@ -47,4 +47,14 @@ public class Movie {
     }
     this.duration = duration;
   }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    Movie otherMovie = (Movie) other;
+    return this.name.equals(otherMovie.name);
+  }
 }

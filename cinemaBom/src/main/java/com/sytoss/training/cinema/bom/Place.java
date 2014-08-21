@@ -1,7 +1,6 @@
 package com.sytoss.training.cinema.bom;
 
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
-import com.sytoss.training.cinema.exception.ReassignObjectException;
 
 public class Place {
 
@@ -47,5 +46,17 @@ public class Place {
 
     this.row = row;
 
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == null)
+      return false;
+    if (other == this)
+      return true;
+    if (this.row == null)
+      return false;
+    Place otherPlace = (Place) other;
+    return this.number == otherPlace.getNumber() && this.row.equals(otherPlace.getRow());
   }
 }
