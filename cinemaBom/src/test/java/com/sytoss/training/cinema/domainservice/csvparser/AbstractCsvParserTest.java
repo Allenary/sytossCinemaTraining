@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.domainservice;
+package com.sytoss.training.cinema.domainservice.csvparser;
 
 import static org.junit.Assert.assertEquals;
 

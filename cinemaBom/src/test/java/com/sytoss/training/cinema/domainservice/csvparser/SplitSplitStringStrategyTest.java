@@ -1,4 +1,4 @@
-package com.sytoss.training.cinema.domainservice;
+package com.sytoss.training.cinema.domainservice.csvparser;
 
 import com.sytoss.training.cinema.domainservice.csvparcer.ISplitStrategy;
 import com.sytoss.training.cinema.domainservice.csvparcer.SplitSplitStringStrategy;
