@@ -27,11 +27,27 @@ public abstract class AbstractReader implements IReader {
 
   protected List<Ticket> tickets = new ArrayList<Ticket>();
 
+  protected List<Cinema> cinemas = new ArrayList<Cinema>();
+
   protected Map<String, Cinema> mapCinemas;
 
   public AbstractReader() {
-
     mapCinemas = new HashMap<String, Cinema>();
+  }
+
+  public abstract List<Ticket> read(List<String> inputFileNames);
+
+  protected void registerInCash(Ticket ticket) {
+    Cinema cinema = ticket.getCashOffice().getCinema();
+    int index = cinemas.indexOf(cinema);
+    if (index == -1) {
+      cinemas.add(cinema);
+    } else {
+      Cinema foundedCinema = cinemas.get(index);
+      ticket.setSeance(foundedCinema.registerSeance(ticket.getSeance()));
+      ticket.setCashOffice(foundedCinema.registerCashOffice(ticket.getCashOffice()));
+      ticket.setPlace(ticket.getPlace().getRow().getRoom().registerRow(ticket.getPlace().getRow()).registerPlace(ticket.getPlace()));
+    }
   }
 
   protected Cinema findOrCreateNewCinema(String cinemaName) {
@@ -128,7 +144,5 @@ public abstract class AbstractReader implements IReader {
     row.addPlace(place);
     return place;
   }
-
-  public abstract List<Ticket> read(List<String> inputFileNames);
 
 }

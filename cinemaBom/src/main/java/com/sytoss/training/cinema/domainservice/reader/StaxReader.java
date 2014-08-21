@@ -85,8 +85,8 @@ public class StaxReader extends AbstractXmlReader {
             seance.setMovie(movie);
           }
           if (tagName == "movie") {
-            //        movie = findOrCreateNewMovie(text, cinema);
-            movie = cinema.findOrCreateNewMovie(text);
+            movie = findOrCreateNewMovie(text, cinema);
+            //            movie = cinema.findOrCreateNewMovie(text);
           }
           break;
 

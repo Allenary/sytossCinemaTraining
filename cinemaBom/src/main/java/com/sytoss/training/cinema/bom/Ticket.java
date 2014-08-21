@@ -37,6 +37,7 @@ public class Ticket {
     if (seance == null) {
       throw new NullObjectInsertionException("Seance shouldn't be NULL.");
     }
+    //TODO: do something with this crap
     if (this.seance != null && !this.seance.equals(seance)) {
       throw new ReassignObjectException("Ticket already assigned to another seance. Ticket could not be reassigned.");
     }

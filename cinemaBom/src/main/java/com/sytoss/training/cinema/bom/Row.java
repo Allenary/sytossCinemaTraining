@@ -94,4 +94,13 @@ public class Row {
     Row otherRow = (Row) other;
     return this.number == otherRow.getNumber() && this.room.equals(otherRow.getRoom());
   }
+
+  public Place registerPlace(Place place) {
+    int index = places.indexOf(place);
+    if (index == -1) {
+      addPlace(place);
+      return place;
+    }
+    return places.get(index);
+  }
 }

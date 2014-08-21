@@ -161,26 +161,22 @@ public class Cinema {
     return nextSeances.iterator();
   }
 
-  public Movie findOrCreateNewMovie(String movieName) {
-    for (Movie movie : movies) {
-      if (movie.getName() == name) {
-        return movie;
-      }
-    }
-    Movie movie = new Movie(movieName);
-    addMovie(movie);
-    return movie;
+  public Movie registerMovie(Movie movie) {
+    int index = movies.indexOf(movie);
+    if (index == -1) {
+      addMovie(movie);
+      return movie;
+    } else
+      return movies.get(index);
   }
 
-  public Room findOrCrateNewRoom(String roomName) {
-    for (Room room : rooms) {
-      if (room.getName().equals(roomName)) {
-        return room;
-      }
-    }
-    Room room = new Room(roomName);
-    addRoom(room);
-    return room;
+  public Room registerRoom(Room room) {
+    int index = rooms.indexOf(room);
+    if (index == -1) {
+      addRoom(room);
+      return room;
+    } else
+      return rooms.get(index);
   }
 
   @Override
@@ -192,4 +188,25 @@ public class Cinema {
     Cinema otherCinema = (Cinema) other;
     return this.name.equals(otherCinema.name);
   }
+
+  public Seance registerSeance(Seance seance) {
+    int index = seances.indexOf(seance);
+    if (index == -1) {
+      seance.setMovie(registerMovie(seance.getMovie()));
+      seance.setRoom(registerRoom(seance.getRoom()));
+      addSeance(seance);
+      return seance;
+    } else
+      return seances.get(index);
+  }
+
+  public CashOffice registerCashOffice(CashOffice cashOffice) {
+    int index = cashOffices.indexOf(cashOffice);
+    if (index == -1) {
+      addCashOffice(cashOffice);
+      return cashOffice;
+    } else
+      return cashOffices.get(index);
+  }
+
 }

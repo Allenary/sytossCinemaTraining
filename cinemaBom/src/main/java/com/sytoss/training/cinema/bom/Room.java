@@ -72,4 +72,13 @@ public class Room {
     return this.name.equals(otherRoom.name);
   }
 
+  public Row registerRow(Row row) {
+    int index = rows.indexOf(row);
+    if (index == -1) {
+      addRow(row);
+      return row;
+    } else
+      return rows.get(index);
+  }
+
 }
