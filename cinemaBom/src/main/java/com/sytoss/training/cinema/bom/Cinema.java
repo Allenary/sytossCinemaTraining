@@ -175,8 +175,14 @@ public class Cinema {
     if (index == -1) {
       addRoom(room);
       return room;
-    } else
-      return rooms.get(index);
+    } else {
+      Room foundedRoom = rooms.get(index);
+      Iterator<Row> rows = room.getAllRows();
+      while (rows.hasNext()) {
+        foundedRoom.registerRow(rows.next());
+      }
+      return foundedRoom;
+    }
   }
 
   @Override
