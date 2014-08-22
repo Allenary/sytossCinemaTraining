@@ -202,8 +202,14 @@ public class Cinema {
       seance.setRoom(registerRoom(seance.getRoom()));
       addSeance(seance);
       return seance;
-    } else
-      return seances.get(index);
+    } else {
+      Seance foundedSeance = seances.get(index);
+      //      Iterator<Ticket> tickets = seance.getTickets();
+      //      while (tickets.hasNext()) {
+      //        foundedSeance.addTicket(tickets.next());
+      //      }
+      return foundedSeance;
+    }
   }
 
   public CashOffice registerCashOffice(CashOffice cashOffice) {
@@ -211,8 +217,14 @@ public class Cinema {
     if (index == -1) {
       addCashOffice(cashOffice);
       return cashOffice;
-    } else
-      return cashOffices.get(index);
+    } else {
+      CashOffice foundedCashOffice = cashOffices.get(index);
+      //      Iterator<Ticket> tickets = cashOffice.tiketsIterator();
+      //      while (tickets.hasNext()) {
+      //        foundedCashOffice.addTicket(tickets.next());
+      //      }
+      return foundedCashOffice;
+    }
   }
 
 }
