@@ -9,6 +9,7 @@ import org.jdom2.Element;
 
 import com.sytoss.training.cinema.bom.CashOffice;
 import com.sytoss.training.cinema.bom.Cinema;
+import com.sytoss.training.cinema.bom.Room;
 import com.sytoss.training.cinema.bom.Seance;
 import com.sytoss.training.cinema.bom.Ticket;
 
@@ -51,8 +52,10 @@ public class CinemaTranslator {
         for (Element ticketElement : ticketElements) {
           Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
           ticket.setCashOffice(cashOffice);
+          Room room = seance.getRoom();
+          ticket.getPlace().setRow((room.registerRow(ticket.getPlace().getRow())));
           ticket.setSeance(seance);
-          seance.getRoom().registerRow(ticket.getPlace().getRow());
+          //          seance.getRoom().registerRow(ticket.getPlace().getRow());
         }
       }
     }
