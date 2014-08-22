@@ -78,10 +78,6 @@ public abstract class AbstractReaderTest {
     rows.next();
     assertFalse(rows.hasNext());
 
-    //    assertEquals(tickets.get(0).getPlace().getRow(), tickets.get(2).getPlace().getRow());
-    //    assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(0).getPlace().getRow()));
-    //    assertTrue(tickets.get(0).getSeance().getRoom().exists(tickets.get(1).getPlace().getRow()));
-
     assertTrue(cinema.existMovie(tickets.get(0).getSeance().getMovie()));
     Iterator<Movie> movies = cinema.movieIterator();
     assertTrue(movies.hasNext());

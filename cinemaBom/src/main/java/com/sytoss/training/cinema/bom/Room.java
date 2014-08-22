@@ -38,15 +38,15 @@ public class Room {
     //      throw new ReassignObjectException("This row already assigned to another room");
     //    }
 
-    //    if (exists(row)) {
-    //      throw new ReassignObjectException();
-    //    }
+    if (exists(row)) {
+      throw new ReassignObjectException();
+    }
     rows.add(row);
     row.setRoom(this);
   }
 
   public boolean exists(Row row) {
-    return rows.contains(row) || hasRowWithNumber(row.getNumber());
+    return rows.contains(row) /*|| hasRowWithNumber(row.getNumber())*/;
   }
 
   private boolean hasRowWithNumber(int number) {
