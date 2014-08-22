@@ -1,6 +1,7 @@
 package com.sytoss.training.cinema.bom;
 
 import com.sytoss.training.cinema.exception.NullObjectInsertionException;
+import com.sytoss.training.cinema.exception.ReassignObjectException;
 
 public class Place {
 
@@ -36,9 +37,9 @@ public class Place {
     if (row == null) {
       throw new NullObjectInsertionException("Null row cannot be added");
     }
-    //    if (this.row != null) {
-    //      throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
-    //    }
+    if (this.row != null && !this.row.equals(row)) {
+      throw new ReassignObjectException("This Place already exists in another row. Cannot be reassigned");
+    }
 
     if ( !row.exists(this)) {
       row.addPlace(this);

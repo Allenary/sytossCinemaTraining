@@ -173,7 +173,7 @@ public class TicketServiceTest {
   }
 
   @Test
-  public void shouldMergeCSVTOXMLVeryHard() throws IOException, URISyntaxException {
+  public void shouldMergeCSVTOXMLComplexTest() throws IOException, URISyntaxException {
     String folder = "/shouldMergeCSVTOXMLVeryHard";
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath());
