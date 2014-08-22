@@ -44,9 +44,9 @@ public class StaxXmlWriter extends AbstractXmlWriter {
           CashOffice cashOffice = iterator.next();
           out.writeStartElement("cashOffice");
           out.writeAttribute("id", Integer.toString(cashOffice.getNumber()));
-          out.writeCharacters("\r\n      ");
 
           for (Seance seance : cashOffice.getSeances()) {
+            out.writeCharacters("\r\n      ");
             out.writeStartElement("seance");
             out.writeAttribute("startDateTime", new SeanceTranslator(SeanceTranslator.XML_DATE_FORMAT).toDTO(seance));
             out.writeCharacters("\r\n        ");

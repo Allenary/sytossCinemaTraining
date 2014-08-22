@@ -77,6 +77,7 @@ public class StaxReader extends AbstractXmlReader {
             Place place = new PlaceTranslator().fromDTO(xpp.getAttributeValue(null, "place"));
             Ticket ticket = new TicketTranslator().fromDTO(xpp.getAttributeValue(null, "price"));
 
+            row.setRoom(room);
             row = room.registerRow(row);
             place.setRow(row);
             ticket.setPlace(place);

@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.sytoss.training.cinema.domainservice.reader.CsvReader;
 import com.sytoss.training.cinema.domainservice.writer.CsvWriter;
 import com.sytoss.training.cinema.domainservice.writer.JdomXmlWriter;
+import com.sytoss.training.cinema.domainservice.writer.StaxXmlWriter;
 import com.sytoss.training.cinema.testutils.TestUtils;
 
 public class TicketServiceTest {
@@ -177,7 +178,7 @@ public class TicketServiceTest {
     List<String> inputFiles = Arrays.asList(new File(getClass().getResource(folder + "/3tickets.csv").toURI()).getAbsolutePath(), new File(
       getClass().getResource(folder + "/1ticket.csv").toURI()).getAbsolutePath());
 
-    new TicketService(new CsvReader(), new JdomXmlWriter()).merge(inputFiles, new File(getClass()
+    new TicketService(new CsvReader(), new StaxXmlWriter()).merge(inputFiles, new File(getClass()
       .getResource(folder + "/testRunResult.xml")
       .toURI()).getAbsolutePath());
 

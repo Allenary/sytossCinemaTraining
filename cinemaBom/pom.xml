@@ -5,7 +5,7 @@
 	<groupId>com.sytoss.training.cinema</groupId>
 	<artifactId>cinemaBom</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+
 
 	<name>cinemaBom</name>
 	<url>http://maven.apache.org</url>

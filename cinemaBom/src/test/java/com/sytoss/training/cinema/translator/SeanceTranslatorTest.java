@@ -82,8 +82,13 @@ public class SeanceTranslatorTest {
   public void shouldTranslatorFromDTOElement() throws DataConversionException, ParseException {
     Element seanceElement = new Element("seance");
     seanceElement.setAttribute("startDateTime", "2014-08-20T10:30:00Z");
+    seanceElement.addContent(new Element("movie").setText("Star wars"));
+    seanceElement.addContent(new Element("room").setText("red"));
+
     Seance seance = new SeanceTranslator().fromDTO(seanceElement);
 
     assertEquals(new GregorianCalendar(2014, Calendar.AUGUST, 20, 10, 30), seance.getStartDateTime());
+    assertEquals("red", seance.getRoom().getName());
+    assertEquals("Star wars", seance.getMovie().getName());
   }
 }
