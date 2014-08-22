@@ -6,13 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.sytoss.training.cinema.domainservice.reader.IReader;
-import com.sytoss.training.cinema.domainservice.reader.JdomReader;
+import com.sytoss.training.cinema.domainservice.reader.StaxReader;
 
 public class StaxReaderTest extends AbstractReaderTest {
 
   @Override
   public IReader getReader() {
-    return new JdomReader();
+    return new StaxReader();
   }
 
   @Override

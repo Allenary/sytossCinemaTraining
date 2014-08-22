@@ -53,6 +53,7 @@ public class CinemaTranslator {
           Ticket ticket = new TicketTranslator().fromDTO(ticketElement);
           ticket.setCashOffice(cashOffice);
           Room room = seance.getRoom();
+          ticket.getPlace().getRow().setRoom(room);
           ticket.getPlace().setRow((room.registerRow(ticket.getPlace().getRow())));
           ticket.setSeance(seance);
           //          seance.getRoom().registerRow(ticket.getPlace().getRow());

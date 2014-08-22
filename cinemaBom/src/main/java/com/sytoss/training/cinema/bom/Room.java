@@ -46,7 +46,7 @@ public class Room {
   }
 
   public boolean exists(Row row) {
-    return rows.contains(row) /*|| hasRowWithNumber(row.getNumber())*/;
+    return rows.contains(row) || hasRowWithNumber(row.getNumber());
   }
 
   private boolean hasRowWithNumber(int number) {
