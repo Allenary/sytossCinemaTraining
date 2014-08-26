@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
 
 public class FileSystemConnector {
 
@@ -71,7 +74,9 @@ public class FileSystemConnector {
 
   public void writeJDOM(Document document, String fileNameDestination) throws IOException {
     XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
-    xmlOutputter.output(document, new FileWriter(fileNameDestination));
+    String encoding = "UTF-8";
+    xmlOutputter.getFormat().setEncoding(encoding);
+    xmlOutputter.output(document, new OutputStreamWriter(new FileOutputStream(fileNameDestination), encoding));
   }
 
   public Document readXMLFileJDOM(String fileName) throws JDOMException, IOException {
@@ -79,12 +84,20 @@ public class FileSystemConnector {
   }
 
   public XmlPullParser readXMLFileSTAX(String fileName) throws XmlPullParserException, FileNotFoundException {
+
     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
     XmlPullParser xpp = factory.newPullParser();
     InputStream inStream = new FileInputStream(fileName);
 
     xpp.setInput(inStream, null);
     return xpp;
+  }
+
+  public void writeSTAX(XmlSerializer serializer, String outputFileName)
+      throws IllegalArgumentException,
+      IllegalStateException,
+      IOException {
+    serializer.setOutput(new FileWriter(outputFileName));
   }
 
 }
